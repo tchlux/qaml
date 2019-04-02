@@ -11,7 +11,7 @@ def get_num_bits(coefs):
             nums = name[1:].split("b")
             for num in nums: num_bits = max(num_bits, int(num))
         elif (name[0] == "p"):
-            num_bits = max(num_bits, int(name[1:])
+            num_bits = max(num_bits, int(name[1:]))
         elif (name[0] == "c"):
             num_bits = max(num_bits, 1)
         else:
