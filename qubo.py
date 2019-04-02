@@ -1,3 +1,4 @@
+from rand import random_range
 from exceptions import UsageError, AmbiguousTerm
 
 # Get the number of bits by looking at the assigned coefficients.
@@ -35,7 +36,6 @@ class QuantumAnnealer():
 
     # Generate samples from the system, yield bits and energy.
     def samples(self, num_samples=1000):
-        from util.random import random_range
         for number in random_range(2**self.num_bits, count=num_samples):
             bits = number_to_bits(number, self.num_bits)
             yield (bits, self.energy(bits))
