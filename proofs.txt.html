@@ -5,25 +5,27 @@
     
     <!-- Include Distill -->
     <!-- <script src="https://distill.pub/template.v1.js"></script> -->
-    <!-- <script src="http://people.cs.vt.edu/tchlux/distill.template.v1.no-banner.js"></script> -->
-     <script src="/Users/thomaslux/Git/txt_to_html/resources/distill.template.v1.no-banner.js"></script> 
+     <script src="http://people.cs.vt.edu/tchlux/distill.template.v1.no-banner.js"></script> 
+    <!-- <script src="/Users/thomaslux/Git/txt_to_html/resources/distill.template.v1.no-banner.js"></script> -->
     
     
     <!-- Include MathJax -->
-    <!-- <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"> </script> -->
-     <script type="text/javascript" async src="/Users/thomaslux/Git/txt_to_html/resources/MathJax-2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local"></script> 
+     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"> </script> 
+    <!-- <script type="text/javascript" async src="/Users/thomaslux/Git/txt_to_html/resources/MathJax-2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local"></script> -->
     
     
 
     <!-- Script for setting up the author block -->
     <script type="text/front-matter">
-      title: Fundamental Theory for Quantum Annealing
+      title: Theory for Quantum Annealing
       description: 
       authors:
        - Thomas Lux: https://linkedin.com/in/thomas-ch-lux
+       - Tyler Chang: https://people.cs.vt.edu/thchang
 
       affiliations:
        - tchlux@vt.edu
+       - thchang@vt.edu
 
     </script>
 
@@ -55,7 +57,7 @@
     </style>
 
     <dt-article>
-    <h1>Fundamental Theory for Quantum Annealing</h1>
+    <h1>Theory for Quantum Annealing</h1>
     <p></p>
     <dt-byline></dt-byline>
 
@@ -65,10 +67,18 @@
 
 <p><p style='padding-left: 30px; margin-top: 0px; margin-bottom: 0px;'>Let \(q: \big(\mathbb{R}^d,\mathbb{R}^{d \times d} \big) \rightarrow \big( e : [0,1]^d \rightarrow \mathbb{R} \big)\) be defined as</p>
 <p style='padding-left: 60px; margin-top: 0px; margin-bottom: 0px;'>
-$$q(a,b) = \bigg( e(x) = \sum_{i = 1}^{d} a_i x_i + \sum_{i=1}^{d} \sum_{j=i}^{d} b_{i,j}\  x_i x_j \bigg).$$</p>
-<p style='padding-left: 30px; margin-top: 0px; margin-bottom: 0px;'>Let \(\mathcal{Q}(d) = \big\{q(a,b)\  |\  a \in \mathbb{R}^d, b \in \mathbb{R}^{d \times d}\big\}\). All sets \(\mathcal{Q}(d)\), \(d \in \mathcal{N}\) are closed under linear combinations,</p>
+$$q(a,b) = \bigg( e(x) = \sum_{i = 1}^{d} a_i x_i + \sum_{i=1}^{d} \sum_{j=i}^{d} b_{i,j}\  x_i x_j \bigg).$$</p></p>
+
+<p><p style='padding-left: 30px; margin-top: 0px; margin-bottom: 0px;'>Let \(\mathcal{Q}(d) = \big\{q(a,b)\  |\  a \in \mathbb{R}^d, b \in \mathbb{R}^{d \times d}\big\}\). All sets \(\mathcal{Q}(d)\), \(d \in \mathcal{N}\) are closed under linear combinations,</p>
 <p style='padding-left: 60px; margin-top: 0px; margin-bottom: 0px;'>
-$$ \alpha q_i + \beta q_j \in \mathcal{Q}(d) \quad \text{ for } \quad \alpha, \beta \in \mathbb{R}, \quad q_i, q_j \in \mathcal{Q}(d).$$</p></p>
+$$ \alpha\ q_i + \beta\ q_j \in \mathcal{Q}(d) \quad \text{ for } \quad \alpha, \beta \in \mathbb{R}, \quad q_i, q_j \in \mathcal{Q}(d).$$</p></p>
+
+<p><p style='padding-left: 30px; margin-top: 0px; margin-bottom: 0px;'>Furthermore, all functions \(q(a,b)\) as defined above are linear operators:</p>
+<p style='padding-left: 60px; margin-top: 0px; margin-bottom: 0px;'>
+$$ \begin{align}
+    q(\alpha\ a^{(i)} + \beta\ a^{(j)}, \alpha\ b^{(i)} + \beta\ b^{(j)}) &= \alpha\  q(a^{(i)}, b^{(i)}) + \beta\ q(a^{(j)}, b^{(j)}), \text{ and } \\
+    q(c a, c b) &= c\ q(a, b).
+    \end{align} $$</p></p>
 
     </dt-article>
 

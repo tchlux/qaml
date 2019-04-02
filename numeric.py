@@ -5,7 +5,7 @@ print("-"*70)
 print("Numeric minimizer")
 # run_qubo(a1=2**4, a2=2**3, a3=2**2, a4=2**1, a5=2**0, min_only=False)
 bit_indices = list(range(1,4))
-run_qubo(**(abs_int(*bit_indices) + int_min(*bit_indices)), min_only=False)
+run_qubo(**(int_min(*bit_indices)), min_only=False)
 
 exit()
 

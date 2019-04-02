@@ -5,9 +5,15 @@ from exceptions import UsageError, AmbiguousTerm
 def get_num_bits(coefs):
     num_bits = 0
     for name in coefs:
-        for char in name:
-            try: num_bits = max(num_bits, int(char))
-            except: pass
+        if (name[0] == "a"):
+            num_bits = max(num_bits, int(name[1:]))
+        elif (name[0] == "b"):
+            nums = name[1:].split("b")
+            for num in nums: num_bits = max(num_bits, int(num))
+        elif (name[0] == "c"):
+            num_bits = max(num_bits, 1)
+        else:
+            raise(UsageError(f"Unrecognized coefficient '{name}'."))
     return num_bits
 
 # Given an integer, convert it into a binary bit representation.
@@ -51,10 +57,7 @@ class QuantumAnnealer():
         return energy + self.constant
 
 # A wrapper for the crappy provided solver by QBSolv, this defines a
-# more readable interface for QBSolv, the built-in simulator. Run with:
-# 
-#   source ../quantum/bin/activate && python hw_2.py
-# 
+# more readable interface for QBSolv, the built-in simulator.
 class QBSolveAnnealer(QuantumAnnealer):
     # Do the pecuiliar steps necessary to generate samples from QBSolv.
     def samples(self, num_samples=20):
@@ -88,7 +91,9 @@ class QUBO(dict):
     def __radd__(*args, **kwargs): return self.__add__(*args, **kwargs)
 
 # Given some of the coefficients, generate dictionary with all
-# coeficients ready to be provided to a quantum annealer.
+# coeficients ready to be provided to a quantum annealer in the form
+# { (#, #) : value }, where "#" are nonnegative integers and "value"
+# are floating point numbers.
 def make_qubo(display=False, **coefs):
     from itertools import combinations
     num_bits = get_num_bits(coefs)
@@ -110,8 +115,28 @@ def make_qubo(display=False, **coefs):
     # Return the full set of linear and quadratic coeficients.
     return output_coefs
 
-# Given the coefficients, use the QBSolv library to simulate the
-# execution of the following code on a quantum computer.
+# A convenience wrapper for executing a QUBO on a quantum annealer.
+# 
+# INPUT:
+# 
+#   num_samples    -- int, how many samples should be drawn. Default
+#                     value is 2**(number of bits in system).
+#   build_q_system -- A callable object that is provided a full QUBO
+#                     and has a "samples" function to generate samples
+#                     from the quantum annealing platform. Examples:
+#                        QuantumAnnealer, QBSolveAnnealer
+#   min_only       -- True if only the states with minimum observed
+#                     energy should be reported. False to show all states.
+#   display        -- True if outputs should be printed to user as table.
+#   **coefs        -- Dictionary of coeficients in the form
+#                      { a# : value ... b#b# : value ... c : value },
+#                     where "#" are natural numbers and "c" is optional.
+# 
+# OUTPUT:
+# 
+#    A tuple of tuple of observed states sorted by energy first, then
+#    bit pattern second.
+# 
 def run_qubo(num_samples=None, build_q_system=QuantumAnnealer,
              min_only=True, display=True, **coefs):
     if len(coefs) == 0:
@@ -165,4 +190,3 @@ def run_qubo(num_samples=None, build_q_system=QuantumAnnealer,
 
     # Convert results to only be the sorted set of bits
     return tuple(b for (e,b) in sorted(results))
-

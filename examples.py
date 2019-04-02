@@ -5,19 +5,19 @@ if __name__ == "__main__":
     # Run NOT
     print("-"*70)
     print("NOT")
-    run_qubo(**not_gate(), min_only=False)
+    run_qubo(**not_gate())
     print()
 
     # Run AND
     print("-"*70)
     print("AND")
-    run_qubo(**and_gate(), min_only=False)
+    run_qubo(**and_gate())
     print()
 
     # Run OR
     print("-"*70)
     print("OR")
-    run_qubo(**or_gate(), min_only=False)
+    run_qubo(**or_gate())
     print()
 
     # Run XOR

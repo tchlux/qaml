@@ -61,15 +61,4 @@ def int_min(*bit_indices):
 def abs_int(*bit_indices):
     return QUBO({f"a{bit_indices[0]}":2**(len(bit_indices)-1)})
 
-# Given three signed integers (a,b,c) with equal number of bits, perform:
-#    c = min(a, b)
-def min_int(*bit_indices):
-    if ((len(bit_indices) % 3) != 0):
-        raise(UsageError("'min_int' takes three signed integers with equal number of bits."))
-    int_size = len(bit_indices) // 3
-    # Split up the bits into the three integers.
-    a_bits = bit_indices[:int_size]
-    b_bits = bit_indices[int_size:-int_size]
-    out_bits = bit_indices[-int_size:]
-    # Perform the minimization operation.
-    # (a + b) / 2 - |a - b|
+
