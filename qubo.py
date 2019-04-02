@@ -1,5 +1,13 @@
-# !/usr/bin/env python
+from exceptions import UsageError, AmbiguousTerm
 
+# Get the number of bits by looking at the assigned coefficients.
+def get_num_bits(coefs):
+    num_bits = 0
+    for name in coefs:
+        for char in name:
+            try: num_bits = max(num_bits, int(char))
+            except: pass
+    return num_bits
 
 # Given an integer, convert it into a binary bit representation.
 def number_to_bits(number, num_bits=None):
@@ -35,7 +43,6 @@ class QuantumAnnealer():
     # Given a set of bits, compute the energy of that set of bits and return it.
     def energy(self, bits):
         if (len(bits) != self.num_bits):
-            class UsageError(Exception): pass
             raise(UsageError(f"Expected {self.num_bits}, but received {len(bits)}."))
         energy = 0.0
         for (i1, i2) in self.coeficients:
@@ -60,17 +67,28 @@ class QBSolveAnnealer(QuantumAnnealer):
             if (energy == 0): energy = abs(energy)
             yield (bits, energy + self.constant)
 
-# Get the number of bits by looking at the assigned coefficients.
-def get_num_bits(coefs):
-    num_bits = 0
-    for name in coefs:
-        for char in name:
-            try: num_bits = max(num_bits, int(char))
-            except: pass
-    return num_bits
+
+# A class for holding QUBO objects that supports "addition".
+class QUBO(dict):
+    # Define a copy operator that generates a new QUBO.
+    def copy(self): return QUBO(super().copy())
+
+    # Define a new add operator.
+    def __add__(self, other):
+        # Initialize a dictionary with all values from both.
+        output = other.copy()
+        output.update(self)
+        # Add the intersections of the two together.
+        for k in set(other).intersection(set(self)):
+            output[k] = output[k] + other[k]
+        # Return the new QUBO.
+        return output
+
+    # "radd" is the same as the add operation.
+    def __radd__(*args, **kwargs): return self.__add__(*args, **kwargs)
 
 # Given some of the coefficients, generate dictionary with all
-# coeficients ready to be provided to QBSolve.
+# coeficients ready to be provided to a quantum annealer.
 def make_qubo(display=False, **coefs):
     from itertools import combinations
     num_bits = get_num_bits(coefs)
@@ -81,7 +99,6 @@ def make_qubo(display=False, **coefs):
                 coefs[f"b{c[1]}b{c[2]}"] = coefs.pop(c)
             else:
                 # Raise an exception for ambiguous usage.
-                class AmbiguousTerm(Exception): pass
                 raise(AmbiguousTerm("Interaction term '{c}' is unclear, for >1 digit numbers use 'b#b#' specification."))
     # Generate the linear coeficients.
     output_coefs = {}
@@ -98,7 +115,6 @@ def make_qubo(display=False, **coefs):
 def run_qubo(num_samples=None, build_q_system=QuantumAnnealer,
              min_only=True, display=True, **coefs):
     if len(coefs) == 0:
-        class UsageError(Exception): pass
         raise(UsageError("Missing QUBO coefficients!"))
     # Allow for the pinning of bits.
     pinning = False
@@ -150,24 +166,3 @@ def run_qubo(num_samples=None, build_q_system=QuantumAnnealer,
     # Convert results to only be the sorted set of bits
     return tuple(b for (e,b) in sorted(results))
 
-
-
-
-# A class for holding QUBO objects that supports "addition".
-class QUBO(dict):
-    # Define a copy operator that generates a new QUBO.
-    def copy(self): return QUBO(super().copy())
-
-    # Define a new add operator.
-    def __add__(self, other):
-        # Initialize a dictionary with all values from both.
-        output = other.copy()
-        output.update(self)
-        # Add the intersections of the two together.
-        for k in set(other).intersection(set(self)):
-            output[k] = output[k] + other[k]
-        # Return the new QUBO.
-        return output
-
-    # "radd" is the same as the add operation.
-    def __radd__(*args, **kwargs): return self.__add__(*args, **kwargs)

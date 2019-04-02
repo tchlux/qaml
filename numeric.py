@@ -1,9 +1,13 @@
-from base import run_qubo
+from qubo import run_qubo
+from logic import uint_min, int_min, abs_int
 
 print("-"*70)
-print("Numeric minimizer c AND (a OR b)")
-run_qubo(a1=2**4, a2=2**3, a3=2**2, a4=2**1, a5=2**0, min_only=False)
+print("Numeric minimizer")
+# run_qubo(a1=2**4, a2=2**3, a3=2**2, a4=2**1, a5=2**0, min_only=False)
+bit_indices = list(range(1,4))
+run_qubo(**(abs_int(*bit_indices) + int_min(*bit_indices)), min_only=False)
 
+exit()
 
 # Run the half adder (the last bit is the carry bit)
 print("-"*70)

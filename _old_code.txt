@@ -1,0 +1,22 @@
+
+    # Constraints based on entries in selection.
+    # a2 == 0
+    # a1 == 0
+    # b12 + b13 + b23 + a3 == 0
+
+    # Additional constant constraints over above values based on unselected.
+    # a3 > 0
+
+    # Additional pairwise constraints
+    # b12 > 0
+    # b13 + a3 > 0
+    # b23 + a3 > 0
+
+    # Correct coefficients:
+    # a1 = 0
+    # a2 = 0
+    # a3 = 3
+    # b12 = 1
+    # b13 = -1.5
+    # b23 = -1.5
+

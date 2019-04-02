@@ -1,4 +1,4 @@
-from base import run_qubo
+from qubo import run_qubo
 
 # --------------------------------------------------------------------
 # Try combining gates in the most trivial way I can imagine.
