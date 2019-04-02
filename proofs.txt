@@ -1,0 +1,9 @@
+Fundamental Theory for Quantum Annealing
+:: Thomas Lux :: tchlux@vt.edu :: https://linkedin.com/in/thomas-ch-lux
+
+# Theorem
+
+  Let $q: \big(\mathbb{R}^d,\mathbb{R}^{d \times d} \big) \rightarrow \big( e : [0,1]^d \rightarrow \mathbb{R} \big)$ be defined as
+    $$q(a,b) = \bigg( e(x) = \sum_{i = 1}^{d} a_i x_i + \sum_{i=1}^{d} \sum_{j=i}^{d} b_{i,j}\  x_i x_j \bigg).$$
+  Let $\mathcal{Q}(d) = \big\{q(a,b)\  |\  a \in \mathbb{R}^d, b \in \mathbb{R}^{d \times d}\big\}$. All sets $\mathcal{Q}(d)$, $d \in \mathcal{N}$ are closed under linear combinations,
+    $$ \alpha q_i + \beta q_j \in \mathcal{Q}(d) \quad \text{ for } \quad \alpha, \beta \in \mathbb{R}, \quad q_i, q_j \in \mathcal{Q}(d).$$
