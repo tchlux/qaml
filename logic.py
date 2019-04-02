@@ -52,13 +52,46 @@ def uint_min(*bit_indices):
 
 # Given an arbitrary number of bit indices, assume they represent a
 # big-endian integer. Generate a QUBO that minimizes this integer.
+def abs_int_min(*bit_indices):
+    constants = {f"a{b}" : 2**(len(bit_indices)-i-1)
+                 for i,b in enumerate(bit_indices)}
+    interactions = {f"b{bit_indices[0]}b{b}" : -2**(len(bit_indices)-i)
+                    for i,b in enumerate(bit_indices)}
+    constants.update(interactions)
+    return QUBO(constants)
+
+# Given an arbitrary number of bit indices, assume they represent a
+# big-endian integer. Generate a QUBO that minimizes this integer.
 def int_min(*bit_indices):
-    return QUBO({f"a{b}" : (2**(len(bit_indices)-i-1) if i > 0 else 0)
+    return QUBO({f"a{b}" : (2**(len(bit_indices)-i-1) if i > 0
+                            else -2**(len(bit_indices)-1))
                  for i,b in enumerate(bit_indices)})
 
-# Given a pin bit and an arbitrary number of bit indices representing
-# a signed integer, force the signed integer to be positive.
-def abs_int(*bit_indices):
-    return QUBO({f"a{bit_indices[0]}":2**(len(bit_indices)-1)})
+# # Given a pin bit and an arbitrary number of bit indices representing
+# # a signed integer, force the signed integer to be positive.
+# def abs_int(*bit_indices):
+#     return QUBO({f"a{bit_indices[0]}":2**(len(bit_indices)-1)})
 
 
+
+
+# This gives us the sum operation representing "a + b = c"
+# 
+# add_int(a, b, c)
+# add_int(a, b, d)
+# sub_int(c, d, e)
+# abs_min_int(e)
+
+
+# This gives us the sum operation representing "a*a = b"
+# 
+# square_int(a, b)
+# add_int(b, c, d)
+# abs_min_int(d)
+
+
+# This gives us the sum operation representing "a*b = c"
+# 
+# mult_int(a, b, c)
+# add_int(c, d, e)
+# abs_min_int(e)
