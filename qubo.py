@@ -98,15 +98,20 @@ class QUBO(dict):
 # are floating point numbers.
 def make_qubo(display=False, **coefs):
     from itertools import combinations
-    num_bits = get_num_bits(coefs)
     # Convert shorthand interaction coefficients to full form.
     for c in [c for c in coefs if c[0] == "b"]:
         if c.count("b") == 1:
             if len(c) == 3:
-                coefs[f"b{c[1]}b{c[2]}"] = coefs.pop(c)
+                c1, c2 = map(int,c[1:])
+                coefs[f"b{min(c1,c2)}b{max(c1,c2)}"] = coefs.pop(c)
             else:
                 # Raise an exception for ambiguous usage.
                 raise(AmbiguousTerm("Interaction term '{c}' is unclear, for >1 digit numbers use 'b#b#' specification."))
+        else:
+            # Make sure that the b-coefficients are in increasing order.
+            c1, c2 = map(int,c.split('b')[1:])
+            coefs[f"b{min(c1,c2)}b{max(c1,c2)}"] = coefs.pop(c)
+    num_bits = get_num_bits(coefs)
     # Generate the linear coeficients.
     output_coefs = {}
     for b1 in range(num_bits):
