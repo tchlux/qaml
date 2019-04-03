@@ -1,7 +1,7 @@
 from qubo import QUBO
 from qubo import run_qubo
 from exceptions import UsageError
-from logic import adder, half_adder
+from logic import full_adder, half_adder
 
 
 # Given bit indices x1,x2,..,xn,y1,y2,...yn,s1,s2,...sn,c1,c2,...cn

@@ -2,8 +2,9 @@
 # 
 # int_add(a, b, c)
 # int_add(a, b, d)
-# int_sub(c, d, e)
-# int_abs_min(e)
+# int_neg(d, e)
+# int_add(c, e, f)
+# int_abs_min(f)
 
 
 # This gives us the sum operation representing "a*a = b"
