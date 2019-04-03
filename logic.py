@@ -1,5 +1,4 @@
 from qubo import QUBO
-from exceptions import UsageError
 
 # Given two bit indices (integers), generaate QUBO for (a, a).
 def pin(a=1, b=2):
@@ -44,29 +43,6 @@ def xor_gate(a=1, b=2, a_xor_b=3, ancilla=4):
                  f"b{b}b{ancilla}" : -4,
                  f"b{a_xor_b}b{ancilla}" : -4})
 
-# Given an arbitrary number of bit indices, assume they represent a
-# big-endian integer. Generate a QUBO that minimizes this integer.
-def uint_min(*bit_indices):
-    return QUBO({f"a{b}" : 2**(len(bit_indices)-i-1)
-                 for i,b in enumerate(bit_indices)})
-
-# Given an arbitrary number of bit indices, assume they represent a
-# big-endian integer. Generate a QUBO that minimizes this integer.
-def abs_int_min(*bit_indices):
-    constants = {f"a{b}" : 2**(len(bit_indices)-i-1)
-                 for i,b in enumerate(bit_indices)}
-    interactions = {f"b{bit_indices[0]}b{b}" : -2**(len(bit_indices)-i)
-                    for i,b in enumerate(bit_indices)}
-    constants.update(interactions)
-    return QUBO(constants)
-
-# Given an arbitrary number of bit indices, assume they represent a
-# big-endian integer. Generate a QUBO that minimizes this integer.
-def int_min(*bit_indices):
-    return QUBO({f"a{b}" : (2**(len(bit_indices)-i-1) if i > 0
-                            else -2**(len(bit_indices)-1))
-                 for i,b in enumerate(bit_indices)})
-
 # Given four bit indices (integers), generate a QUBO for x+y=s+2c.
 def half_adder(x=1, y=2, s=3, c=4):
     return QUBO({f"a{x}" : 1, f"a{y}" : 1, f"a{s}" : 1, f"a{c}" : 4,
@@ -84,25 +60,3 @@ def full_adder(x=1, y=2, z=3, s=4, c=5):
                  f"b{z}b{s}" : -2, f"b{z}b{c}" : -4,
                  f"b{s}b{c}" : 4,
                  })
-
-
-# This gives us the sum operation representing "a + b = c"
-# 
-# add_int(a, b, c)
-# add_int(a, b, d)
-# sub_int(c, d, e)
-# abs_min_int(e)
-
-
-# This gives us the sum operation representing "a*a = b"
-# 
-# square_int(a, b)
-# add_int(b, c, d)
-# abs_min_int(d)
-
-
-# This gives us the sum operation representing "a*b = c"
-# 
-# mult_int(a, b, c)
-# add_int(c, d, e)
-# abs_min_int(e)

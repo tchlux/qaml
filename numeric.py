@@ -1,56 +1,21 @@
-from qubo import run_qubo
-from logic import uint_min, abs_int_min, int_min
-
-# run_qubo(a3=1, a2=2, a1=4, b2b3=0, b1b3=-2, b1b2=-4, min_only=False)
-
-# print("-"*70)
-# print("Numeric minimizer")
-# # run_qubo(a1=2**4, a2=2**3, a3=2**2, a4=2**1, a5=2**0, min_only=False)
-# bit_indices = list(range(1,4))
-# run_qubo(**abs_int_min(*bit_indices), min_only=False)
-# exit()
-# run_qubo(**int_min(*bit_indices), min_only=False)
-# exit()
-
-# Run the half adder (the last bit is the carry bit)
-print("-"*70)
-print("Half Adder")
-run_qubo(a1=1, a2=1, a3=1, a4=4,
-         b12=2, b13=-2, b14=-4, b23=-2, b24=-4, b34=4,
-         min_only=False)
-print()
+# This gives us the sum operation representing "a + b = c"
+# 
+# int_add(a, b, c)
+# int_add(a, b, d)
+# int_sub(c, d, e)
+# int_abs_min(e)
 
 
-# # Positive two-bit addition.
-# two_pos_add = [
-#     (0,0, 0,0, 0,0),
-#     (0, 0, 0, 1, 0, 1),
-#     (0, 0, 1, 0, 1, 0),
-#     (0, 0, 1, 1, 1, 1),
-#     (0, 1, 0, 0, 0, 1),
-#     (0, 1, 0, 1, 1, 0),
-#     (0, 1, 1, 0, 1, 1),
-#     (0, 1, 1, 1, 1, 1),
-#     (1, 0, 0, 0, 1, 0),
-#     (1, 0, 0, 1, 1, 1),
-#     (1, 0, 1, 0, 1, 1),
-#     (1, 0, 1, 1, 1, 1),
-#     (1, 1, 1, 1, 1, 1),
-# ]
+# This gives us the sum operation representing "a*a = b"
+# 
+# int_square(a, b)
+# int_add(b, c, d)
+# int_abs_min(d)
 
-# # Signed two-bit addition.
-# two_sign_add = [
-#     (0, 0, 0, 0, 0, 0),
-#     (0, 0, 0, 1, 0, 1),
-#     (0, 0, 1, 0, 0, 0),
-#     (0, 0, 1, 1, 1, 1),
-#     (0, 1, 0, 0, 0, 1),
-#     (0, 1, 0, 1, 0, 1),
-#     (0, 1, 1, 0, 0, 1),
-#     (0, 1, 1, 1, 0, 0),
-#     (1, 0, 0, 0, 0, 0),
-#     (1, 0, 0, 1, 0, 1),
-#     (1, 0, 1, 0, 0, 0),
-#     (1, 0, 1, 1, 1, 1),
-#     (1, 1, 1, 1, 1, 1),
-# ]
+
+# This gives us the sum operation representing "a*b = c"
+# 
+# int_mult(a, b, c)
+# int_add(c, d, e)
+# int_abs_min(e)
+
