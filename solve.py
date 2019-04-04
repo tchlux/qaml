@@ -17,7 +17,7 @@ from binary import int_to_binary
 #
 # Author: Tyler Chang
 # Last Update: 4/3/19
-def find_qubo(truth_table, max_attempts=float('inf')):
+def find_qubo(truth_table, max_attempts=float('inf'), random=True):
     # Make a copy / ensure the input is a python list.
     table = list(map(list, truth_table))
     # Try to find a solution with no ancilla bits.
@@ -33,7 +33,11 @@ def find_qubo(truth_table, max_attempts=float('inf')):
         to_add = [0]*n*i
         # Loop through all combinations of ancilla bits.
         max_attempts = min(2**(n*i), max_attempts)
-        for step,j in enumerate(random_range(1,2**(n*i)-1,count=max_attempts)):
+        # Construct the ancillary bit value generator.
+        if random: generator = random_range(1,2**(n*i)-1,count=max_attempts)
+        else:      generator = range(1,2**(n*i)-1)
+        # Cycle through different ancillary bit values.
+        for step,j in enumerate(generator):
             # Add one to the binary digit.
             to_add = int_to_binary(j, bits=n*i, signed=False)
             # Map binary number onto table.
