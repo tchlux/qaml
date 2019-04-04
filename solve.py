@@ -133,3 +133,45 @@ def solve_qubo(table):
                   bounds=(None,None), method='interior-point')
     # Return the solution and status.
     return res.x, res.status
+
+# Generate a constraint set for a QUBO from a truth table.
+# Table should be a python list whose rows are valid entries in the truth table.
+# Author: Tyler Chang
+# Last Update: 4/3/19
+def get_constraints(table):
+    # Get meta data about table.
+    m = len(table[0])
+    # Allocate input arrays.
+    A = []
+    E = []
+    # Initialize search array.
+    entry = [0,]*m
+    # Minimum energy must be 0 if the "0" entry is in the table.
+    if entry in table: minenergy = 0
+    # Minimum energy must be less than 0 (WLOG, set to -1).
+    else:              minenergy = -1
+    # Process truth table to generate constraint equations.
+    for i in range(1, 2**m):
+        # Increment the entry to search for.
+        entry[0] += 1
+        # Count up in binary.
+        for j in range(0, m): 
+            if entry[j] > 1:
+                entry[j] = 0
+                entry[j+1] += 1
+        # Initialize next set in list, containing all active terms.
+        next_set = set()
+        # Fill in all a_j values.
+        for j in range(0, m):
+            if entry[j] == 1:
+                next_set.add('a'+str(j+1))
+        # Fill in all b_jk values.
+        for j in range(0, m): 
+            for k in range(j+1, m):
+                if entry[j]*entry[k] == 1:
+                    next_set.add('b'+str(j+1)+'b'+str(k+1))
+        # Add the constraint sets to the appropriate lists.
+        if entry in table:  E.append(next_set)
+        else:               A.append(next_set)
+    # Return the sets.
+    return [E, A, minenergy]
