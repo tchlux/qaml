@@ -1,8 +1,7 @@
 # Generate truth tables for different operations.
-
 from binary import int_to_binary
 
-# Generate the truth table for a unsigned integer multiplication.
+# Generate the truth table for signed integer addition.
 def int_add_table(n_bits=2, wrap=False, signed=True):
     truth_table = []
     for i1 in range(2**n_bits):
@@ -15,11 +14,11 @@ def int_add_table(n_bits=2, wrap=False, signed=True):
                 int_to_binary(i1+i2,n_bits+1,signed=signed) ))
     return truth_table
 
-# Generate the truth table for a unsigned integer multiplication.
+# Generate the truth table for unsigned integer addition.
 def uint_add_table(n_bits=2, wrap=False):
     return int_add_table(n_bits, wrap, signed=False)
 
-# Generate the truth table for a unsigned integer multiplication.
+# Generate the truth table for unsigned integer multiplication.
 def int_mult_table(n_bits=2, wrap=False, signed=True):
     truth_table = []
     for i1 in range(2**n_bits):
@@ -35,6 +34,7 @@ def int_mult_table(n_bits=2, wrap=False, signed=True):
 # Generate the truth table for a unsigned integer multiplication.
 def uint_mult_table(n_bits=2, wrap=False):
     return int_mult_table(n_bits, wrap, signed=False)
+
 
 if __name__ == "__main__":
     # Test the generation of a truth table for addition.
