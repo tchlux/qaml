@@ -30,25 +30,17 @@ def or_gate(a=1, b=2, a_or_b=3):
                  f"b{b}b{a_or_b}" : -2})
 
 
-# Given four bit indices (integers), generate a QUBO for (a, b, aXb, -).
-def xor_gate(a=1, b=2, a_xor_b=3, ancilla=4):
-    return QUBO({f"a{a}" : 1,
-                 f"a{b}" : 1,
-                 f"a{a_xor_b}" : 1,
-                 f"a{ancilla}" : 4,
-                 f"b{a}b{b}" : 2,
-                 f"b{a}b{a_xor_b}" : 2,
-                 f"b{a}b{ancilla}" : -4,
-                 f"b{b}b{a_xor_b}" : 2,
-                 f"b{b}b{ancilla}" : -4,
-                 f"b{a_xor_b}b{ancilla}" : -4})
-
 # Given four bit indices (integers), generate a QUBO for x+y=s+2c.
 def half_adder(x=1, y=2, s=3, c=4):
     return QUBO({f"a{x}" : 1, f"a{y}" : 1, f"a{s}" : 1, f"a{c}" : 4,
                  f"b{x}b{y}" : 2, f"b{x}b{s}" : -2, f"b{x}b{c}" : -4,
                  f"b{y}b{s}" : -2, f"b{y}b{c}" : -4, f"b{s}b{c}" : 4,
                  })
+
+# Given four bit indices (integers), generate a QUBO for (a, b, aXb, -).
+def xor_gate(a=1, b=2, a_xor_b=3, ancilla=4):
+    return half_adder(a, b, a_xor_b, ancilla)
+
 
 # Given five bit indices (integers), generate a QUBO for x+y+z=s+2c.
 def full_adder(x=1, y=2, z=3, s=4, c=5):
