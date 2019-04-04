@@ -23,3 +23,37 @@ def uint_add(*bit_indices):
                                 bit_indices[i+3*n+1], #carry bit
                                 bit_indices[i+2*n], bit_indices[i+3*n])
     return full_qubo
+
+
+print('-'*70)
+from qubo import run_qubo
+from solve import find_qubo
+
+table = [
+    [0,0,  0,0,  0,0,0,0],
+    [0,0,  0,1,  0,0,0,0],
+    [0,0,  1,0,  0,0,0,0],
+    [0,0,  1,1,  0,0,0,0],
+
+    [0,1,  0,0,  0,0,0,0],
+    [0,1,  0,1,  0,0,0,1],
+    [0,1,  1,0,  0,0,1,0],
+    [0,1,  1,1,  0,0,1,1],
+
+    [1,0,  0,0,  0,0,0,0],
+    [1,0,  0,1,  0,0,1,0],
+    [1,0,  1,0,  0,1,0,0],
+    [1,0,  1,1,  0,1,1,0],
+
+    [1,1,  0,0,  0,0,0,0],
+    [1,1,  0,1,  0,0,1,1],
+    [1,1,  1,0,  0,1,1,0],
+    [1,1,  1,1,  1,0,0,1],
+]
+
+for row in sorted(table): print(" ", tuple(row))
+
+q = find_qubo(table)
+print(q)
+run_qubo(**q, min_only=False)
+

@@ -1,4 +1,5 @@
 if __name__ == "__main__":
+
     from logic import not_gate, and_gate, or_gate, xor_gate
     from qubo import run_qubo
 

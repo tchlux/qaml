@@ -1,6 +1,13 @@
 from rand import random_range
 from exceptions import UsageError, AmbiguousTerm
 
+# Return a boolean "is_numeric"
+def is_numeric(obj):
+    try:
+        abs((.3*obj + 1*obj) - .3*obj)
+        return True
+    except: return False
+
 # Get the number of bits by looking at the assigned coefficients.
 def get_num_bits(coefs):
     num_bits = 0
@@ -75,6 +82,13 @@ class QBSolveAnnealer(QuantumAnnealer):
 
 # A class for holding QUBO objects that supports "addition".
 class QUBO(dict):
+    def __init__(self, *args, **kwargs):
+        # Handle the creation of a QUBO from another dictionary.
+        if len(args) > 0:
+            other_dict, args = args[0], args[1:]
+            for k in other_dict: self[k] = other_dict[k]
+        return super().__init__(*args, **kwargs)
+
     # Define a copy operator that generates a new QUBO.
     def copy(self): return QUBO(super().copy())
 
@@ -92,6 +106,83 @@ class QUBO(dict):
     # "radd" is the same as the add operation.
     def __radd__(*args, **kwargs): return self.__add__(*args, **kwargs)
 
+    # Retrieve an item from this QUBO.
+    def __getitem__(self, key, *args, **kwargs):
+        # Retrieve based on string access (in 1-indexed mathematical form).
+        if type(key) == str:
+            if (key[0] == 'b') and (key.count('b') == 1):
+                i1, i2 = map(int, key[1:])
+                i1, i2 = min(i1,i2), max(i1,i2)
+                key = f"b{i1}b{i2}"
+            elif (key.count('b') == 2):
+                i1, i2 = map(int, key[1:].split('b'))
+                i1, i2 = min(i1,i2), max(i1,i2)
+                key = f"b{i1}b{i2}"
+            return super().__getitem__(key, *args, **kwargs)
+        # Retrieve based on tuple access (in 0-indexed integer form).
+        elif type(key) == tuple:
+            if (key[0] == key[1]):
+                return super().__getitem__(f"a{key[0]+1}", *args, **kwargs)
+            else:
+                return super().__getitem__(f"b{key[0]+1}b{key[1]+1}", *args, **kwargs)
+
+    # Make sure that items are set correctly into this qubo.
+    def __setitem__(self, key, value, *args, **kwargs):
+        if (len(key) == 0): raise(UsageError("QUBO keys must be 'a', 'b', or 'c' type."))
+        if (not is_numeric(value)):
+            raise(UsageError(f"Expected a numeric value, received {type(value)} instead."))
+        if (key[0] == 'a'):
+            return super().__setitem__(key, value, *args, **kwargs)
+        elif (key[0] == 'b'):
+            if (key.count('b') == 1):
+                if (len(key) != 3): raise(AmbiguousTerm(f"Interaction term '{key}' is unclear, for >1 digit numbers use 'b#b#' specification."))
+                i1, i2 = map(int, key[1:])
+                i1, i2 = min(i1,i2), max(i1,i2)
+                return super().__setitem__(f"b{i1}b{i2}", value, *args, **kwargs)
+            elif (key.count('b') == 2):
+                i1, i2 = map(int, key[1:].split('b'))
+                i1, i2 = min(i1,i2), max(i1,i2)
+                return super().__setitem__(f"b{i1}b{i2}", value, *args, **kwargs)
+            else: raise UsageError(f"Provided term '{key}' has too many b's.")
+        elif (key[0] == 'c'): super().__setitem__(key, value, *args, **kwargs)
+        elif (len(key) == 2) and (type(key) == tuple) and all(type(v) == int for v in key):
+            if key[0] == key[1]:
+                return super().__setitem__(f"a{key[0]}", value, *args, **kwargs)
+            i1, i2 = min(key), max(key)
+            return super().__setitem__(f"b{i1+1}b{i2+1}", vaalue, *args, **kwargs)
+        else: raise(UsageError(f"Unexpected key '{key}'."))
+
+    # Make a pretty printout of this QUBO.
+    def __str__(self):
+        key_to_bit = lambda k: (int(k[1:]) if k[0] == 'a' else
+                                max(map(int,k[1:].split('b'))) 
+                                if k[0] == 'b' else 1)
+        if len(self) > 0:
+            bits = max(map(key_to_bit, self))
+        else:
+            return "This QUBO has no defined bits."
+        # Keep track of the column widths.
+        col_widths = [0] * bits
+        rows = []
+        for i in range(bits):
+            row = []
+            for j in range(0,i):
+                v = self.get(f'b{j+1}b{i+1}', 0)
+                row.append( f"{v: .2f}" )
+            v = self.get(f'a{i+1}', 0)
+            row.append( f"{v: .2f}" )
+            rows.append( row )
+            # Update the column widths.
+            for i,v in enumerate(row): col_widths[i] = max(len(v), col_widths[i])
+
+        for i in range(len(rows)):
+            rows[i] = "  " + "  ".join([f"{v:^{width}s}" for (v,width) in zip(rows[i], col_widths)])
+
+        max_width = max(map(len, rows))
+        return ' ' + '-'*max_width + "\n" + "\n".join(rows) + '\n ' + '-'*max_width
+
+        
+
 # Given some of the coefficients, generate dictionary with all
 # coeficients ready to be provided to a quantum annealer in the form
 # { (#, #) : value }, where "#" are nonnegative integers and "value"
@@ -106,7 +197,7 @@ def make_qubo(display=False, **coefs):
                 coefs[f"b{min(c1,c2)}b{max(c1,c2)}"] = coefs.pop(c)
             else:
                 # Raise an exception for ambiguous usage.
-                raise(AmbiguousTerm("Interaction term '{c}' is unclear, for >1 digit numbers use 'b#b#' specification."))
+                raise(AmbiguousTerm(f"Interaction term '{c}' is unclear, for >1 digit numbers use 'b#b#' specification."))
         else:
             # Make sure that the b-coefficients are in increasing order.
             c1, c2 = map(int,c.split('b')[1:])
@@ -145,7 +236,7 @@ def make_qubo(display=False, **coefs):
 #    bit pattern second.
 # 
 def run_qubo(num_samples=None, build_q_system=QuantumAnnealer,
-             min_only=True, display=True, **coefs):
+             min_only=True, display=True, rounded=5, **coefs):
     if len(coefs) == 0:
         raise(UsageError("Missing QUBO coefficients!"))
     # Allow for the pinning of bits.
@@ -167,9 +258,11 @@ def run_qubo(num_samples=None, build_q_system=QuantumAnnealer,
     system = build_q_system(all_coefs, constant=coefs.get('c',0))
     # If the number of samples is not provided, try enough for all combinations.
     if num_samples == None: num_samples = 2 ** system.num_bits
-    print(f"Running {num_samples} times with coeficients:\n  {all_coefs}\n")
+    print(f"Running {num_samples} times with:\n{QUBO(coefs)}")
     # Execute the samples on the system.
     for (bits, energy) in system.samples(num_samples):
+        energy = round(energy, rounded)
+        if (energy == 0): energy = abs(energy)
         # Hide the "pin" bit effects if it was used.
         if pinning:
             bits = bits[:-1]
