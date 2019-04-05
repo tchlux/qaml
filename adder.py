@@ -43,7 +43,7 @@ def skewed_two_int_adder(n,m,*bit_indices):
     return final_qubo
     
 
-# Given the total no. of qubits required by m_int_adder() for given m,n
+# Find the total no. of qubits required by m_int_adder() for given m,n
 def num_qb_m_int_adder(m, n):
     pass
     
