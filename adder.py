@@ -44,8 +44,19 @@ def skewed_two_int_adder(n,m,*bit_indices):
     
 
 # Find the total no. of qubits required by m_int_adder() for given m,n
+# Can be optimised, right now crude
 def num_qb_m_int_adder(m, n):
-    pass
+    nq = n*m
+    lsums = [n for i in range(m)] #lengths of current sums
+    while len(lsums)>1:
+        for i in range(0,len(lsums)-1,2):
+            new_lsums = []
+            new_lsums.append(lsums[i]+1)
+            nq += 2*lsums[i]
+        if len(lsums)%2==1:
+            new_lsums.append(lsums[-1])
+        lsums = new_lsums.copy()
+    return nq
     
 
 # Given bit indices 
@@ -55,11 +66,12 @@ def num_qb_m_int_adder(m, n):
 # .
 # xm1, xm2, ..., xmn
 # ...many ancilla bits...
-# c1
+# c1, s1, s2, ..., smn
 def m_int_adder(m,n,*bit_indices):
     curr_anc_pos = m*n
-    curr_sums = [(i,m) for i in range(n)] #(start, length)
+    curr_sums = [(i*n,n) for i in range(m)] #(start, length)
     final_qubo = QUBO()
+    print (curr_sums)
     while len(curr_sums)>1:
         new_sums = []
         for i in range(0,len(curr_sums)-1,2):
@@ -70,15 +82,12 @@ def m_int_adder(m,n,*bit_indices):
                                  +bit_indices[curr_anc_pos+l1:curr_anc_pos+2*l1]
                                  +bit_indices[curr_anc_pos+l1-1:curr_anc_pos+l1] #MSC
                                  +bit_indices[curr_anc_pos:curr_anc_pos+l1-1]))    
-            new_sums.append((curr_anc_pos,l1+1))
+            new_sums.append((curr_anc_pos+l1-1,l1+1))
             curr_anc_pos += 2*l1
         if len(curr_sums)%2==1:
             new_sums.append(curr_sums[-1])
         curr_sums = new_sums.copy()
     return final_qubo
-
-
-    
 
 
 if __name__=='__main__':
@@ -90,9 +99,24 @@ if __name__=='__main__':
     bit_indices = list(range(1,4*2+1))
     run_qubo(**two_int_adder_4n(*bit_indices))
     print ('=====two n,m bit integer addition with 3*n+m qubits')
-    n,m = 2,2
+    n,m = 3,2
     bit_indices = list(range(1,3*n+m+1))
     run_qubo(**skewed_two_int_adder(n,m,*bit_indices))
+    print ('=====n-bit addition of m integers')
+    import matplotlib.pyplot as plt
+    for n in range(2, 17):
+        nq = []
+        for m in range(2, 100):
+            nq.append(num_qb_m_int_adder(m, n))
+        plt.plot(range(2,100),nq,label='n='+str(n))
+    plt.xlabel('m or #(integers)')
+    plt.ylabel('#(qubits)')
+    plt.legend()
+    plt.title('n-bit addition on m integers')
+    m, n = 3, 2
+    bit_indices = list(range(1, num_qb_m_int_adder(m, n)+1))
+    run_qubo(**m_int_adder(m,n,*bit_indices))
+    
     
 
 
