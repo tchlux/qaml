@@ -179,7 +179,7 @@ class QUBO(dict):
             rows[i] = "  " + "  ".join([f"{v:^{width}s}" for (v,width) in zip(rows[i], col_widths)])
 
         max_width = max(map(len, rows))
-        return ' ' + '-'*max_width + "\n" + "\n".join(rows) + '\n ' + '-'*max_width
+        return ' ' + super().__str__() + '\n ' + '-'*max_width + "\n" + "\n".join(rows) + '\n ' + '-'*max_width
 
         
 
@@ -258,7 +258,7 @@ def run_qubo(num_samples=None, build_q_system=QuantumAnnealer,
     system = build_q_system(all_coefs, constant=coefs.get('c',0))
     # If the number of samples is not provided, try enough for all combinations.
     if num_samples == None: num_samples = 2 ** system.num_bits
-    print(f"Running {num_samples} times with:\n{QUBO(coefs)}")
+    if display: print(f"Running {num_samples} times with:\n{QUBO(coefs)}")
     # Execute the samples on the system.
     for (bits, energy) in system.samples(num_samples):
         energy = round(energy, rounded)
@@ -288,5 +288,5 @@ def run_qubo(num_samples=None, build_q_system=QuantumAnnealer,
             print(f" {str(bits):<{b_space}s}\t {occurence}\t\t {energy}")
         print()
 
-    # Convert results to only be the sorted set of bits
-    return tuple(b for (e,b) in sorted(results))
+    # Convert results to only be the sorted set of bits.
+    return [list(b) for (e,b) in sorted(results)]
