@@ -23,7 +23,7 @@ def two_int_adder_4n(*bit_indices):
  
     
 # Given bit indices x1,x2,..,xn,y1,y2,...ym,s1,s2,...sn,c1,c2,...cn
-# where n>m
+# where n>m.
 # Generate a QUBO for x, y, s, c such that x+y = c1,s
 # Uses 3n+m qubits 
 def skewed_two_int_adder(n,m,*bit_indices):
@@ -42,8 +42,10 @@ def skewed_two_int_adder(n,m,*bit_indices):
                                  bit_indices[n+m+i], bit_indices[2*n+m+i])
     return final_qubo
     
-    
-    
+
+# Given the total no. of qubits required by m_int_adder() for given m,n
+def num_qb_m_int_adder(m, n):
+    pass
     
 
 # Given bit indices 
@@ -52,11 +54,33 @@ def skewed_two_int_adder(n,m,*bit_indices):
 # .
 # .
 # xm1, xm2, ..., xmn
-def m_int_adder(*bit_indices):
-    pass
+# ...many ancilla bits...
+# c1
+def m_int_adder(m,n,*bit_indices):
+    curr_anc_pos = m*n
+    curr_sums = [(i,m) for i in range(n)] #(start, length)
+    final_qubo = QUBO()
+    while len(curr_sums)>1:
+        new_sums = []
+        for i in range(0,len(curr_sums)-1,2):
+            s1, l1 = curr_sums[i]
+            s2, l2 = curr_sums[i+1]
+            final_qubo += skewed_two_int_adder(l1, l2, 
+                                 *(bit_indices[s1:s1+l1]+bit_indices[s2:s2+l2]
+                                 +bit_indices[curr_anc_pos+l1:curr_anc_pos+2*l1]
+                                 +bit_indices[curr_anc_pos+l1-1:curr_anc_pos+l1] #MSC
+                                 +bit_indices[curr_anc_pos:curr_anc_pos+l1-1]))    
+            new_sums.append((curr_anc_pos,l1+1))
+            curr_anc_pos += 2*l1
+        if len(curr_sums)%2==1:
+            new_sums.append(curr_sums[-1])
+        curr_sums = new_sums.copy()
+    return final_qubo
 
 
     
+
+
 if __name__=='__main__':
     print ('=====half-adder')
     run_qubo(**half_adder())
@@ -66,7 +90,7 @@ if __name__=='__main__':
     bit_indices = list(range(1,4*2+1))
     run_qubo(**two_int_adder_4n(*bit_indices))
     print ('=====two n,m bit integer addition with 3*n+m qubits')
-    n,m = 3,2
+    n,m = 2,2
     bit_indices = list(range(1,3*n+m+1))
     run_qubo(**skewed_two_int_adder(n,m,*bit_indices))
     
