@@ -30,7 +30,7 @@ def skewed_two_int_adder(n,m,*bit_indices):
     if n<m: 
         raise UsageError('It is required that n>=m')
     elif len(bit_indices)!=3*n+m:
-        raise UsageError('No. of input indices should be 3n+m.')
+        raise UsageError(n,m,len(bit_indices),'No. of input indices should be 3n+m.')
     final_qubo = half_adder(bit_indices[n-1], bit_indices[n-1+m],
                             bit_indices[2*n-1+m], bit_indices[3*n-1+m])
     for i in range(m-1):
@@ -56,6 +56,7 @@ def num_qb_m_int_adder(m, n):
         if len(lsums)%2==1:
             new_lsums.append(lsums[-1])
         lsums = new_lsums.copy()
+    nq += 2*lsums[0]
     return nq
     
 
@@ -71,7 +72,6 @@ def m_int_adder(m,n,*bit_indices):
     curr_anc_pos = m*n
     curr_sums = [(i*n,n) for i in range(m)] #(start, length)
     final_qubo = QUBO()
-    print (curr_sums)
     while len(curr_sums)>1:
         new_sums = []
         for i in range(0,len(curr_sums)-1,2):
@@ -113,7 +113,7 @@ if __name__=='__main__':
     plt.ylabel('#(qubits)')
     plt.legend()
     plt.title('n-bit addition on m integers')
-    m, n = 3, 2
+    m, n = 5, 3
     bit_indices = list(range(1, num_qb_m_int_adder(m, n)+1))
     run_qubo(**m_int_adder(m,n,*bit_indices))
     
