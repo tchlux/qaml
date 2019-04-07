@@ -13,7 +13,7 @@ def uint_min(*bit_indices):
 # Generate a QUBO for x = y = s + 2c. Each of x, y, s, c is n bits wide.
 # Uses 4n qubits, qubo derived by adding qubos for 1 half-adder and n-1 full-adders.
 def uint_add(*bit_indices):
-    if len(bit_indices)%4!=0:
+    if len(bit_indices)%4 != 0:
         raise UsageError('No. of input indices should be a multiple of 4.')
     n = len(bit_indices) // 4
     full_qubo = half_adder(bit_indices[n-1], bit_indices[2*n-1], 

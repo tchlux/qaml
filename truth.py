@@ -71,7 +71,7 @@ if __name__ == "__main__":
         print('-'*70)
 
 
-    TEST_FIND_QUBO_FOR_TT = True
+    TEST_FIND_QUBO_FOR_TT = False
     if TEST_FIND_QUBO_FOR_TT:
         # Find the solution QUBO and print it out.
         from solve import find_qubo, find_int_qubo
@@ -86,3 +86,14 @@ if __name__ == "__main__":
         out = run_qubo(**q)
 
 
+    TEST_LARGE_ADDITION = True
+    if TEST_LARGE_ADDITION:
+        # Find the solution QUBO and print it out.
+        from integer import int_add
+        from qubo import run_qubo, QUBO
+        # Find the truth table for a specific arithmatic operation.
+        b = 6
+        tt = int_add_table(n_bits=b, signed=False)
+        q = int_add(*list(range(1,3*b+1+1)))
+        out = run_qubo(**q, display=False)
+        print(tt == out)

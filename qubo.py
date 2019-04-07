@@ -89,6 +89,18 @@ class QUBO(dict):
             for k in other_dict: self[k] = other_dict[k]
         return super().__init__(*args, **kwargs)
 
+    # Verify that this QUBO equals another term-for-term.
+    def __eq__(self, other):
+        for term in self:
+            if (other.get(term,0) != self.get(term,0)):
+                print(term, other.get(term,0), self.get(term,0))
+                return False
+        for term in other:
+            if (other.get(term,0) != self.get(term,0)):
+                print(term, other.get(term,0), self.get(term,0))
+                return False
+        return True
+
     # Define a copy operator that generates a new QUBO.
     def copy(self): return QUBO(super().copy())
 
@@ -153,7 +165,8 @@ class QUBO(dict):
         else: raise(UsageError(f"Unexpected key '{key}'."))
 
     # Make a pretty printout of this QUBO.
-    def __str__(self):
+    def __str__(self, log=False):
+        import math
         key_to_bit = lambda k: (int(k[1:]) if k[0] == 'a' else
                                 max(map(int,k[1:].split('b'))) 
                                 if k[0] == 'b' else 1)
@@ -168,9 +181,13 @@ class QUBO(dict):
             row = []
             for j in range(0,i):
                 v = self.get(f'b{j+1}b{i+1}', 0)
-                row.append( f"{v: .2f}" )
+                if (v != 0) and log: v = int(round(math.log(abs(v),2))) * (-1 if v < 0 else 1)
+                if (type(v) == int): row.append( str(v) )
+                else:                row.append( f"{v: .2f}" )
             v = self.get(f'a{i+1}', 0)
-            row.append( f"{v: .2f}" )
+            if (v != 0) and log: v = int(round(math.log(v,2))) * (-1 if v < 0 else 1)
+            if (type(v) == int): row.append( str(v) )
+            else:                row.append( f"{v: .2f}" )
             rows.append( row )
             # Update the column widths.
             for i,v in enumerate(row): col_widths[i] = max(len(v), col_widths[i])
