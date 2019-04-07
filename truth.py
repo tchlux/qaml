@@ -77,24 +77,12 @@ if __name__ == "__main__":
         from solve import find_qubo, find_int_qubo
         from qubo import run_qubo, QUBO
         # Find the truth table for a specific arithmatic operation.
-        tt = int_add_table(n_bits=2, signed=False)
+        tt = int_add_table(n_bits=4, signed=False)
         print()
         for row in tt: print(row)
         print()
-
         from qubo import run_qubo, QUBO
-        q = QUBO(
-            a1=4, a2=1, a3=4, a4=1, a5=16, a6=4, a7=1,
-            b12=4, b13=8, b14=4, b15=-16, b16=-8, b17=-4,
-            b23=4, b24=2, b25=-8, b26=-4, b27=-2,
-            b34=4, b35=-16, b36=-8, b37=-4,
-            b45=-8, b46=-4, b47=-2,
-            b56=16, b57=8,
-            b67=4
-        )
-        # q = find_int_qubo(tt)
+        q = find_int_qubo(tt)
+        out = run_qubo(**q)
 
-        out = run_qubo(**q)#, min_only=False)
-        if not (tt == out):
-            raise(Exception("The given solution is not correct."))
 
