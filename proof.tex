@@ -1,0 +1,67 @@
+% preamble
+\documentclass[12pt]{article}
+\usepackage{geometry, amsmath, amssymb, caption, subcaption, enumerate, upgreek}
+\geometry{
+letterpaper,
+total={6.5in,9in},
+left=1in,
+top=1in}
+\parindent = 0pt
+\parskip = 6pt
+
+% define QED
+\newcommand*{\QED}{\hfill\ensuremath{\blacksquare}}
+
+% document
+\begin{document}
+\section*{Proof of correctness an n-bit adder}
+\today
+
+\subsection*{Proof}
+
+Suppose that the QUBO cost function $C_k(x,y,s)$ provides solutions for
+$x+y=s$ when $x$ and $y$ are $n-1$-bit integers and $s$ is a $n$-bit
+integer.
+Denote $x_n, \ldots, x_1$ the bits of $x$ in order from MSB to LSB, and
+similarly for $y$ ($y_n, \ldots, y_1$) and $s$ ($s_{n+1}, \ldots, s_1$).
+Furthermore, suppose that
+\begin{enumerate}
+\item[(1)] The maximum magnitude weights for these
+cost functions have values of $+/- 4^{k-1}$
+\item[(2)] The weights satisfy: the weights on/connection between
+$x_i$, $y_j$, and $s_k$ are exactly 4 times those on/between
+$x_{i-1}$, $y_{j-1}$, and $s_{k-1}$
+respectively (for all $i,j,k > 1$).
+\end{enumerate}
+Then any function $C_n(x,y,s)$ that contains all the terms from
+$C_{n-1}$ will necessarilly provide correct energies for solving $x+y=s$,
+whenever $x_n = 0$ and $y_n = 0$.
+Similarly, consider any scaling of the $n$-bit adder weights applied
+to the $n-1$ MSB of $x_n$ and $y_n$. 
+Specifically, choose these weight so that they are 4 times those of the
+standard $n-1$-bit adder.
+Then whenever $x_1=0$ and $y_1=0$, the function $C_n(x,y,s)$ with these
+weights will satisfy all the constraints to guarantee $x+y=s$.
+Furthermore, by (2), these weights do not conflict with the previously
+assigned weights, and by construction, property (2) is maintained.
+Also, this establishes a lower bound for (1) since weights of
+$+/- 4^n$ will be assigned.
+
+So, it remains to choose:
+\begin{itemize}
+\item 4 connections between $x_n \& x_1$, $x_n \& y_1$, $y_n \& x_1$,
+and $y_n \& y_1$. ($=2^n$)
+\item 2 connections between $s_{n+1} \& x_1$ and $s_{n+1} \& y_1$.
+($=-2^{n+1}$)
+\item 2 connections between $s_1 \& x_n$ and $s_1 \& y_n$.
+($=-2^n$)
+\item 1 connection between $s_1 \& s_{n+1}$. ($=2^{n+1}$)
+\end{itemize}
+
+There are $3\times 3 \times (2^{(2n-2)}) \times 2^{n+1}$ inequality
+constraints that have not yet been addressed.
+(3 ways the 2 MSBs could be nonzero, 3 ways the 2 LSBs could be nonzero,
+$(2^{(2n-4)})$ combinations of the 2 sets of $n-2$ bits that are neither
+the MSB or LSB of $x$ or $y$, and $2^{n+1}$ ways to choose $s$).
+
+\end{document}
