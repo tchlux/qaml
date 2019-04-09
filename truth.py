@@ -50,9 +50,58 @@ def uint_mult_table(**kwargs):
     return int_mult_table(**kwargs)
 
 
+# Given an arbitrary number of bits, generate the full set of bit
+# combinations where each individual bit index satisfies an and gate.
+def and_truth_table(num_bits):
+    # Store the valid "AND" gate combinations.
+    valid_ands = [
+        [0, 0, 0],
+        [0, 1, 0],
+        [1, 0, 0],
+        [1, 1, 1]
+    ]
+    from binary import int_to_binary
+    truth_table = []
+    for i in range(2**(3*num_bits)):
+        bits = int_to_binary(i, bits=3*num_bits, signed=False)
+        for b in range(num_bits):
+            if (bits[b::num_bits] not in valid_ands): break
+        else:
+            # If we hit the "else" case, then all bit combinations
+            # were valid and we should append this to the truth table.
+            truth_table.append( bits )
+            continue
+        # We must have hit a "break", meaning this bits combo is invalid.
+    # Return the constructed truth table.
+    return truth_table
+
+
 if __name__ == "__main__":
     
-    TEST_FIND_QUBO_FOR_TT = True
+
+    TEST_CHECK_TT_FOR_MULT = True
+    if TEST_CHECK_TT_FOR_MULT:
+        b = 2
+        # Generate the full truth table for "b" bit multiplication.
+        tt = list(map(tuple,uint_mult_table(n_bits=b, carry=False)))
+        print()
+        print("Multplication truth table:")
+        for row in tt: print("",row)
+        # Generate the full truth table for "b" independent "and" gates.
+        and_tt = list(map(tuple,and_truth_table(b)))
+        # Find the cases that are in the truth table but violate "AND"
+        need_to_zero = sorted(set(tt).difference(set(and_tt)))
+        print()
+        print("Rows that need to be zero'd:")
+        for row in need_to_zero: print("",row)
+        # Find the cases that are not in the truth table but are zero.
+        need_to_grow = sorted(set(and_tt).difference(set(tt)))
+        print()
+        print("Rows that need to be grown:")
+        for row in need_to_zero: print("",row)
+
+
+    TEST_FIND_QUBO_FOR_TT = False
     if TEST_FIND_QUBO_FOR_TT:
         # Find the solution QUBO and print it out.
         from solve import find_qubo, find_int_qubo
