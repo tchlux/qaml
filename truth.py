@@ -58,32 +58,57 @@ if __name__ == "__main__":
         from solve import find_qubo, find_int_qubo
         from qubo import run_qubo, QUBO
         # Find the truth table for a specific arithmatic operation.
-        tt = uint_mult_table(n_bits=1, carry=False)
-
-        # int_mult_two = {'b1b2': 4, 'a1': 0, 'a2': 0, 'a3': 0, 'a4': 0, 'b3b4': 0, 'b3b6': 4, 'b5b6': 0, 'b4b5': -4, 'b1b3': 16, 'b5b7': 8, 'b1b7': -12, 'b4b6': -16, 'b3b7': -4, 'b3b5': -8, 'a7': 16, 'b2b7': -8, 'b2b6': -16, 'b4b7': 4, 'b6b7': 0, 'b1b5': -10, 'b2b4': 10, 'a6': 22, 'b2b5': -6, 'b1b6': 2, 'a5': 13, 'b1b4': 1, 'b2b3': 1}
-        # # int_mult_two = {'b1b2': 8, 'a1': 0, 'a2': 0, 'a3': 0, 'a4': 0, 'b3b4': 0, 'b3b6': 8, 'b5b6': 0, 'b4b5': -8, 'b1b3': 32, 'b5b7': 16, 'b1b7': -24, 'b4b6': -32, 'b3b7': -8, 'b3b5': -16, 'a7': 32, 'b2b7': -16, 'b2b6': -32, 'b4b7': 8, 'b6b7': 0, 'b1b5': -20, 'b2b4': 20, 'a6': 44, 'b2b5': -12, 'b1b6': 4, 'a5': 26, 'b1b4': 2, 'b2b3': 2}
-        # # Add the ancilla bit.
-        # tt = [row + [0] for row in tt]
-        # tt[-2][-1] = 1
-        # # Generate the new QUBO.
-        # new_q = find_int_qubo(tt, qubo=int_mult_two)
-        # sol = run_qubo(**new_q, display=True)
-        # print(sol == tt)
-        # exit()
-
+        b = 2
+        tt = uint_mult_table(n_bits=b, carry=False)
         print()
         for row in tt: print("",row)
         print()
+
+        TEST_GIVEN_QUBO = False
+        if TEST_GIVEN_QUBO:
+            solutions = {
+                 1 : {'b1b2': 1, 'a1': 0, 'a2': 0, 'b2b3': -2, 'a3': 3, 'b1b3': -2}
+                ,2 : {'a2': 0, 'a4': 0, 'a6': 12, 'b2b4': 4, 'b2b6': -8, 'b4b6': -8, 'a5': 9, 'a7': 15, 'a1': 0, 'a3': 0, 'b3b4': 0, 'b5b6': -1, 'b3b7': -4, 'b4b5': -2, 'b3b6': 3, 'b3b5': -6, 'b2b7': -8, 'b4b7': 4, 'b2b3': 1, 'b2b5': -4, 'b1b3': 10, 'b5b7': 8, 'b1b4': 1, 'b1b5': -8, 'b1b2': 5, 'b1b6': 0, 'b1b7': -12, 'b6b7': 3}
+            }
+            q = QUBO(solutions[b])
+            sol = run_qubo(**q, display=True)
+            # Compare to the truth table (ignoring extra bits on the end).
+            print("Passes?", all((v1 == v2) for (r1,r2) in zip(tt,sol) for (v1,v2) in zip(r1,r2)))
+            exit()
+
+        ADD_ANCILLA = True
+        if ADD_ANCILLA:
+            if b == 2:
+                for row in tt: row += [0]
+                # tt[3][-1] = 1 # Set the "y2, y1 = (1, 1)" ancilla bit.
+                # tt[6][-1] = 1 # Set the "x1, y2 = (1, 1)" ancilla bit.
+                # tt[9][-1] = 1 # Set the "x2, y1 = (1, 1)" ancilla bit.
+                tt[10][-1] = 1 # Set the "x2, x1 = (1, 1)" ancilla bit.
+            elif b == 3:
+                # Set "x2, x1 = (1, 1)" and
+                #     "x3, x2, x1 = (1, 1, 1)" cases
+                for row in tt:
+                    row += [0,0]
+                    if (row[1] == row[2] == 1) and (sum(row[3:6])==0):
+                        row[-1] = 1
+                    if (row[0] == row[1] == 1) and (sum(row[3:6])==0):
+                        row[-2] = 1
+                    print(row)
+
+        qubo = QUBO()
+        # Set values manually to make pretty QUBOs.
+        if b == 2:
+            qubo = QUBO(a2=0, a4=0, a6=12,
+                        b24=4, b26=-8, b46=-8,
+                        a5=9, a7=15,
+            )
+
         gap = 0.1
-
-        int_mult_one = {'b1b2': 1, 'a1': 0, 'a2': 0, 'b3b4': -1, 'a3': 2, 'a4': 4, 'b2b3': 0, 'b1b3': 0, 'b1b4': -3, 'b2b4': -2}
-        int_mult_two = {'b1b2': 16, 'a1': 0, 'a2': 0, 'a3': 0, 'a4': 0, 'b3b4': 0, 'b7b9': 48, 'a7': 112, 'b7b8': 64, 'a9': 96, 'b2b4': 128, 'b6b7': -48, 'b2b6': 64, 'b1b7': -32, 'b5b6': -32, 'b5b8': -256, 'b3b6': -176, 'b5b7': 104, 'a8': 408, 'b3b9': 176, 'b4b9': 144, 'b2b5': -8, 'b1b3': 56, 'b4b5': -72, 'b1b8': 8, 'b2b7': -88, 'b2b8': -264, 'b4b8': -272, 'b3b5': -208, 'b6b9': -48, 'a5': 576, 'b8b9': 24, 'a6': 284, 'b1b6': -164, 'b6b8': 92, 'b5b9': -164, 'b1b5': -132, 'b1b9': -54, 'b2b9': -58, 'b3b7': -26, 'b2b3': 2, 'b4b6': 74, 'b1b4': 1, 'b4b7': -81, 'b3b8': 17}
-        int_mult_two =  {'b1b3': 32, 'a1': 0, 'a2': 0, 'a3': 0, 'a4': 0, 'b3b4': 0, 'b7b8': 96, 'b8b9': 32, 'b6b7': -64, 'b2b4': 160, 'b2b7': -128, 'b5b8': -288, 'b2b9': -96, 'b3b9': 224, 'a9': 128, 'a8': 480, 'b4b9': 160, 'b5b6': -64, 'b5b9': -160, 'b1b6': -128, 'b3b6': -192, 'a6': 288, 'b7b9': 96, 'b4b7': -112, 'b3b8': 16, 'b6b8': 80, 'b1b7': -48, 'b2b6': 64, 'b1b2': 48, 'b1b9': -80, 'b1b8': -16, 'b5b7': 144, 'b2b3': 2, 'b1b5': -138, 'b2b8': -342, 'b4b8': -298, 'b3b5': -188, 'b6b9': -52, 'b4b5': -71, 'a5': 559, 'b1b4': 14, 'a7': 146, 'b2b5': 30, 'b3b7': -20, 'b4b6': 84}
-
         print()
         print("Finding feasible solution..")
         # First find a real-valued solution to the problem.
-        q = find_qubo(tt, random=False, gap=gap)
+        q = find_qubo(tt, random=False, gap=gap, qubo=qubo)
+        print(q)
         print("Verifying solution..")
         sol = run_qubo(**q, display=False)
         if sol == tt:
@@ -93,7 +118,7 @@ if __name__ == "__main__":
             for i,row in enumerate(tt): print("", row)
             # Find the integer form of the QUBO next.
             import math
-            q = find_int_qubo(tt, gap=gap, display=False)
+            q = find_int_qubo(tt, gap=gap, display=False, qubo=qubo)
             # Check to make sure the outputs are correct.
             out = run_qubo(**q, display=False)
             if out == tt:
@@ -104,6 +129,7 @@ if __name__ == "__main__":
                 run_qubo(**q)
         else:
             print("Failed to match..")
+            exit()
             sol = run_qubo(**q, min_only=False)
 
 

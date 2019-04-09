@@ -87,7 +87,10 @@ class QUBO(dict):
         if len(args) > 0:
             other_dict, args = args[0], args[1:]
             for k in other_dict: self[k] = other_dict[k]
-        return super().__init__(*args, **kwargs)
+        # Copy in any keyword arguments.
+        if len(kwargs) > 0:
+            for k in kwargs: self[k] = kwargs[k]
+        return super().__init__(*args)
 
     # Verify that this QUBO equals another term-for-term.
     def __eq__(self, other):

@@ -36,7 +36,7 @@ def find_qubo(truth_table, max_attempts=float('inf'), random=True,
         # Loop through all combinations of ancilla bits.
         max_attempts = min(2**(num_entries*i), max_attempts)
         # Construct the ancillary bit value generator.
-        if random: generator = random_range(1,2**(num_bits*i)-1,count=max_attempts)
+        if random: generator = random_range(1,2**(num_entries*i)-1,count=max_attempts)
         else:      generator = range(1,2**(num_entries*i)-1)
         # Cycle through different ancillary bit values.
         for step,j in enumerate(generator):
