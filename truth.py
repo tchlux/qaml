@@ -2,22 +2,22 @@
 from binary import int_to_binary
 
 # Generate the truth table for signed integer addition.
-def int_add_table(n_bits=2, signed=True, carry=True):
+def int_add_table(n_bits=2, signed=True, carry=True, wrap=False):
     truth_table = []
     for i1 in range(2**n_bits):
         if signed: i1 -= 2**(n_bits-1)
         for i2 in range(2**n_bits):
             if signed: i2 -= 2**(n_bits-1)
             # Compute the binary output of the operation.
-            output_val = int_to_binary(i1+i2,n_bits+1,signed=signed)
-            if carry or (output_val[signed] == 0):
-                # Pop out the "carry" bit if it is not desired.
-                if (not carry): output_val.pop(signed)
-                # Add the entry to the truth table.
-                truth_table.append((
-                    int_to_binary(i1,n_bits,signed=signed) +
-                    int_to_binary(i2,n_bits,signed=signed) +
-                    output_val ))
+            full_output = int_to_binary(i1+i2,signed=signed)
+            output_val = int_to_binary(i1+i2,n_bits+carry,signed=signed,wrap=wrap)
+            # If the full output requires too many bits, skip.
+            if len(full_output) > n_bits+carry: continue
+            # Add the entry to the truth table.
+            truth_table.append((
+                int_to_binary(i1,n_bits,signed=signed) +
+                int_to_binary(i2,n_bits,signed=signed) +
+                output_val ))
     return sorted(truth_table)
 
 # Generate the truth table for unsigned integer addition.
@@ -26,28 +26,37 @@ def uint_add_table(**kwargs):
     return int_add_table(**kwargs)
 
 # Generate the truth table for unsigned integer multiplication.
-def int_mult_table(n_bits=2, signed=True, carry=False):
+def int_mult_table(n_bits=2, signed=True, wrap=False):
     truth_table = []
     for i1 in range(2**n_bits):
         if signed: i1 -= 2**(n_bits-1)
         for i2 in range(2**n_bits):
             if signed: i2 -= 2**(n_bits-1)
-            # Compute the binary output of the operation.
-            output_val = int_to_binary(i1*i2,1+n_bits,signed=signed)
-            if carry or (output_val[signed] != 1):
-                # Pop out the "carry" bit if it is not desired.
-                if (not carry): output_val.pop(signed)
-                # Add the entry to the truth table.
-                truth_table.append((
-                    int_to_binary(i1,n_bits,signed=signed) +
-                    int_to_binary(i2,n_bits,signed=signed) +
-                    output_val ))
+            # Add the entry to the truth table.
+            truth_table.append((
+                int_to_binary(i1,n_bits,signed=signed) +
+                int_to_binary(i2,n_bits,signed=signed) +
+                int_to_binary(i1*i2,n_bits,signed=signed,wrap=wrap) ))
     return sorted(truth_table)
 
 # Generate the truth table for a unsigned integer multiplication.
 def uint_mult_table(**kwargs):
     kwargs["signed"] = False
     return int_mult_table(**kwargs)
+
+
+# Define an add circuit that has a carry-in bit.
+def int_full_add_table(n_bits=2):
+    truth_table = []
+    for i in (0,1):
+        for i1 in range(2**n_bits):
+            for i2 in range(2**n_bits):
+                # Add the entry to the truth table.
+                truth_table.append((
+                    int_to_binary(i1,n_bits,signed=False) +
+                    int_to_binary(i2,n_bits,signed=False) + [i] + 
+                    int_to_binary(i1+i2+i,n_bits+1,signed=False)))
+    return sorted(truth_table)
 
 
 # Given an arbitrary number of bits, generate the full set of bit
@@ -60,7 +69,6 @@ def and_truth_table(num_bits):
         [1, 0, 0],
         [1, 1, 1]
     ]
-    from binary import int_to_binary
     truth_table = []
     for i in range(2**(3*num_bits)):
         bits = int_to_binary(i, bits=3*num_bits, signed=False)
@@ -76,10 +84,56 @@ def and_truth_table(num_bits):
     return truth_table
 
 
+
 if __name__ == "__main__":
     
+    FIND_INT_FULL_ADD_QUBO = True
+    if FIND_INT_FULL_ADD_QUBO:
+        # Find the solution QUBO and print it out.
+        from solve import find_qubo, find_int_qubo
+        from qubo import run_qubo, QUBO
+        # Find the truth table for a specific arithmatic operation.
+        b = 1
+        tt = int_full_add_table(n_bits=b)
+        print()
+        for row in tt: print("",row)
+        print()
 
-    TEST_CHECK_TT_FOR_MULT = True
+        # Initial seed QUBO
+        qubo = QUBO(a1=4**(b-1))
+        # Solution energy gap.
+        gap = 0.0
+        print()
+        print("Finding feasible solution..")
+        # First find a real-valued solution to the problem.
+        q = find_qubo(tt, random=False, gap=gap, qubo=qubo)
+        print(q)
+        print("Verifying solution..")
+        sol = run_qubo(**q, display=False)
+        if sol == tt:
+            tt = sol
+            print('-'*70)
+            print("Using the following truth table to find integer solution:")
+            for i,row in enumerate(tt): print("", row)
+            # Find the integer form of the QUBO next.
+            import math
+            from utilities import round_pow_2
+            q = find_int_qubo(tt, gap=gap, display=False, qubo=qubo, round=round_pow_2)
+            # Check to make sure the outputs are correct.
+            out = run_qubo(**q, display=False)
+            if out == tt:
+                print()
+                print("Successfully found working integer QUBO!")
+                print()
+                # Print out the full table to the user.
+                run_qubo(**q)
+        else:
+            print("Failed to match..")
+            exit()
+            sol = run_qubo(**q, min_only=False)
+
+
+    TEST_CHECK_TT_FOR_MULT = False
     if TEST_CHECK_TT_FOR_MULT:
         b = 2
         # Generate the full truth table for "b" bit multiplication.
@@ -98,11 +152,11 @@ if __name__ == "__main__":
         need_to_grow = sorted(set(and_tt).difference(set(tt)))
         print()
         print("Rows that need to be grown:")
-        for row in need_to_zero: print("",row)
+        for row in need_to_grow: print("",row)
 
 
-    TEST_FIND_QUBO_FOR_TT = False
-    if TEST_FIND_QUBO_FOR_TT:
+    TEST_FIND_MULT_QUBO_FROM_TT = False
+    if TEST_FIND_MULT_QUBO_FROM_TT:
         # Find the solution QUBO and print it out.
         from solve import find_qubo, find_int_qubo
         from qubo import run_qubo, QUBO
