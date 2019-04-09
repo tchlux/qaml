@@ -11,7 +11,7 @@ from qubo import QUBO
 # Output: returns a QUBO object. If the table cannot be solved, 
 #         ancilla bits are appended until it can.
 def find_qubo(truth_table, max_attempts=float('inf'), random=True,
-              ancilla=True, qubo=QUBO(), verbose=False):
+              ancilla=True, qubo=QUBO(), gap=0.0, verbose=False):
     from rand import random_range
     from binary import int_to_binary
     from exceptions import UnsolvableSystem
@@ -22,7 +22,8 @@ def find_qubo(truth_table, max_attempts=float('inf'), random=True,
     # Reduce the set of constraints as much as possible.
     eq_min, gt_min = reduce_constraints(eq_min, gt_min)
     # Try to find a solution with no ancilla bits.
-    q, ierr = solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo, verbose=verbose)
+    q, ierr = solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo,
+                         gap=gap, verbose=verbose)
     if (ierr == 0):     return q
     elif (not ancilla): raise(UnsolvableSystem(f"Could not find a solution, error code {ierr}."))
     # No solution was found. Get meta data about table.
@@ -35,7 +36,7 @@ def find_qubo(truth_table, max_attempts=float('inf'), random=True,
         # Loop through all combinations of ancilla bits.
         max_attempts = min(2**(num_entries*i), max_attempts)
         # Construct the ancillary bit value generator.
-        if random: generator = random_range(1,2**(n*i)-1,count=max_attempts)
+        if random: generator = random_range(1,2**(num_bits*i)-1,count=max_attempts)
         else:      generator = range(1,2**(num_entries*i)-1)
         # Cycle through different ancillary bit values.
         for step,j in enumerate(generator):
@@ -53,19 +54,23 @@ def find_qubo(truth_table, max_attempts=float('inf'), random=True,
             eq_min, gt_min, min_energy = get_constraints(truth_table)
             # Reduce the set of constraints as much as possible.
             eq_min, gt_min = reduce_constraints(eq_min, gt_min)
-            # Try to find a solution with no ancilla bits.
-            q, ierr = solve_qubo(num_bits+i, eq_min, gt_min,
-                                 min_energy, qubo, verbose=verbose)
-            if ierr == 0:
-                print(" "*70, end="\r", flush=True)    
-                return q
+            try:
+                # Try to find a solution with no ancilla bits.
+                q, ierr = solve_qubo(num_bits+i, eq_min, gt_min,
+                                     min_energy, qubo, gap=gap, verbose=verbose)
+                if ierr == 0:
+                    print(" "*70, end="\r", flush=True)    
+                    return q
+            except Exception as exc:
+                if verbose: print("Failed:", exc)
     # If no successful solution was found, raise an error.
     class FailedToFindQUBO(Exception): pass
     raise(FailedToFindQUBO("Could not find QUBO for given truth table."))
 
 
 # Generate a QUBO from a truth table by solving a linear programming problem.
-def solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo=QUBO(), verbose=False):
+def solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo=QUBO(),
+               gap=0.0, verbose=False):
     from exceptions import UnsolvableSystem
     from scipy.optimize import linprog
     # Capture the standard output and error of linprog.
@@ -77,6 +82,14 @@ def solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo=QUBO(), verbose=False)
     # The "objective function" is flat for this linear program,
     # because we are only interested in solving the constraints.
     obj_func = [0.0,]*int(num_bits*(num_bits+1)/2)
+
+    # Sort the terms reasonably for printouts if we are verbose.
+    if verbose:
+        eq_min = sorted(sorted(t) for t in eq_min)
+        eq_min.sort(key = lambda i: len(i))
+        print('-'*70)
+        print("Equality constraints:")
+
     # Cycle through an construct the equality constraints.
     for terms in eq_min:
         # Initialize the energy to the minimum value and all bits to 0.
@@ -97,13 +110,22 @@ def solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo=QUBO(), verbose=False)
             if (energy != eq_min_values[index]):
                 raise(UnsolvableSystem("The provided system has contradicting equality constraints."))
         else:
+            if verbose: print("",f"{energy: .2f}","=", " + ".join([qubo.get(t, t) for t in sorted(terms)]))
             # Add this set of bits and energy to the equality constraints.
             eq_min_bits.append( bits )
             eq_min_values.append( energy )
+
+    # Sort the terms reasonably for printouts if we are verbose.
+    if verbose:
+        print()
+        print("Inquality constraints:")
+        gt_min = sorted(sorted(t) for t in gt_min)
+        gt_min.sort(key = lambda i: len(i))
+
     # Cycle through an construct the inequality constraints.
     for terms in gt_min:
         # Initialize the energy to the minimum value and all bits to 0.
-        energy = -min_energy
+        energy = -min_energy-gap
         bits = [0]*(num_bits * (num_bits+1) // 2)
         for coef in terms:
             if coef in qubo: energy += qubo[coef]
@@ -116,22 +138,29 @@ def solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo=QUBO(), verbose=False)
             continue
         # Check to see if this row already exists in the set of rows.
         if bits in gt_min_bits:
-            # If so, then keep the larger of the two constraint energies.
+            # If so, then keep the larger (negative) of the two constraint energies.
             index = gt_min_bits.index(bits)
             gt_min_values[index] = min(gt_min_values[index], energy)
         else:
+            if verbose:
+                print("", f"{-energy: .2f}","<", " + ".join([qubo.get(t, t) for t in sorted(terms)]))
             # Add this set of bits and energy to the equality constraints.
             gt_min_bits.append( bits )
             gt_min_values.append( energy )
+    if verbose: print('-'*70)
 
     # Check to make sure we weren't provided a solved system.
     if (len(eq_min_bits) == 0) and (len(gt_min_bits) == 0): return qubo, 0
     # Compute the answer with scipy.linprog.
     try:
-        print("Calling linprog..", end=" ")
+        if verbose: print()
         res = linprog(obj_func, A_ub=gt_min_bits, b_ub=gt_min_values, 
                       A_eq=eq_min_bits, b_eq=eq_min_values,
-                      bounds=(None,None), method='interior-point')
+                      bounds=(None,None), method="interior-point")
+        if verbose:
+            print()
+            print(res)
+            print()
     except Exception as exc:
         # Print out more helpful information about the failure.
         if verbose:
@@ -253,17 +282,19 @@ def get_constraints(table):
     return eq_min, gt_min, min_energy
 
 
+
 # Given a truth table that is solvable without the addition of any
 # ancilla bits, identify an integer-only set of coefficients.
-def find_int_qubo(truth_table, qubo=QUBO(), display=False, max_coef=1000):
-    from utilities import primes_up_to
+def find_int_qubo(truth_table, qubo=QUBO(), display=False,
+                  max_coef=1000, max_seed=2, gap=0.0, round=round):
+    from utilities import primes_up_to, cycle_coefs
     from qubo import run_qubo
     from exceptions import UnsolvableSystem
     # Make sure the provided QUBO is not movified in place.
     qubo = qubo.copy()
     # Find the initial set of coefficients that solves this truth
     # table. Deliberately do not catch any errors!
-    q = find_qubo(truth_table, ancilla=False, qubo=qubo)
+    q = find_qubo(truth_table, ancilla=False, qubo=qubo, gap=gap)
     # Verify the solution by running through an exhaustive simulator.
     sol = run_qubo(**q, display=False)
     if (sol != truth_table):
@@ -271,68 +302,80 @@ def find_int_qubo(truth_table, qubo=QUBO(), display=False, max_coef=1000):
         raise(UnsolvableSystem(f"The computed QUBO does not produce expected output.\n\n{out_str}"))
     # Cycle reasonable seed coefficients if nothing was provided.
     if (len(qubo) == 0):
-        # Generate a list of reasonable starting values for 'a'.
-        for val in primes_up_to(max_coef):
-            if (q["a1"] < 0): qubo["a1"] = -val
-            else:             qubo["a1"] = val
-            if display:
-                print("-"*70)
-                print(f" Trying to solve for integer QUBO with:")
-                print(f"    a1 = {qubo['a1']}")
-            # Try to solve the problem with this starting value for 'a'.
-            try:
-                qubo = find_int_qubo(truth_table, qubo, display=display, max_coef=max_coef)
-                if display: print("Sucess!\n")
-                return qubo
-            except: pass
-            if display: print()
-        raise(UnsolvableSystem("Could not solve system after attempting all reasonable seed values."))
-    else:
-        # Loop trying to make other coefficients to integers.
-        while (len(qubo) < len(q)):
-            # Check to see that we don't have unreasonably large values.
-            if (max(qubo.values()) >= max_coef):
-                raise(UnsolvableSystem(f"Could not find a solution with all coefficients smaller than {max_coef}."))
-            # Find the coefficient that is closest to being an integer.
-            chosen_coef = None
-            dist_to_int = float('inf')
-            for coef in q: 
-                # Skip coefficients that have already been set.
-                if coef in qubo: continue
-                dist = abs(round(q[coef]) - q[coef])
-                # If this is a new nearest, store it.
-                if dist < dist_to_int: chosen_coef, dist_to_int = coef, dist
-            # Set that value to its nearest integer.
-            qubo[chosen_coef] = int(round(q[chosen_coef]))
-            # Check to see if this change works, if it does, then keep it.
-            new_q = q.copy()
-            new_q.update(qubo)
-            sol = run_qubo(**new_q, display=False)
-            if (sol == truth_table): continue
-            # Otherwise, try and solve the system again with robust code.
-            try:
-                q = find_qubo(truth_table, ancilla=False, qubo=qubo)
-                # Verify the solution by running through an exhaustive simulator.
-                sol = run_qubo(**q, display=False)
-                if (sol != truth_table):
-                    out_str = "\n".join(map(lambda pair: str(pair[0]) + "  " + str(pair[1]), zip(truth_table,sol)))
-                    raise(UnsolvableSystem(f"The computed QUBO does not produce expected output.\n\n{out_str}"))
-            except Exception as exc:
+        print(q)
+        # Cycle through coefficients in this QUBO.
+        for coef in cycle_coefs(q, len(truth_table[0])):
+            # Skip nonzero coefficients.
+            if (q[coef] == 0): continue
+            # Generate a list of reasonable starting values for 'a'.
+            for val in primes_up_to(max_seed):
+                # Find a value that is nonzero to round to 'val'.
+                if   (q[coef] < 0):
+                    qubo[coef] = -val
+                elif (q[coef] > 0):
+                    qubo[coef] = val
+                # Print out to the user an update if desired.
                 if display:
-                    print()
-                    print(q)
-                    print(f"Tried setting {chosen_coef} = {qubo[chosen_coef]}.")
-                    print("Failed.")
-                # Remove the previously added coefficient.
-                qubo.pop(chosen_coef)
-                # Multiply all existing integers by 2.
-                for coef in qubo: qubo[coef] *= 2
-                # Find the new qubo values associated with these doubled constants.
-                q = find_qubo(truth_table, ancilla=False, qubo=qubo)
-                # Verify the solution by running through an exhaustive simulator.
-                sol = run_qubo(**q, display=False)
-                if (sol != truth_table):
-                    out_str = "\n".join(map(lambda pair: str(pair[0]) + "  " + str(pair[1]), zip(truth_table,sol)))
-                    raise(UnsolvableSystem(f"The doubled QUBO that previously succeeded failed.\n\n{out_str}"))
+                    print("-"*70)
+                    print(f" Trying to solve for integer QUBO with:")
+                    print(f"    {coef} = {qubo[coef]}")
+                # Try to solve the problem with this starting value for 'a'.
+                try:
+                    qubo = find_int_qubo(truth_table, qubo, display=display, 
+                                         max_coef=max_coef, gap=gap, round=round)
+                    if display: print("Sucess!\n")
+                    return qubo
+                except Exception as exc:
+                    print(coef, val, exc)
+                    # Remove the added coefficient because it must have failed.
+                    qubo.pop(coef)
+                if display: print()
+        raise(UnsolvableSystem("Could not solve system after attempting all reasonable seed values."))
+    # Loop trying to make other coefficients to integers.
+    while (len(qubo) < len(q)):
+        # Check to see that we don't have unreasonably large values.
+        if (max(qubo.values()) >= max_coef):
+            raise(UnsolvableSystem(f"Could not find a solution with all coefficients smaller than {max_coef}."))
+        # Find the coefficient that is closest to being an integer.
+        chosen_coef = None
+        dist_to_int = float('inf')
+        for coef in q: 
+            # Skip coefficients that have already been set.
+            if coef in qubo: continue
+            dist = abs(round(q[coef]) - q[coef])
+            # If this is a new nearest, store it.
+            if dist < dist_to_int: chosen_coef, dist_to_int = coef, dist
+        # Set that value to its nearest integer.
+        qubo[chosen_coef] = int(round(q[chosen_coef]))
+        # Check to see if this change works, if it does, then keep it.
+        new_q = q.copy()
+        new_q.update(qubo)
+        sol = run_qubo(**new_q, display=False)
+        if (sol == truth_table): continue
+        # Otherwise, try and solve the system again with robust code.
+        try:
+            q = find_qubo(truth_table, ancilla=False, qubo=qubo, gap=gap)
+            # Verify the solution by running through an exhaustive simulator.
+            sol = run_qubo(**q, display=False)
+            if (sol != truth_table):
+                out_str = "\n".join(map(lambda pair: str(pair[0]) + "  " + str(pair[1]), zip(truth_table,sol)))
+                raise(UnsolvableSystem(f"The computed QUBO does not produce expected output.\n\n{out_str}"))
+        except Exception as exc:
+            if display:
+                print()
+                print(q)
+                print(f"Tried setting {chosen_coef} = {qubo[chosen_coef]}.")
+                print("Failed.")
+            # Remove the previously added coefficient.
+            qubo.pop(chosen_coef)
+            # Multiply all existing integers by 2.
+            for coef in qubo: qubo[coef] *= 2
+            # Find the new qubo values associated with these doubled constants.
+            q = find_qubo(truth_table, ancilla=False, qubo=qubo, gap=gap)
+            # Verify the solution by running through an exhaustive simulator.
+            sol = run_qubo(**q, display=False)
+            if (sol != truth_table):
+                out_str = "\n".join(map(lambda pair: str(pair[0]) + "  " + str(pair[1]), zip(truth_table,sol)))
+                raise(UnsolvableSystem(f"The doubled QUBO that previously succeeded failed.\n\n{out_str}"))
     # Return the all-integer valued qubo.
     return qubo

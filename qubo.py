@@ -278,7 +278,7 @@ def run_qubo(num_samples=None, build_q_system=QuantumAnnealer,
     if display: print(f"Running {num_samples} times with:\n{QUBO(coefs)}")
     # Execute the samples on the system.
     for (bits, energy) in system.samples(num_samples):
-        energy = round(energy, rounded)
+        if rounded: energy = round(energy, rounded)
         if (energy == 0): energy = abs(energy)
         # Hide the "pin" bit effects if it was used.
         if pinning:
