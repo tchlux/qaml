@@ -19,11 +19,12 @@ top=1in}
 
 \subsection*{Proof}
 
-Suppose that the QUBO cost function $C_k(x,y,s)$ provides solutions for
+Suppose that the QUBO cost function $C_{n-1}(x,y,s)$ provides solutions for
 $x+y=s$ when $x$ and $y$ are $n-1$-bit integers and $s$ is a $n$-bit
 integer.
-Denote $x_n, \ldots, x_1$ the bits of $x$ in order from MSB to LSB, and
-similarly for $y$ ($y_n, \ldots, y_1$) and $s$ ($s_{n+1}, \ldots, s_1$).
+Denote $x_n, \ldots, x_1$ the bits of $x$ in order from most to least
+significant, and similarly for $y$ ($y_n, \ldots, y_1$) and $s$ 
+($s_{n+1}, \ldots, s_1$).
 Furthermore, suppose that
 \begin{enumerate}
 \item[(1)] The maximum magnitude weights for these
@@ -46,16 +47,18 @@ Furthermore, by (2), these weights do not conflict with the previously
 assigned weights, and by construction, property (2) is maintained.
 Also, this establishes a lower bound for (1) since weights of
 $+/- 4^n$ will be assigned.
+So far, we have specified all the connections except those between the
+most and least significant bits of $x$, $y$, and $s$.
 
-So, it remains to choose:
+So, it remains to show that:
 \begin{itemize}
-\item 4 connections between $x_n \& x_1$, $x_n \& y_1$, $y_n \& x_1$,
-and $y_n \& y_1$. ($=2^n$)
-\item 2 connections between $s_{n+1} \& x_1$ and $s_{n+1} \& y_1$.
-($=-2^{n+1}$)
-\item 2 connections between $s_1 \& x_n$ and $s_1 \& y_n$.
-($=-2^n$)
-\item 1 connection between $s_1 \& s_{n+1}$. ($=2^{n+1}$)
+\item The 4 connections between $x_n \& x_1$, $x_n \& y_1$, $y_n \& x_1$,
+and $y_n \& y_1$ are all equal to $2^n$.
+\item The 2 connections between $s_{n+1} \& x_1$ and $s_{n+1} \& y_1$ are
+equal to $-2^{n+1}$.
+\item The 2 connections between $s_1 \& x_n$ and $s_1 \& y_n$ are equal to
+$-2^n$.
+\item The connection between $s_1 \& s_{n+1}$ is $2^{n+1}$.
 \end{itemize}
 
 There are $3\times 3 \times (2^{(2n-2)}) \times 2^{n+1}$ inequality
@@ -64,6 +67,8 @@ constraints that have not yet been addressed.
 $(2^{(2n-4)})$ combinations of the 2 sets of $n-2$ bits that are neither
 the MSB or LSB of $x$ or $y$, and $2^{n+1}$ ways to choose $s$).
 
+I.e., the cost function that correctly implements an adder in a fully-connected
+graph is:
 \begin{align*}    
 C_n(x,y,z) = \sum_{i=1}^n{4^i(x_i+y_i)}
 + \sum_{i=1}^{n+1}{4^is_i} 
