@@ -189,7 +189,7 @@ if __name__ == "__main__":
         print(sol == int_mult_table(n_bits=2, signed=True))
 
 
-    DEMONSTRATE_INT_ADD = False
+    DEMONSTRATE_INT_ADD = True
     if DEMONSTRATE_INT_ADD:
         int_add_one =   {'a1': 1, 'a2': 1, 'a3': 1, 'b1b3': -2, 'b2b3': -2, 'b1b2': 2}
         int_add_two =   {'a1': 4, 'a3': 4, 'b1b6': -4, 'b3b6': -4, 'b5b6': 4, 'b2b5': -4, 'b1b2': 4, 'b2b3': 4, 'b4b5': -4, 'b1b4': 4, 'b3b4': 4, 'a5': 4, 'b1b5': -8, 'b3b5': -8, 'b1b3': 8, 'b2b4': 2, 'b2b6': -2, 'b4b6': -2, 'a2': 1, 'a4': 1, 'a6': 1}
@@ -218,7 +218,7 @@ if __name__ == "__main__":
             print(b, sol == out)
 
 
-    DEMONSTRATE_INT_HALF_ADD = False
+    DEMONSTRATE_INT_HALF_ADD = True
     if DEMONSTRATE_INT_HALF_ADD:
         int_add_one =  {'a1': 1, 'a2': 1, 'a3': 4, 'b1b3': -4, 'b3b4': 4, 'b2b3': -4, 'b1b2': 2, 'a4': 1, 'b1b4': -2, 'b2b4': -2}
         int_add_two =  {'a1': 4, 'a3': 4, 'b4b5': -8, 'b2b5': -8, 'b5b7': 8, 'b3b4': 4, 'b3b7': -4, 'b2b3': 4, 'b1b5': -16, 'b5b6': 16, 'b1b3': 8, 'b6b7': 4, 'b2b6': -4, 'b4b6': -4, 'a5': 16, 'b3b6': -8, 'a6': 4, 'b1b4': 4, 'b1b7': -4, 'b1b2': 4, 'b1b6': -8, 'b3b5': -16, 'b2b4': 2, 'b4b7': -2, 'b2b7': -2, 'a2': 1, 'a4': 1, 'a7': 1}
@@ -246,7 +246,7 @@ if __name__ == "__main__":
             print(b, sol == int_add_table(n_bits=b, signed=False))
 
 
-    DEMONSTRATE_INT_FULL_ADD = False
+    DEMONSTRATE_INT_FULL_ADD = True
     if DEMONSTRATE_INT_FULL_ADD:
         solutions = {
             1 : {'a4': 4, 'a2': 1, 'a3': 1, 'a1': 1, 'b1b4': -4, 'b2b4': -4, 'b1b2': 2, 'b4b5': 4, 'a5': 1, 'b1b5': -2, 'b2b5': -2, 'b3b5': -2, 'b3b4': -4, 'b1b3': 2, 'b2b3': 2},
