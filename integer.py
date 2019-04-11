@@ -43,7 +43,7 @@ def int_full_add(*bit_indices):
         b_idx = bit_indices[row]
         iadd[f'a{b_idx}'] = 2**p
     # Set the "carry in bit" a coefficient.
-    iadd[f'a{2*b+1}'] = 1
+    iadd[f'a{bit_indices[2*b]}'] = 1
     # Set the rest of the a coefficients.
     for row in range(b+1):
         p = 2*(b - row)
@@ -177,19 +177,20 @@ if __name__ == "__main__":
         print("Minimizing the value of an unsigned integer:")
         out = run_qubo(**uint_min(*list(range(1,b+1))), min_only=False)
 
-    DEMONSTRATE_UINT_MULT = False
+    DEMONSTRATE_UINT_MULT = True
     if DEMONSTRATE_UINT_MULT:
-        uint_mult_two =   {'b1b2': 1, 'a1': 0, 'a2': 0, 'a3': 2, 'b3b4': -1, 'b1b4': -2, 'b2b4': -2, 'a4': 3, 'b2b3': 0, 'b1b3': 0}
+        uint_mult_one = {'b1b2': 1, 'a1': 0, 'a2': 0, 'a3': 2, 'b3b4': -1, 'b1b4': -2, 'b2b4': -2, 'a4': 3, 'b2b3': 0, 'b1b3': 0}
+        uint_mult_two = {}
         uint_mult_three = {}
-        print("2-bit unsigned integer multiplication:")
-        print(QUBO(uint_mult_two))
+        print("1-bit unsigned integer multiplication:")
+        print(QUBO(uint_mult_one))
         print()
-        sol = run_qubo(**QUBO(uint_mult_two), display=False)
+        sol = run_qubo(**QUBO(uint_mult_one), display=False)
         from truth import int_mult_table
         print(sol == int_mult_table(n_bits=2, signed=True))
 
 
-    DEMONSTRATE_INT_ADD = True
+    DEMONSTRATE_INT_ADD = False
     if DEMONSTRATE_INT_ADD:
         int_add_one =   {'a1': 1, 'a2': 1, 'a3': 1, 'b1b3': -2, 'b2b3': -2, 'b1b2': 2}
         int_add_two =   {'a1': 4, 'a3': 4, 'b1b6': -4, 'b3b6': -4, 'b5b6': 4, 'b2b5': -4, 'b1b2': 4, 'b2b3': 4, 'b4b5': -4, 'b1b4': 4, 'b3b4': 4, 'a5': 4, 'b1b5': -8, 'b3b5': -8, 'b1b3': 8, 'b2b4': 2, 'b2b6': -2, 'b4b6': -2, 'a2': 1, 'a4': 1, 'a6': 1}
@@ -218,7 +219,7 @@ if __name__ == "__main__":
             print(b, sol == out)
 
 
-    DEMONSTRATE_INT_HALF_ADD = True
+    DEMONSTRATE_INT_HALF_ADD = False
     if DEMONSTRATE_INT_HALF_ADD:
         int_add_one =  {'a1': 1, 'a2': 1, 'a3': 4, 'b1b3': -4, 'b3b4': 4, 'b2b3': -4, 'b1b2': 2, 'a4': 1, 'b1b4': -2, 'b2b4': -2}
         int_add_two =  {'a1': 4, 'a3': 4, 'b4b5': -8, 'b2b5': -8, 'b5b7': 8, 'b3b4': 4, 'b3b7': -4, 'b2b3': 4, 'b1b5': -16, 'b5b6': 16, 'b1b3': 8, 'b6b7': 4, 'b2b6': -4, 'b4b6': -4, 'a5': 16, 'b3b6': -8, 'a6': 4, 'b1b4': 4, 'b1b7': -4, 'b1b2': 4, 'b1b6': -8, 'b3b5': -16, 'b2b4': 2, 'b4b7': -2, 'b2b7': -2, 'a2': 1, 'a4': 1, 'a7': 1}
@@ -246,7 +247,7 @@ if __name__ == "__main__":
             print(b, sol == int_add_table(n_bits=b, signed=False))
 
 
-    DEMONSTRATE_INT_FULL_ADD = True
+    DEMONSTRATE_INT_FULL_ADD = False
     if DEMONSTRATE_INT_FULL_ADD:
         solutions = {
             1 : {'a4': 4, 'a2': 1, 'a3': 1, 'a1': 1, 'b1b4': -4, 'b2b4': -4, 'b1b2': 2, 'b4b5': 4, 'a5': 1, 'b1b5': -2, 'b2b5': -2, 'b3b5': -2, 'b3b4': -4, 'b1b3': 2, 'b2b3': 2},
