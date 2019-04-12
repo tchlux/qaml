@@ -72,7 +72,7 @@ def int_full_add(*bit_indices):
             iadd[f'b{b1_idx}b{b2_idx}'] = 2**p
     # Return the QUBO
     return iadd
-
+    
 
 # Perform the operation 'a + b = c' where 'a' and 'b' are (b)-bit
 # integers and 'c' is a (b+1)-bit integer. Exactly (3*b + 1) indices
@@ -160,6 +160,40 @@ def int_add(*bit_indices):
     return iadd
 
 
+# Perform the operation 'q + r = s' where 'q' and 'r' are (n)-bit 
+# integers, and 's' is a (n+1)-bit integer. Each module can have '3*b+2' 
+# or '3*b+1' bits that are fully connected. Exactly (3*n + ceil(n/b)) 
+# indices must be provided to this routine.
+def int_add_modular(n, b, *bit_indices):
+    # Compute and verify the number of bits.
+    num_modules = ceil(n/b)
+    num_qubits = 3*n + num_modules
+    if num_qubits != len(bit_indices):
+        raise(UsageError("Exactly 3*n+ceil(n/b) bits must be provided for n-bit addition with module size b."))
+    # Return int_half_add() if num_modules = 1.
+    if num_modules==1:
+        return int_half_add(*bit_indices)
+    # If num_modules > 1 :
+    # Initialize a QUBO to store the addition operator.
+    iadd = QUBO()
+    # Add QUBO for right module - size is always b.
+    iadd += int_half_add(*(bit_indices[n-b:n] + bit_indices[2*n-b:2*n]
+                           + bit_indices[-1:] + bit_indices[3*n+1-b:3*n+1]))
+    # Add QUBO for left module - size can be less than b.
+    iadd += int_full_add(*(bit_indices[:n-(num_modules-1)*b] 
+                           + bit_indices[n:2*n-(num_modules-1)*b] 
+                           + bit_indices[3*n+1:3*n+2] 
+                           + bit_indices[2*n:3*n-(num_modules-1)*b+1]))
+    # Add QUBO for other modules - size is always b.
+    for i in range(1,num_modules-1):
+        iadd += int_full_add(*(bit_indices[n-(i+1)*b:n-i*b] + bit_indices[2*n-(i+1)*b:2*n-i*b]
+                                  + bit_indices[3*n+num_modules-i:3*n+num_modules-i+1]
+                                  + bit_indices[3*n+num_modules-i-1:3*n+num_modules-i] 
+                                  + bit_indices[3*n-(i+1)*b+1:3*n-i*b+1]))
+    # Return the QUBO.
+    return iadd
+
+
 if __name__ == "__main__":
     # These are the QUBO solutions to addition with 1, 2, and 3 bits.
     from qubo import QUBO, run_qubo
@@ -177,15 +211,14 @@ if __name__ == "__main__":
         print("Minimizing the value of an unsigned integer:")
         out = run_qubo(**uint_min(*list(range(1,b+1))), min_only=False)
 
-    DEMONSTRATE_UINT_MULT = True
+    DEMONSTRATE_UINT_MULT = False
     if DEMONSTRATE_UINT_MULT:
-        uint_mult_one = {'b1b2': 1, 'a1': 0, 'a2': 0, 'a3': 2, 'b3b4': -1, 'b1b4': -2, 'b2b4': -2, 'a4': 3, 'b2b3': 0, 'b1b3': 0}
-        uint_mult_two = {}
+        uint_mult_two =   {'b1b2': 1, 'a1': 0, 'a2': 0, 'a3': 2, 'b3b4': -1, 'b1b4': -2, 'b2b4': -2, 'a4': 3, 'b2b3': 0, 'b1b3': 0}
         uint_mult_three = {}
-        print("1-bit unsigned integer multiplication:")
-        print(QUBO(uint_mult_one))
+        print("2-bit unsigned integer multiplication:")
+        print(QUBO(uint_mult_two))
         print()
-        sol = run_qubo(**QUBO(uint_mult_one), display=False)
+        sol = run_qubo(**QUBO(uint_mult_two), display=False)
         from truth import int_mult_table
         print(sol == int_mult_table(n_bits=2, signed=True))
 
@@ -269,5 +302,15 @@ if __name__ == "__main__":
             q = int_full_add(*list(range(1,b*3+2+1)))
             sol = run_qubo(**q, display=False)
             print(b, sol == int_full_add_table(n_bits=b))
-
-
+            
+            
+    DEMONSTRATE_INT_FULL_ADD_MODULAR = True
+    if DEMONSTRATE_INT_FULL_ADD_MODULAR:
+        from utilities import ceil
+        n, b = 5, 2
+        print(f"{n}-bit integer addition with {b}-bit modules:")
+        q = int_add_modular(n, b, *list(range(1, 3*n + ceil(n/b) + 1)))        
+        sol = [i[:3*n+1] for i in run_qubo(**q, display=False)]
+        from truth import int_add_table
+        print(sol == int_add_table(n_bits=n, signed=False))
+        
