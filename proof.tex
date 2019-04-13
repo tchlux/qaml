@@ -1,6 +1,6 @@
 % preamble
 \documentclass[12pt]{article}
-\usepackage{geometry, amsmath, amssymb, caption, subcaption, enumerate, upgreek}
+\usepackage{geometry, amsmath, amssymb, caption, subcaption, enumerate, upgreek, array}
 \geometry{
 letterpaper,
 total={6.5in,9in},
@@ -11,6 +11,9 @@ top=1in}
 
 % define QED
 \newcommand*{\QED}{\hfill\ensuremath{\blacksquare}}
+
+% math-mode version of "l" column type
+\newcolumntype{L}{>{$}l<{$}}
 
 % document
 \begin{document}
@@ -70,12 +73,61 @@ the MSB or LSB of $x$ or $y$, and $2^{n+1}$ ways to choose $s$).
 I.e., the cost function that correctly implements an adder in a fully-connected
 graph is:
 \begin{align*}    
-C_n(x,y,z) = \sum_{i=1}^n{4^i(x_i+y_i)}
-+ \sum_{i=1}^{n+1}{4^is_i} 
+C_n(x,y,z) = \sum_{i=1}^n{4^{i-1}(x_i+y_i)}
++ \sum_{i=1}^{n+1}{4^{i-1}s_i} 
 + \sum_{i=1}^{n-1}\sum_{j=i+1}^{n}2^{i+j-1}(x_ix_j+y_iy_j) 
 + \sum_{i=1}^{n}\sum_{j=i+1}^{n+1}2^{i+j-1}s_is_j\\
 + \sum_{i=1}^n\sum_{j=1}^n2^{i+j-1}x_iy_j 
 - \sum_{i=1}^{n+1}\sum_{i=1}^n2^{i+j-1}s_i(x_j+y_j)
+\end{align*}
+
+\subsection*{Alternate Proof}
+\begin{tabular}{LLLL}
+   &c_n &c_{n-1} ... &c_1 \\
++  &x_n &x_{n-1} ... &x_1 \\
++  &y_n &y_{n-1} ... &y_1 \\
+\hline
+c_{n+1}   &s_n &s_{n-1} ... &s_1 \\
+\hline
+\end{tabular} 
+
+Let $s_{n+1}=c_{n+1}$.
+
+$c_1$ is the carry-in and the rest of $c_i$ are carry bits encountered while adding $c_1, x, y$.
+
+Lemma: The equation for the complete addition shown above is 
+\begin{equation}
+c_1 + \sum_{i=1}^{n}2^{i-1}(x_i + y_i) = \sum_{i=1}^{n}2^{i-1}s_i + 2^nc_{n+1} \label{eq1}
+\end{equation}
+
+Proof: Assume \ref{eq1} is true for $n=k$, i.e;
+\begin{equation}
+c_1 + \sum_{i=1}^{k}2^{i-1}(x_i+y_i) = \sum_{i=1}^{k}2^{i-1}s_i + 2^kc_{k+1} \label{eq2}
+\end{equation}
+For $n=k+1$, from equation for full-adder, we have
+\begin{equation}
+c_{k+1} + x_{k+1} + y_{k+1} = s_{k+1}+2c_{k+2} \label{eq3}    
+\end{equation}
+Using the value of $c_{k+1}$ from \ref{eq2} in \ref{eq3}, we get
+\begin{align*}
+\frac{c_1 + \sum_{i=1}^{k}2^{i-1}(x_i+y_i) - \sum_{i=1}^{k}2^{i-1}s_i}{2^k} + x_{k+1} + y_{k+1} &= s_{k+1}+2c_{k+2}\\
+\iff c_1 + \sum_{i=1}^{k}2^{i-1}(x_i+y_i) - \sum_{i=1}^{k}2^{i-1}s_i + 2^kx_{k+1} + 2^ky_{k+1} &= 2^ks_{k+1} + 2^{k+1}c_{k+2}\\
+\iff c_1 + \sum_{i=1}^{k+1}2^{i-1}(x_i+y_i) &= \sum_{i=1}^{k+1}2^{i-1}s_i + 2^{k+1}c_{k+2}
+\end{align*}
+i.e; \ref{eq1} is true for $n=k+1$. \QED
+
+We can now use \ref{eq1} to derive a QUBO for n-bit addition with a carry-in and carry-out.
+\begin{align*}
+(c_1 + \sum_{i=1}^{n}2^{i-1}(x_i + y_i) - \sum_{i=1}^{n+1}2^{i-1}s_i)^2 &= 0\\
+c_1 + \sum_{i=1}^{n}4^{i-1}(x_i+y_i) 
++ \sum_{i=1}^{n+1}4^{i-1}s_i
++ \sum_{i=1}^{n-1}\sum_{j=i+1}^{n}2^{i+j-1}(x_ix_j+y_iy_j) 
++ \sum_{i=1}^n\sum_{j=1}^n2^{i+j-1}x_iy_j \\
++ \sum_{i=1}^n\sum_{j=i+1}^{n+1}2^{i+j-1}s_is_j
++ \sum_{i=1}^n2^ic_1(x_i+y_i)
+- \sum_{i=1}^{n+1}2^ic_1s_i
+- \sum_{i=1}^{n+1}\sum_{i=1}^n2^{i+j-1}s_i(x_j+y_j)
+&= 0
 \end{align*}
 
 \end{document}
