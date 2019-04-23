@@ -12,16 +12,16 @@ top=1in}
 % define QED
 \newcommand*{\QED}{\hfill\ensuremath{\blacksquare}}
 
+% define numberthis
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
 % math-mode version of "l" column type
 \newcolumntype{L}{>{$}l<{$}}
-
 % document
 \begin{document}
 \section*{Proof of correctness an n-bit adder}
 \today
-
 \subsection*{Proof}
-
 Suppose that the QUBO cost function $C_{n-1}(x,y,s)$ provides solutions for
 $x+y=s$ when $x$ and $y$ are $n-1$-bit integers and $s$ is a $n$-bit
 integer.
@@ -52,7 +52,6 @@ Also, this establishes a lower bound for (1) since weights of
 $+/- 4^n$ will be assigned.
 So far, we have specified all the connections except those between the
 most and least significant bits of $x$, $y$, and $s$.
-
 So, it remains to show that:
 \begin{itemize}
 \item The 4 connections between $x_n \& x_1$, $x_n \& y_1$, $y_n \& x_1$,
@@ -63,13 +62,11 @@ equal to $-2^{n+1}$.
 $-2^n$.
 \item The connection between $s_1 \& s_{n+1}$ is $2^{n+1}$.
 \end{itemize}
-
 There are $3\times 3 \times (2^{(2n-2)}) \times 2^{n+1}$ inequality
 constraints that have not yet been addressed.
 (3 ways the 2 MSBs could be nonzero, 3 ways the 2 LSBs could be nonzero,
 $(2^{(2n-4)})$ combinations of the 2 sets of $n-2$ bits that are neither
 the MSB or LSB of $x$ or $y$, and $2^{n+1}$ ways to choose $s$).
-
 I.e., the cost function that correctly implements an adder in a fully-connected
 graph is:
 \begin{align*}    
@@ -80,7 +77,6 @@ C_n(x,y,z) = \sum_{i=1}^n{4^{i-1}(x_i+y_i)}
 + \sum_{i=1}^n\sum_{j=1}^n2^{i+j-1}x_iy_j 
 - \sum_{i=1}^{n+1}\sum_{i=1}^n2^{i+j-1}s_i(x_j+y_j)
 \end{align*}
-
 \subsection*{Alternate Proof}
 \begin{tabular}{LLLL}
    &c_n &c_{n-1} ... &c_1 \\
@@ -89,17 +85,13 @@ C_n(x,y,z) = \sum_{i=1}^n{4^{i-1}(x_i+y_i)}
 \hline
 c_{n+1}   &s_n &s_{n-1} ... &s_1 \\
 \hline
-\end{tabular} 
-
+\end{tabular}\\ 
 Let $s_{n+1}=c_{n+1}$.
-
-$c_1$ is the carry-in and the rest of $c_i$ are carry bits encountered while adding $c_1, x, y$.
-
-Lemma: The equation for the complete addition shown above is 
+$c_1$ is the carry-in and the rest of $c_i$ are carry bits encountered while adding $c_1, x, y$.\\
+Lemma 1: The equation for the complete addition shown above is 
 \begin{equation}
 c_1 + \sum_{i=1}^{n}2^{i-1}(x_i + y_i) = \sum_{i=1}^{n}2^{i-1}s_i + 2^nc_{n+1} \label{eq1}
 \end{equation}
-
 Proof: Assume \ref{eq1} is true for $n=k$, i.e;
 \begin{equation}
 c_1 + \sum_{i=1}^{k}2^{i-1}(x_i+y_i) = \sum_{i=1}^{k}2^{i-1}s_i + 2^kc_{k+1} \label{eq2}
@@ -114,11 +106,10 @@ Using the value of $c_{k+1}$ from \ref{eq2} in \ref{eq3}, we get
 \iff c_1 + \sum_{i=1}^{k}2^{i-1}(x_i+y_i) - \sum_{i=1}^{k}2^{i-1}s_i + 2^kx_{k+1} + 2^ky_{k+1} &= 2^ks_{k+1} + 2^{k+1}c_{k+2}\\
 \iff c_1 + \sum_{i=1}^{k+1}2^{i-1}(x_i+y_i) &= \sum_{i=1}^{k+1}2^{i-1}s_i + 2^{k+1}c_{k+2}
 \end{align*}
-i.e; \ref{eq1} is true for $n=k+1$. \QED
-
+i.e; \ref{eq1} is true for $n=k+1$. \QED \\
 We can now use \ref{eq1} to derive a QUBO for n-bit addition with a carry-in and carry-out.
 \begin{align*}
-(c_1 + \sum_{i=1}^{n}2^{i-1}(x_i + y_i) - \sum_{i=1}^{n+1}2^{i-1}s_i)^2 &= 0\\
+\bigg(c_1 + \sum_{i=1}^{n}2^{i-1}(x_i + y_i) - \sum_{i=1}^{n+1}2^{i-1}s_i\bigg)^2 &= 0\\
 c_1 + \sum_{i=1}^{n}4^{i-1}(x_i+y_i) 
 + \sum_{i=1}^{n+1}4^{i-1}s_i
 + \sum_{i=1}^{n-1}\sum_{j=i+1}^{n}2^{i+j-1}(x_ix_j+y_iy_j) 
@@ -129,11 +120,93 @@ c_1 + \sum_{i=1}^{n}4^{i-1}(x_i+y_i)
 - \sum_{i=1}^{n+1}\sum_{i=1}^n2^{i+j-1}s_i(x_j+y_j)
 &= 0
 \end{align*}
-
 Setting $c_1=0$ gives QUBO for n-bit addition with no carry-in but a carry-out.
 
-\end{document}
+\section*{Proof of correctness of m-int n-bit signed adder}
+The complete addition is shown below.\\
+\begin{tabular}{LLLLLLL}
+   & & &x_{1n} &... &x_{12} &x_{11} \\
+   & & &x_{2n} &... &x_{22} &x_{21} \\
+   & & &.\\& & &.\\& & &.\\
++  & & &x_{mn} &... &x_{m2} &x_{m1} \\
+\hline
+s_{n+m-1} &... &s_{n+1}   &s_n &... &s_2 &s_1 \\
+\hline
+\end{tabular}\\ 
 
+Consider adding one number after another to the intermediate sum.\\The first step is:\\
+\begin{tabular}{LLLLL}
+   &x_{1n} &... &x_{12} &x_{11} \\
++  &x_{2n} &... &x_{22} &x_{21} \\
+\hline
+s_{2(n+1)}   &s_{2n} &... &s_{22} &s_{21} \\
+\hline
+\end{tabular}\\ \\
+Using Lemma 1, we can write
+\begin{align*}
+    \sum_{i=1}^{n}2^{i-1}(x_{1i}+x_{2i}) = \sum_{i=1}^{n+1}2^{i-1}s_{2i} \label{p2_s1} \numberthis
+\end{align*}
+The second step is:\\
+\begin{tabular}{LLLLLL}
+   &s_{2(n+1)} &s_{2n} &... &s_{22} &s_{21} \\
++  &x_{3n} &x_{3n} &... &x_{32} &x_{31} \quad\text{(sign extension)}\\
+\hline
+s_{3(n+2)} &s_{3(n+1)}  &s_{3n} &... &s_{32} &s_{31} \\
+\hline
+\end{tabular}\\ \\
+Using Lemma 1, we can write
+\begin{align*}
+    \sum_{i=1}^{n+1}2^{i-1}s_{2i}+\sum_{i=1}^{n}2^{i-1}x_{3i}+2^nx_{3n} &= \sum_{i=1}^{n+2}2^{i-1}s_{3i}\\
+    \implies \sum_{i=1}^{n}2^{i-1}(x_{1i}+x_{2i}+x_{3i})+2^nx_{3n} &= \sum_{i=1}^{n+2}2^{i-1}s_{3i}  \numberthis \label{p2_s2}\\
+    \tag{Using \ref{p2_s1}}
+\end{align*}
+The third step is:\\
+\begin{tabular}{LLLLLLL}
+   &s_{3(n+2)} &s_{3(n+1)} &s_{3n} &... &s_{32} &s_{31} \\
++  &x_{4n} &x_{4n} &x_{4n} &... &x_{42} &x_{41} \quad\text{(sign extension)}\\
+\hline
+s_{4(n+3)} &s_{4(n+2)} &s_{4(n+1)}  &s_{4n} &... &s_{42} &s_{41} \\
+\hline
+\end{tabular}\\ \\
+Using Lemma 1, we can write
+\begin{align*}
+    \sum_{i=1}^{n+2}2^{i-1}s_{3i}+\sum_{i=1}^{n}2^{i-1}x_{4i}+\sum_{i=n+1}^{n+2}2^{i-1}x_{4n} &= \sum_{i=1}^{n+3}2^{i-1}s_{4i}\\
+    \implies \sum_{i=1}^{n}2^{i-1}(x_{1i}+x_{2i}+x_{3i}+x_{4i})+\sum_{i=n+1}^{n+1}2^{i-1}x_{3n} + \sum_{i=n+1}^{n+2}2^{i-1}x_{4n} &= \sum_{i=1}^{n+3}2^{i-1}s_{4i}  \numberthis\\
+    \tag{Using \ref{p2_s2}}
+\end{align*}
+We can now see a pattern and guess the equation for the m-int n-bit addition to be
+\begin{align*}
+    \sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{m}x_{ji} + \sum_{j=3}^{m}x_{jn}\sum_{i=n+1}^{n+j-2}2^{i-1}
+    = \sum_{i=1}^{n+m-1}2^{i-1}s_{mi} \numberthis{} \label{p2_s3}
+\end{align*}
+We can prove this by induction on $m$.\\
+Let (\ref{p2_s3}) be true for $m=k-1$. Then,\\
+\begin{align*}
+    \sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{k-1}x_{ji} + \sum_{j=3}^{k-1}x_{jn}\sum_{i=n+1}^{n+j-2}2^{i-1}
+    &= \sum_{i=1}^{n+k-2}2^{i-1}s_{(k-1)i} \numberthis \label{p2_s4}
+\end{align*}
+For $m=k+1$, we have\\
+\begin{tabular}{LLLLLLLLL}
+   &s_{(k-1)(n+k-2)} &... &s_{(k-1)(n+1)} &s_{(k-1)n} &... &s_{(k-1)2} &s_{(k-1)1} \\
++  &x_{kn} &... &x_{kn} &x_{kn} &... &x_{k2} &x_{k1} \quad\text{(sign extension)}\\
+\hline
+s_{k(n+k-1)} &s_{k(n+k-2)} &... &s_{k(n+1)}  &s_{kn} &... &s_{k2} &s_{k1} \\
+\hline
+\end{tabular}\\ \\
+Using Lemma 1, we can write
+\begin{align*}
+    \sum_{i=1}^{n+k-2}2^{i-1}s_{(k-1)i} + \sum_{i=1}^n2^{k-1}x_{ki} + \sum_{i=n+1}^{n+k-2}2^{i-1}x_{kn} &= \sum_{i=1}^{n+k-1}s_{ki}\\
+    \implies \sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{k-1}x_{ji} + \sum_{j=3}^{k-1}x_{jn}\sum_{i=n+1}^{n+j-2}2^{i-1} + \sum_{i=1}^n2^{k-1}x_{ki} + \sum_{i=n+1}^{n+k-2}2^{i-1}x_{kn} &= \sum_{i=1}^{n+k-1}s_{ki} \tag{Using \ref{p2_s4}}\\
+    \implies \sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{k}x_{ji} + \sum_{j=3}^{k}x_{jn}\sum_{i=n+1}^{n+j-2}2^{i-1} &= \sum_{i=1}^{n+k-1}s_{ki} 
+\end{align*}
+This shows (\ref{p2_s4}) is true for $m=k+1$ and proves (\ref{p2_s4}) is true $\forall m\geq2.$\\
+We can now use (\ref{p2_s4}) to obtain the following QUBO for m-int n-bit signed addition:
+\begin{align*}
+    \bigg(\sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{k-1}x_{ji} + \sum_{j=3}^{k-1}x_{jn}\sum_{i=n+1}^{n+j-2}2^{i-1}
+    - \sum_{i=1}^{n+k-2}2^{i-1}s_{(k-1)i}\bigg)^2 &= 0
+\end{align*}
+
+\end{document}
 
 
 
