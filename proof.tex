@@ -208,4 +208,9 @@ We can now use (\ref{p2_s5}) to obtain the following QUBO for m-int n-bit signed
     \bigg(\sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{k-1}x_{ji} + \sum_{j=3}^{k-1}2^n(2^{j-2}-1)x_{jn}
     - \sum_{i=1}^{n+k-2}2^{i-1}s_{(k-1)i}\bigg)^2 &= 0
 \end{align*}
+Realised after all this that (\ref{p2_s5}) is just writing down $x_1+x_2+...+x_n=s$ with $x_j=\sum_{i=1}^{n}2^{i-1}x_{ji}$
+
+If $x=\sum_{i=0}^{n-1}2^{i}x_i,\quad y=\sum_{i=0}^{n-1}2^{i}y_i,\quad s=\sum_{i=0}^{n}2^{i}s_i$, then
+$$x+y=s \implies \sum_{i=0}^{n-1}2^{i}x_i+\sum_{i=0}^{n-1}2^{i}y_i = \sum_{i=0}^{n}2^{i}s_i$$
+Getting this equation onto one side and squaring gives the QUBO.
 \end{document}
