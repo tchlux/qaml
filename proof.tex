@@ -121,7 +121,6 @@ c_1 + \sum_{i=1}^{n}4^{i-1}(x_i+y_i)
 &= 0
 \end{align*}
 Setting $c_1=0$ gives QUBO for n-bit addition with no carry-in but a carry-out.
-
 \section*{Proof of correctness of m-int n-bit signed adder}
 The complete addition is shown below.\\
 \begin{tabular}{LLLLLLL}
@@ -132,8 +131,7 @@ The complete addition is shown below.\\
 \hline
 s_{n+m-1} &... &s_{n+1}   &s_n &... &s_2 &s_1 \\
 \hline
-\end{tabular}\\ 
-
+\end{tabular}\\ \\
 Consider adding one number after another to the intermediate sum.\\The first step is:\\
 \begin{tabular}{LLLLL}
    &x_{1n} &... &x_{12} &x_{11} \\
@@ -199,14 +197,15 @@ Using Lemma 1, we can write
     \implies \sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{k-1}x_{ji} + \sum_{j=3}^{k-1}x_{jn}\sum_{i=n+1}^{n+j-2}2^{i-1} + \sum_{i=1}^n2^{k-1}x_{ki} + \sum_{i=n+1}^{n+k-2}2^{i-1}x_{kn} &= \sum_{i=1}^{n+k-1}s_{ki} \tag{Using \ref{p2_s4}}\\
     \implies \sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{k}x_{ji} + \sum_{j=3}^{k}x_{jn}\sum_{i=n+1}^{n+j-2}2^{i-1} &= \sum_{i=1}^{n+k-1}s_{ki} 
 \end{align*}
-This shows (\ref{p2_s4}) is true for $m=k+1$ and proves (\ref{p2_s4}) is true $\forall m\geq2.$\\
-We can now use (\ref{p2_s4}) to obtain the following QUBO for m-int n-bit signed addition:
+This shows (\ref{p2_s3}) is true for $m=k+1$ and proves (\ref{p2_s4}) is true $\forall m\geq2.$\\
+(\ref{p2_s3}) can be simplified as 
 \begin{align*}
-    \bigg(\sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{k-1}x_{ji} + \sum_{j=3}^{k-1}x_{jn}\sum_{i=n+1}^{n+j-2}2^{i-1}
+    \sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{m}x_{ji} + \sum_{j=3}^{m}2^n(2^{j-2}-1)x_{jn}
+    = \sum_{i=1}^{n+m-1}2^{i-1}s_{mi} \numberthis{} \label{p2_s5}
+\end{align*}
+We can now use (\ref{p2_s5}) to obtain the following QUBO for m-int n-bit signed addition:
+\begin{align*}
+    \bigg(\sum_{i=1}^{n}2^{i-1}\sum_{j=1}^{k-1}x_{ji} + \sum_{j=3}^{k-1}2^n(2^{j-2}-1)x_{jn}
     - \sum_{i=1}^{n+k-2}2^{i-1}s_{(k-1)i}\bigg)^2 &= 0
 \end{align*}
-
 \end{document}
-
-
-
