@@ -25,6 +25,17 @@ def uint_min(*bit_indices):
     return QUBO({f"a{b}" : 2**(len(bit_indices)-i-1)
                  for i,b in enumerate(bit_indices)})
 
+def int_full_mult(*bit_indices):
+    # Get number of bits.
+    b = (2*int(math.sqrt(2+len(bit_indices)))-4)/2
+    if(len(bit_indices) != 4*b + b*b):
+        raise(UsageError("Exactly b*b+4b bits must be provided for b-bit multiplication."))
+    # Initialize a QUBO to store the multiplication operator.
+    imult = QUBO()
+    for index in range(4*b,4*b+b*b):
+        # TBD : assign imult[f'a{index}'] = x_{index / b} AND y_{index mod b}
+    # Then do the rest of the QUBO using the ancillas and the s_{0:2n-1}
+
 
 # Perform the operation 'a + b + i = c' where 'a' and 'b' are (b)-bit
 # integers, 'i' is a 0 or 1 carry-in bit, and 'c' is a (b+1)-bit
