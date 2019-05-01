@@ -199,8 +199,10 @@ def int_add_modular(n, b, *bit_indices):
 # 2b+1 through 4b contain p, and the final b^2 bits are ancillary
 # bits containing the values for all combinations of x_i y_j.
 def int_full_mult(*bit_indices):
+    import math
     # Get number of bits.
-    b = int((2*int(math.sqrt(2+len(bit_indices)))-4)/2)
+    b = int((2*int(math.sqrt(4+len(bit_indices)))-4)/2)
+    print(b)
     if(len(bit_indices) != 4*b + b*b):
         raise(UsageError("Exactly b^2+4b bits must be provided for b-bit multiplication."))
     # Initialize a QUBO to store the multiplication operator.
@@ -208,24 +210,24 @@ def int_full_mult(*bit_indices):
     # Assign the b^2 ancilla bits: anc_{b*i+j} = x_i && y_j.
     for i in range(4*b,4*b+b*b):
         # Weights for an AND gate.
-        imult[f'a{i}'] = 3
-        imult[f'b{(i-4*b)//b}b{b+(i-4*b)%b}'] = 1
-        imult[f'b{i}b{(i-4*b)//b}'] = -2
-        imult[f'b{i}b{b+(i-4*b)%b}'] = -2
+        imult[f'a{bit_indices[i]}'] = 3
+        imult[f'b{bit_indices[(i-4*b)//b]}b{bit_indices[b+(i-4*b)%b]}'] = 1
+        imult[f'b{bit_indices[i]}b{bit_indices[(i-4*b)//b]}'] = -2
+        imult[f'b{bit_indices[i]}b{bit_indices[b+(i-4*b)%b]}'] = -2
     # Assign the connections and weights to the ancillary bits.
     for i in range(4*b,4*b+b*b):
-        imult[f'a{i}'] += 2**(2*((i-4*b)//b + (i-4*b)%b)) # Increment.
+        imult[f'a{bit_indices[i]}'] += 2**(2*((i-4*b)//b + (i-4*b)%b)) # Increment.
         for j in range(i+1,4*b+b*b):
-            imult[f'b{i}b{j}'] = 2**((i-4*b)//b + (i-4*b)%b + (j-4*b)//b + (j-4*b)%b + 1)
+            imult[f'b{bit_indices[i]}b{bit_indices[j]}'] = 2**((i-4*b)//b + (i-4*b)%b + (j-4*b)//b + (j-4*b)%b + 1)
     # Assign the connections between p and the ancillary bits.
     for i in range(2*b,4*b):
         for j in range(4*b,4*b+b*b):
-            imult[f'b{i}b{j}'] = 2**((i-2*b) + (j-4*b)//b + (j-4*b)%b + 1)
+            imult[f'b{bit_indices[i]}b{bit_indices[j]}'] = -2**((i-2*b) + (j-4*b)//b + (j-4*b)%b + 1)
     # Assign the connections and weights to p.
     for i in range(2*b,4*b):
-        imult[f'a{i}'] = 2**(2*(i-2*b))
+        imult[f'a{bit_indices[i]}'] = 2**(2*(i-2*b))
         for j in range(i+1,4*b):
-            imult[f'b{i}b{j}'] = 2**((j-2*b) + (i-2*b))
+            imult[f'b{bit_indices[i]}b{bit_indices[j]}'] = 2**((j-2*b) + (i-2*b) + 1)
     # Return the QUBO.
     return imult
 
@@ -339,10 +341,18 @@ if __name__ == "__main__":
             sol = run_qubo(**q, display=False)
             print(b, sol == int_full_add_table(n_bits=b))
             
+    DEMONSTRATE_INT_MULT = False
+    if DEMONSTRATE_INT_MULT:
+        b = 2
+        q = int_full_mult(*list(range(1, b*4+b*b + 1)))
+        print("-"*70)
+        print(f"{b}-bit unsigned integer multiplication:")
+        sol = run_qubo(**q, min_only=False)
+
             
-    DEMONSTRATE_INT_FULL_ADD_MODULAR = True
+    DEMONSTRATE_INT_FULL_ADD_MODULAR = False
     if DEMONSTRATE_INT_FULL_ADD_MODULAR:
-        from utilities import ceil
+        from math import ceil
         n, b = 5, 2
         print(f"{n}-bit integer addition with {b}-bit modules:")
         q = int_add_modular(n, b, *list(range(1, 3*n + ceil(n/b) + 1)))        
