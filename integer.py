@@ -25,18 +25,6 @@ def uint_min(*bit_indices):
     return QUBO({f"a{b}" : 2**(len(bit_indices)-i-1)
                  for i,b in enumerate(bit_indices)})
 
-def int_full_mult(*bit_indices):
-    # Get number of bits.
-    b = (2*int(math.sqrt(2+len(bit_indices)))-4)/2
-    if(len(bit_indices) != 4*b + b*b):
-        raise(UsageError("Exactly b*b+4b bits must be provided for b-bit multiplication."))
-    # Initialize a QUBO to store the multiplication operator.
-    imult = QUBO()
-    for index in range(4*b,4*b+b*b):
-        # TBD : assign imult[f'a{index}'] = x_{index / b} AND y_{index mod b}
-    # Then do the rest of the QUBO using the ancillas and the s_{0:2n-1}
-
-
 # Perform the operation 'a + b + i = c' where 'a' and 'b' are (b)-bit
 # integers, 'i' is a 0 or 1 carry-in bit, and 'c' is a (b+1)-bit
 # integer. Exactly (3*b + 2) indices must be provided to this routine,
@@ -203,6 +191,43 @@ def int_add_modular(n, b, *bit_indices):
                                   + bit_indices[3*n-(i+1)*b+1:3*n-i*b+1]))
     # Return the QUBO.
     return iadd
+
+
+# Performs the operation x * y = p where x and y are b-bit uints,
+# and p is a 2b-bit uint. Exactly 4b+b^2 bits are required, where
+# the first b bits contain x, bits b+1 through 2b contain y, bits
+# 2b+1 through 4b contain p, and the final b^2 bits are ancillary
+# bits containing the values for all combinations of x_i y_j.
+def int_full_mult(*bit_indices):
+    # Get number of bits.
+    b = int((2*int(math.sqrt(2+len(bit_indices)))-4)/2)
+    if(len(bit_indices) != 4*b + b*b):
+        raise(UsageError("Exactly b^2+4b bits must be provided for b-bit multiplication."))
+    # Initialize a QUBO to store the multiplication operator.
+    imult = QUBO()
+    # Assign the b^2 ancilla bits: anc_{b*i+j} = x_i && y_j.
+    for i in range(4*b,4*b+b*b):
+        # Weights for an AND gate.
+        imult[f'a{i}'] = 3
+        imult[f'b{(i-4*b)//b}b{b+(i-4*b)%b}'] = 1
+        imult[f'b{i}b{(i-4*b)//b}'] = -2
+        imult[f'b{i}b{b+(i-4*b)%b}'] = -2
+    # Assign the connections and weights to the ancillary bits.
+    for i in range(4*b,4*b+b*b):
+        imult[f'a{i}'] += 2**(2*((i-4*b)//b + (i-4*b)%b)) # Increment.
+        for j in range(i+1,4*b+b*b):
+            imult[f'b{i}b{j}'] = 2**((i-4*b)//b + (i-4*b)%b + (j-4*b)//b + (j-4*b)%b + 1)
+    # Assign the connections between p and the ancillary bits.
+    for i in range(2*b,4*b):
+        for j in range(4*b,4*b+b*b):
+            imult[f'b{i}b{j}'] = 2**((i-2*b) + (j-4*b)//b + (j-4*b)%b + 1)
+    # Assign the connections and weights to p.
+    for i in range(2*b,4*b):
+        imult[f'a{i}'] = 2**(2*(i-2*b))
+        for j in range(i+1,4*b):
+            imult[f'b{i}b{j}'] = 2**((j-2*b) + (i-2*b))
+    # Return the QUBO.
+    return imult
 
 
 if __name__ == "__main__":
