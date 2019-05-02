@@ -21,3 +21,7 @@ def primes_up_to(num):
 def round_pow_2(v):
     import math
     return (v/min(1e-10,abs(v))) * 2**round(math.log(max(1,abs(v)),2))
+
+def ceil(v):
+    import math
+    return math.ceil(v)
