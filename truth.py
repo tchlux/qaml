@@ -20,6 +20,33 @@ def int_add_table(n_bits=2, signed=True, carry=True, wrap=False):
                 output_val ))
     return sorted(truth_table)
 
+# Generate the truth table for signed multi-integer addition.
+def multi_int_add_table(n_bits, n_ints):
+    # Generate all possible combinations of inputs
+    max_abs_inp = 2**(n_bits-1) 
+    all_inp_ints = range(-max_abs_inp, max_abs_inp)
+    level = 1
+    prev_combs = [[i] for i in all_inp_ints] # possible combinations of {level} integers.
+    while level<n_ints:
+        new_combs = []
+        for prev_comb in prev_combs:
+            for i in all_inp_ints:
+                new_combs.append(prev_comb+[i])
+        level += 1
+        prev_combs = new_combs.copy()
+    # Generate a row for each input combination.
+    truth_table = []
+    for inp_comb in prev_combs:
+        curr_sum = sum(inp_comb)
+        curr_row = []
+        for i in inp_comb:
+            curr_row = curr_row + int_to_binary(i, bits=n_bits)
+        print (inp_comb, curr_row)
+        curr_row = curr_row + int_to_binary(curr_sum, bits=n_bits+n_ints-1)
+        truth_table.append(curr_row.copy())
+    return sorted(truth_table)
+multi_int_add_table(n_bits=1, n_ints=2)    
+
 # Generate the truth table for unsigned integer addition.
 def uint_add_table(**kwargs):
     kwargs["signed"] = False
