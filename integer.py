@@ -193,6 +193,45 @@ def int_add_modular(n, b, *bit_indices):
     return iadd
 
 
+# Perform the operation 'x1+x2+...+xm=s' where each xi is a b-bit signed int 
+# and s is a (m+b-1)-bit signed int. Exactly mb+m+b-1 indices must be 
+# provided to this routine.
+def multi_int_add(m, b, *bit_indices):
+    # Verify that m>1 ,b>0
+    if m<=1 or b<=0:
+        raise(UsageError("m>1, b>0 is expected for m-int b-bit addition."))
+    num_qubits = m*b + m + b -1
+    # Compute and verify the number of bits.
+    if len(bit_indices) != num_qubits:
+        raise(UsageError("Exactly m*b+m+b-1 bits must be provided for m-int b-bit addition."))
+    # Compute coefficients in addition equation.
+    eq_coeffs = [0 for i in range(num_qubits)]
+    pos = 0
+    for i in range(b-1,0,-1):
+        for j in range(m):
+            eq_coeffs[j*b+i] = 2**pos
+        pos += 1
+    temp1 = 2**(b-1)
+    temp2 = 2**b
+    eq_coeffs[0] = temp1
+    eq_coeffs[b] = temp1
+    for j in range(2,m):
+        eq_coeffs[j*b] = temp1 + temp2*(2**(j-1)-1)
+    pos = 0
+    for i in range(num_qubits-1, m*b-1, -1):
+        eq_coeffs[i] = -2**pos
+        pos += 1
+    # Initialize a QUBO to store the addition operator.
+    iadd = QUBO()
+    # Square the equation to compute the qubo coefficients.
+    for i in range(num_qubits):
+        iadd[f'a{bit_indices[i]}'] = eq_coeffs[i]**2
+    for i in range(num_qubits-1):
+        for j in range(i+1, num_qubits):
+            iadd[f'b{bit_indices[i]}b{bit_indices[j]}'] = 2*eq_coeffs[i]*eq_coeffs[j]
+    return iadd
+        
+
 # Performs the operation x * y = p where x and y are b-bit uints,
 # and p is a 2b-bit uint. Exactly 4b+b^2 bits are required, where
 # the first b bits contain x, bits b+1 through 2b contain y, bits
@@ -347,16 +386,29 @@ if __name__ == "__main__":
         q = int_full_mult(*list(range(1, b*4+b*b + 1)))
         print("-"*70)
         print(f"{b}-bit unsigned integer multiplication:")
-        sol = run_qubo(**q, min_only=False)
+        sol = run_qubo(**q, min_only=True)
 
             
-    DEMONSTRATE_INT_FULL_ADD_MODULAR = False
-    if DEMONSTRATE_INT_FULL_ADD_MODULAR:
+    DEMONSTRATE_INT_ADD_MODULAR = False
+    if DEMONSTRATE_INT_ADD_MODULAR:
         from math import ceil
         n, b = 5, 2
+        print("-"*70)
         print(f"{n}-bit integer addition with {b}-bit modules:")
         q = int_add_modular(n, b, *list(range(1, 3*n + ceil(n/b) + 1)))        
         sol = [i[:3*n+1] for i in run_qubo(**q, display=False)]
+        print("Verifying QUBO correctness..")
         from truth import int_add_table
         print(sol == int_add_table(n_bits=n, signed=False))
         
+    
+    DEMONSTRATE_MULTI_INT_ADD = True
+    if DEMONSTRATE_MULTI_INT_ADD:
+        m, b = 2, 1
+        print("-"*70)
+        print (f"{m}-int {b}-bit signed addition:")
+        q = multi_int_add(m, b, *list(range(1, m*b+m+b)))
+        sol = run_qubo(**q, min_only=True)
+        print("Verifying QUBO correctness..")
+        from truth import multi_int_add_table
+        print(sol == multi_int_add_table(n_bits=b, n_ints=n))
