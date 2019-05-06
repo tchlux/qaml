@@ -42,8 +42,8 @@ def number_to_bits(number, num_bits=None):
 
 # This is a simple brute force quantum annealer base class, designed
 # to be subclassed by more advanced techniques.
-class QuantumAnnealer():
-    # Initialize this QuantumAnnealer with the provided coefficients.
+class ExhaustiveSearch():
+    # Initialize this ExhaustiveSearch with the provided coefficients.
     def __init__(self, coeficients, constant=0):
         self.coeficients = coeficients.copy()
         self.num_bits = max(map(max, coeficients)) + 1
@@ -67,7 +67,7 @@ class QuantumAnnealer():
 
 # A wrapper for the crappy provided solver by QBSolv, this defines a
 # more readable interface for QBSolv, the built-in simulator.
-class QBSolveAnnealer(QuantumAnnealer):
+class QBSolveAnnealer(ExhaustiveSearch):
     # Do the pecuiliar steps necessary to generate samples from QBSolv.
     def samples(self, num_samples=20):
         from dwave_qbsolv import QBSolv
@@ -79,6 +79,30 @@ class QBSolveAnnealer(QuantumAnnealer):
             if (energy == 0): energy = abs(energy)
             yield (bits, energy + self.constant)
 
+
+# When this annealer is used, the program is actually run on the real
+# hardware. The results are returned.
+class QuantumAnnealer(ExhaustiveSearch):
+    # Do the pecuiliar steps necessary to generate samples from QBSolv.
+    def samples(self, num_samples=20):
+        from dwave.system.samplers import DWaveSampler
+        from dwave.system.composites import EmbeddingComposite
+        # Construct a sampler over a real quantum annealer.
+        from setup import token
+        sampler = DWaveSampler(token=token)
+        # Use an automatic embedding over the machine.
+        response = EmbeddingComposite(sampler).sample_qubo(
+            self.coeficients, num_reads=num_samples)
+        for out in response.data():
+            # Get the output from the data.
+            bits = tuple(out.sample[b] for b in sorted(out.sample))
+            energy = out.energy
+            count = out.num_occurrences
+            # Check to see what the percentage of chains that are broken in this solution.
+            break_frac = out.chain_break_fraction
+            if break_frac > 0: print(f"WARNING ({__file__}): {break_frac:.4f}% of chains broken.")
+            # Yield all of the outputs (based on their occurrence).
+            for i in range(count): yield bits, energy + self.constant
 
 # A class for holding QUBO objects that supports "addition".
 class QUBO(dict):
@@ -242,7 +266,7 @@ def make_qubo(display=False, **coefs):
 #   build_q_system -- A callable object that is provided a full QUBO
 #                     and has a "samples" function to generate samples
 #                     from the quantum annealing platform. Examples:
-#                        QuantumAnnealer, QBSolveAnnealer
+#                      ExhaustiveSearch, QBSolveAnnealer, QuantumAnnealer
 #   min_only       -- True if only the states with minimum observed
 #                     energy should be reported. False to show all states.
 #   display        -- True if outputs should be printed to user as table.
@@ -255,7 +279,7 @@ def make_qubo(display=False, **coefs):
 #    A tuple of tuple of observed states sorted by energy first, then
 #    bit pattern second.
 # 
-def run_qubo(num_samples=None, build_q_system=QuantumAnnealer,
+def run_qubo(num_samples=None, build_q_system=ExhaustiveSearch,
              min_only=True, display=True, rounded=5, **coefs):
     if len(coefs) == 0:
         raise(UsageError("Missing QUBO coefficients!"))

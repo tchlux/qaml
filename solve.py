@@ -379,3 +379,22 @@ def find_int_qubo(truth_table, qubo=QUBO(), display=False,
                 raise(UnsolvableSystem(f"The doubled QUBO that previously succeeded failed.\n\n{out_str}"))
     # Return the all-integer valued qubo.
     return qubo
+
+# Given a QUBO, cycle through the coefficients and yield them from
+# this generator funciton.
+def cycle_coefs(q, num_bits):
+    for i in range(num_bits):
+        for j in range(i+1):
+            if (i == j): coef = f"a{i+1}"
+            else:        coef = f"b{j+1}b{i+1}"
+            yield coef
+
+# Return all unique primes less than or equal to a number.
+def primes_up_to(num):
+    # Search function for telling if a number is prime.
+    def is_prime(num):
+        for i in range(2,int(num**(1/2))+1):
+            if ((num % i) == 0): return False
+        return True
+    # Search for generating all primes up to a number.
+    return [1] + [i for i in range(2,num) if is_prime(i)]

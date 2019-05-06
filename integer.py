@@ -164,6 +164,7 @@ def int_add(*bit_indices):
 # or '3*b+1' bits that are fully connected. Exactly (3*n + ceil(n/b)) 
 # indices must be provided to this routine.
 def int_add_modular(n, b, *bit_indices):
+    from math import ceil
     # Compute and verify the number of bits.
     num_modules = ceil(n/b)
     num_qubits = 3*n + num_modules
@@ -329,7 +330,7 @@ if __name__ == "__main__":
             print(b, sol == out)
 
 
-    DEMONSTRATE_INT_HALF_ADD = False
+    DEMONSTRATE_INT_HALF_ADD = True
     if DEMONSTRATE_INT_HALF_ADD:
         int_add_one =  {'a1': 1, 'a2': 1, 'a3': 4, 'b1b3': -4, 'b3b4': 4, 'b2b3': -4, 'b1b2': 2, 'a4': 1, 'b1b4': -2, 'b2b4': -2}
         int_add_two =  {'a1': 4, 'a3': 4, 'b4b5': -8, 'b2b5': -8, 'b5b7': 8, 'b3b4': 4, 'b3b7': -4, 'b2b3': 4, 'b1b5': -16, 'b5b6': 16, 'b1b3': 8, 'b6b7': 4, 'b2b6': -4, 'b4b6': -4, 'a5': 16, 'b3b6': -8, 'a6': 4, 'b1b4': 4, 'b1b7': -4, 'b1b2': 4, 'b1b6': -8, 'b3b5': -16, 'b2b4': 2, 'b4b7': -2, 'b2b7': -2, 'a2': 1, 'a4': 1, 'a7': 1}
@@ -395,14 +396,14 @@ if __name__ == "__main__":
         n, b = 5, 2
         print("-"*70)
         print(f"{n}-bit integer addition with {b}-bit modules:")
-        q = int_add_modular(n, b, *list(range(1, 3*n + ceil(n/b) + 1)))        
+        q = int_add_modular(n, b, *list(range(1, 3*n + ceil(n/b) + 1)))
         sol = [i[:3*n+1] for i in run_qubo(**q, display=False)]
         print("Verifying QUBO correctness..")
         from truth import int_add_table
         print(sol == int_add_table(n_bits=n, signed=False))
         
     
-    DEMONSTRATE_MULTI_INT_ADD = True
+    DEMONSTRATE_MULTI_INT_ADD = False
     if DEMONSTRATE_MULTI_INT_ADD:
         m, b = 2, 1
         print("-"*70)
@@ -411,4 +412,4 @@ if __name__ == "__main__":
         sol = run_qubo(**q, min_only=True)
         print("Verifying QUBO correctness..")
         from truth import multi_int_add_table
-        print(sol == multi_int_add_table(n_bits=b, n_ints=n))
+        print(sol == multi_int_add_table(n_bits=b, n_ints=m))

@@ -1,6 +1,11 @@
 # Generate truth tables for different operations.
 from binary import int_to_binary
 
+# Define a function that rounds to the nearest power of two.
+def round_pow_2(v):
+    import math
+    return (v/min(1e-10,abs(v))) * 2**round(math.log(max(1,abs(v)),2))
+
 # Generate the truth table for signed integer addition.
 def int_add_table(n_bits=2, signed=True, carry=True, wrap=False):
     truth_table = []
@@ -45,7 +50,6 @@ def multi_int_add_table(n_bits, n_ints):
         curr_row = curr_row + int_to_binary(curr_sum, bits=n_bits+n_ints-1)
         truth_table.append(curr_row.copy())
     return sorted(truth_table)
-multi_int_add_table(n_bits=1, n_ints=2)    
 
 # Generate the truth table for unsigned integer addition.
 def uint_add_table(**kwargs):
@@ -53,17 +57,18 @@ def uint_add_table(**kwargs):
     return int_add_table(**kwargs)
 
 # Generate the truth table for unsigned integer multiplication.
-def int_mult_table(n_bits=2, signed=True, wrap=False):
+def int_mult_table(n_bits=2, signed=True, wrap=False, full=False):
     truth_table = []
     for i1 in range(2**n_bits):
         if signed: i1 -= 2**(n_bits-1)
         for i2 in range(2**n_bits):
             if signed: i2 -= 2**(n_bits-1)
+            if full: res = int_to_binary(i1*i2,2*n_bits,signed=signed,wrap=wrap)
+            else:    res = int_to_binary(i1*i2,n_bits,signed=signed,wrap=wrap)
             # Add the entry to the truth table.
             truth_table.append((
                 int_to_binary(i1,n_bits,signed=signed) +
-                int_to_binary(i2,n_bits,signed=signed) +
-                int_to_binary(i1*i2,n_bits,signed=signed,wrap=wrap) ))
+                int_to_binary(i2,n_bits,signed=signed) + res ))
     return sorted(truth_table)
 
 # Generate the truth table for a unsigned integer multiplication.
@@ -114,6 +119,10 @@ def and_truth_table(num_bits):
 
 if __name__ == "__main__":
     
+    TEST_MULTI_INT_ADD_TABLE = False
+    if TEST_MULTI_INT_ADD_TABLE:
+        multi_int_add_table(n_bits=1, n_ints=2)
+
     FIND_INT_FULL_ADD_QUBO = True
     if FIND_INT_FULL_ADD_QUBO:
         # Find the solution QUBO and print it out.
