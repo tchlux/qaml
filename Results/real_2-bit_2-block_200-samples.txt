@@ -1,0 +1,67 @@
+
+======================================================================
+
+Tue May  7 16:43:01 2019
+
+Dense addition:
+
+Running 200 times with:
+ {'a1': 4, 'a2': 1, 'a3': 4, 'a4': 1, 'a5': 16, 'a6': 4, 'a7': 1, 'b1b5': -16, 'b2b5': -8, 'b3b5': -16, 'b4b5': -8, 'b1b6': -8, 'b2b6': -4, 'b3b6': -8, 'b4b6': -4, 'b1b7': -4, 'b2b7': -2, 'b3b7': -4, 'b4b7': -2, 'b5b6': 16, 'b5b7': 8, 'b6b7': 4, 'b1b2': 4, 'b1b3': 8, 'b2b3': 4, 'b1b4': 4, 'b2b4': 2, 'b3b4': 4}
+ ----------------------------
+   4 
+   4   1 
+   8   4    4 
+   4   2    4   1 
+  -16  -8  -16  -8  16
+  -8   -4  -8   -4  16  4
+  -4   -2  -4   -2  8   4  1
+ ----------------------------
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 42.86% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 42.86% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 42.86% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 42.86% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 42.86% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 42.86% of chains broken.
+ Bits                         	Occurrence	Energy
+ (0, 0, 1, 0, 0, 1, 0)        	 2		 0.0
+ (1, 0, 0, 0, 0, 1, 0)        	 22		 0.0
+ (1, 1, 0, 0, 0, 1, 1)        	 1		 0.0
+ (1, 1, 1, 1, 1, 1, 0)        	 1		 0.0
+ (0, 0, 0, 1, 0, 1, 0)        	 1		 1.0
+ (0, 1, 0, 0, 0, 1, 0)        	 1		 1.0
+ (1, 0, 0, 1, 0, 1, 0)        	 30		 1.0
+ (1, 1, 0, 0, 0, 1, 0)        	 22		 1.0
+ (1, 1, 1, 1, 1, 1, 1)        	 4		 1.0
+ (0, 1, 1, 1, 1, 1, 0)        	 1		 4.0
+ (1, 0, 1, 0, 0, 1, 0)        	 81		 4.0
+ (1, 0, 1, 0, 1, 1, 0)        	 7		 4.0
+ (1, 1, 0, 1, 0, 1, 0)        	 11		 4.0
+ (0, 1, 1, 1, 1, 1, 1)        	 10		 9.0
+ (1, 0, 0, 1, 1, 1, 0)        	 1		 9.0
+ (1, 0, 1, 1, 0, 1, 0)        	 2		 9.0
+ (1, 1, 0, 0, 1, 1, 0)        	 1		 9.0
+ (0, 0, 1, 1, 1, 1, 1)        	 2		 16.0
+

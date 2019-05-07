@@ -1,6 +1,6 @@
 # Set and print the experimental configuration information.
 simulated = True
-num_bits = 1
+num_bits = 2
 block_size = 2
 num_samples = 200
 
@@ -29,6 +29,10 @@ def run_experiment(qubo, simulate=simulated):
     # Run the experiment.
     run_qubo(**qubo, build_q_system=system,
              min_only=False, num_samples=num_samples)
+
+# TODO: Print out the bit pattern for broken chains.
+# TODO: Print out actual embedded QUBO.
+# TODO: Enable embedding values in the QUBO.
 
 # Construct a half add QUBO
 from integer import int_half_add

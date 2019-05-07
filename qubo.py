@@ -99,8 +99,8 @@ class QuantumAnnealer(ExhaustiveSearch):
             energy = out.energy
             count = out.num_occurrences
             # Check to see what the percentage of chains that are broken in this solution.
-            break_frac = out.chain_break_fraction
-            if break_frac > 0: print(f"WARNING ({__file__}): {break_frac:.4f}% of chains broken.")
+            break_frac = 100*out.chain_break_fraction
+            if break_frac > 0: print(f"WARNING ({__file__}): {break_frac:.2f}% of chains broken.")
             # Yield all of the outputs (based on their occurrence).
             for i in range(count): yield bits, energy + self.constant
 
