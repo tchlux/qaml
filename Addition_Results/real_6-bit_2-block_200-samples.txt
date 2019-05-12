@@ -1,0 +1,774 @@
+
+======================================================================
+
+Wed May  8 13:55:30 2019
+
+Dense addition:
+
+Running 200 times with:
+ {'a1': 1024, 'a2': 256, 'a3': 64, 'a4': 16, 'a5': 4, 'a6': 1, 'a7': 1024, 'a8': 256, 'a9': 64, 'a10': 16, 'a11': 4, 'a12': 1, 'a13': 4096, 'a14': 1024, 'a15': 256, 'a16': 64, 'a17': 16, 'a18': 4, 'a19': 1, 'b1b13': -4096, 'b2b13': -2048, 'b3b13': -1024, 'b4b13': -512, 'b5b13': -256, 'b6b13': -128, 'b7b13': -4096, 'b8b13': -2048, 'b9b13': -1024, 'b10b13': -512, 'b11b13': -256, 'b12b13': -128, 'b1b14': -2048, 'b2b14': -1024, 'b3b14': -512, 'b4b14': -256, 'b5b14': -128, 'b6b14': -64, 'b7b14': -2048, 'b8b14': -1024, 'b9b14': -512, 'b10b14': -256, 'b11b14': -128, 'b12b14': -64, 'b1b15': -1024, 'b2b15': -512, 'b3b15': -256, 'b4b15': -128, 'b5b15': -64, 'b6b15': -32, 'b7b15': -1024, 'b8b15': -512, 'b9b15': -256, 'b10b15': -128, 'b11b15': -64, 'b12b15': -32, 'b1b16': -512, 'b2b16': -256, 'b3b16': -128, 'b4b16': -64, 'b5b16': -32, 'b6b16': -16, 'b7b16': -512, 'b8b16': -256, 'b9b16': -128, 'b10b16': -64, 'b11b16': -32, 'b12b16': -16, 'b1b17': -256, 'b2b17': -128, 'b3b17': -64, 'b4b17': -32, 'b5b17': -16, 'b6b17': -8, 'b7b17': -256, 'b8b17': -128, 'b9b17': -64, 'b10b17': -32, 'b11b17': -16, 'b12b17': -8, 'b1b18': -128, 'b2b18': -64, 'b3b18': -32, 'b4b18': -16, 'b5b18': -8, 'b6b18': -4, 'b7b18': -128, 'b8b18': -64, 'b9b18': -32, 'b10b18': -16, 'b11b18': -8, 'b12b18': -4, 'b1b19': -64, 'b2b19': -32, 'b3b19': -16, 'b4b19': -8, 'b5b19': -4, 'b6b19': -2, 'b7b19': -64, 'b8b19': -32, 'b9b19': -16, 'b10b19': -8, 'b11b19': -4, 'b12b19': -2, 'b13b14': 4096, 'b13b15': 2048, 'b13b16': 1024, 'b13b17': 512, 'b13b18': 256, 'b13b19': 128, 'b14b15': 1024, 'b14b16': 512, 'b14b17': 256, 'b14b18': 128, 'b14b19': 64, 'b15b16': 256, 'b15b17': 128, 'b15b18': 64, 'b15b19': 32, 'b16b17': 64, 'b16b18': 32, 'b16b19': 16, 'b17b18': 16, 'b17b19': 8, 'b18b19': 4, 'b1b2': 1024, 'b1b3': 512, 'b2b3': 256, 'b1b4': 256, 'b2b4': 128, 'b3b4': 64, 'b1b5': 128, 'b2b5': 64, 'b3b5': 32, 'b4b5': 16, 'b1b6': 64, 'b2b6': 32, 'b3b6': 16, 'b4b6': 8, 'b5b6': 4, 'b1b7': 2048, 'b2b7': 1024, 'b3b7': 512, 'b4b7': 256, 'b5b7': 128, 'b6b7': 64, 'b1b8': 1024, 'b2b8': 512, 'b3b8': 256, 'b4b8': 128, 'b5b8': 64, 'b6b8': 32, 'b7b8': 1024, 'b1b9': 512, 'b2b9': 256, 'b3b9': 128, 'b4b9': 64, 'b5b9': 32, 'b6b9': 16, 'b7b9': 512, 'b8b9': 256, 'b1b10': 256, 'b2b10': 128, 'b3b10': 64, 'b4b10': 32, 'b5b10': 16, 'b6b10': 8, 'b7b10': 256, 'b8b10': 128, 'b9b10': 64, 'b1b11': 128, 'b2b11': 64, 'b3b11': 32, 'b4b11': 16, 'b5b11': 8, 'b6b11': 4, 'b7b11': 128, 'b8b11': 64, 'b9b11': 32, 'b10b11': 16, 'b1b12': 64, 'b2b12': 32, 'b3b12': 16, 'b4b12': 8, 'b5b12': 4, 'b6b12': 2, 'b7b12': 64, 'b8b12': 32, 'b9b12': 16, 'b10b12': 8, 'b11b12': 4}
+ -------------------------------------------------------------------------------------------------------------
+  1024 
+  1024    256 
+   512    256    64  
+   256    128    64     16 
+   128    64     32     16    4  
+   64     32     16     8     4     1  
+  2048   1024    512   256   128    64   1024 
+  1024    512    256   128    64    32   1024    256 
+   512    256    128    64    32    16    512    256    64  
+   256    128    64     32    16    8     256    128    64     16 
+   128    64     32     16    8     4     128    64     32     16    4  
+   64     32     16     8     4     2     64     32     16     8     4     1  
+  -4096  -2048  -1024  -512  -256  -128  -4096  -2048  -1024  -512  -256  -128  4096
+  -2048  -1024  -512   -256  -128  -64   -2048  -1024  -512   -256  -128  -64   4096  1024
+  -1024  -512   -256   -128  -64   -32   -1024  -512   -256   -128  -64   -32   2048  1024  256
+  -512   -256   -128   -64   -32   -16   -512   -256   -128   -64   -32   -16   1024  512   256  64
+  -256   -128    -64   -32   -16    -8   -256   -128    -64   -32   -16    -8   512   256   128  64  16
+  -128    -64    -32   -16    -8    -4   -128    -64    -32   -16    -8    -4   256   128   64   32  16  4
+   -64    -32    -16    -8    -4    -2    -64    -32    -16    -8    -4    -2   128    64   32   16  8   4  1
+ -------------------------------------------------------------------------------------------------------------
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 84.21% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 84.21% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 84.21% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 84.21% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 89.47% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 100.00% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 94.74% of chains broken.
+ Bits                                                               	Occurrence	Energy
+ (1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1)          	 1		 0.0
+ (1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1)          	 1		 1.0
+ (1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0)          	 1		 1.0
+ (1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1)          	 1		 1.0
+ (1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1)          	 1		 1.0
+ (1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0)          	 1		 9.0
+ (0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0)          	 1		 25.0
+ (1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1)          	 1		 25.0
+ (1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1)          	 1		 25.0
+ (0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1)          	 1		 36.0
+ (0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1)          	 1		 36.0
+ (0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0)          	 1		 36.0
+ (0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0)          	 1		 49.0
+ (0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0)          	 1		 64.0
+ (0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1)          	 1		 64.0
+ (1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0)          	 1		 64.0
+ (1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1)          	 1		 64.0
+ (0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1)          	 1		 81.0
+ (1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0)          	 1		 81.0
+ (0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1)          	 1		 100.0
+ (0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0)          	 1		 121.0
+ (0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0)          	 1		 121.0
+ (0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0)          	 1		 144.0
+ (1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1)          	 1		 144.0
+ (1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1)          	 1		 144.0
+ (1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1)          	 1		 169.0
+ (1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1)          	 1		 169.0
+ (0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1)          	 1		 196.0
+ (0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1)          	 1		 196.0
+ (1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1)          	 1		 196.0
+ (0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0)          	 1		 225.0
+ (0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1)          	 1		 225.0
+ (0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0)          	 1		 225.0
+ (0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1)          	 1		 225.0
+ (1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1)          	 1		 225.0
+ (0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0)          	 1		 256.0
+ (1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1)          	 1		 289.0
+ (0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1)          	 1		 324.0
+ (0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1)          	 1		 324.0
+ (1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0)          	 1		 324.0
+ (1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1)          	 1		 324.0
+ (1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1)          	 1		 361.0
+ (0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0)          	 1		 484.0
+ (0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1)          	 1		 484.0
+ (1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1)          	 1		 484.0
+ (0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0)          	 1		 529.0
+ (1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0)          	 1		 529.0
+ (0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1)          	 1		 576.0
+ (0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1)          	 1		 625.0
+ (1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0)          	 1		 625.0
+ (1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0)          	 1		 625.0
+ (1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1)          	 1		 625.0
+ (0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1)          	 1		 676.0
+ (0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1)          	 1		 729.0
+ (0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1)          	 1		 729.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0)          	 1		 784.0
+ (0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0)          	 1		 841.0
+ (0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0)          	 1		 841.0
+ (1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1)          	 1		 841.0
+ (1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1)          	 1		 841.0
+ (0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1)          	 1		 900.0
+ (0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1)          	 1		 900.0
+ (1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)          	 1		 900.0
+ (1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0)          	 1		 900.0
+ (0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1)          	 1		 961.0
+ (0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0)          	 1		 961.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0)          	 1		 961.0
+ (1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0)          	 1		 961.0
+ (1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1)          	 1		 961.0
+ (0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1)          	 1		 1024.0
+ (0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0)          	 1		 1024.0
+ (1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1)          	 1		 1024.0
+ (1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1)          	 1		 1024.0
+ (1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0)          	 1		 1024.0
+ (0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1)          	 1		 1089.0
+ (0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1)          	 1		 1089.0
+ (1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1)          	 1		 1089.0
+ (0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0)          	 1		 1156.0
+ (0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0)          	 1		 1156.0
+ (0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0)          	 1		 1156.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1)          	 1		 1156.0
+ (1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1)          	 1		 1156.0
+ (1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1)          	 1		 1156.0
+ (0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1)          	 1		 1225.0
+ (1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0)          	 1		 1225.0
+ (0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0)          	 1		 1296.0
+ (0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0)          	 1		 1296.0
+ (0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1)          	 1		 1296.0
+ (1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0)          	 1		 1296.0
+ (1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1)          	 1		 1296.0
+ (1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0)          	 1		 1369.0
+ (1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0)          	 1		 1444.0
+ (1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0)          	 1		 1444.0
+ (1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1)          	 1		 1444.0
+ (1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1)          	 1		 1444.0
+ (0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1)          	 1		 1521.0
+ (0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0)          	 1		 1521.0
+ (1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0)          	 1		 1600.0
+ (1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1)          	 1		 1600.0
+ (0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0)          	 1		 1681.0
+ (1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1)          	 1		 1681.0
+ (0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0)          	 1		 1764.0
+ (0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1)          	 1		 1764.0
+ (0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1)          	 1		 1764.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1)          	 1		 1764.0
+ (1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1)          	 1		 1764.0
+ (1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0)          	 1		 1764.0
+ (0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0)          	 1		 1849.0
+ (0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0)          	 1		 1849.0
+ (1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1)          	 1		 1849.0
+ (1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1)          	 1		 1849.0
+ (0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1)          	 1		 1936.0
+ (0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1)          	 1		 1936.0
+ (0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0)          	 1		 1936.0
+ (1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0)          	 1		 1936.0
+ (1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1)          	 1		 1936.0
+ (1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0)          	 1		 1936.0
+ (0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0)          	 1		 2025.0
+ (0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0)          	 1		 2025.0
+ (0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1)          	 1		 2025.0
+ (1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0)          	 1		 2025.0
+ (0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1)          	 1		 2116.0
+ (0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1)          	 1		 2116.0
+ (0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1)          	 1		 2116.0
+ (0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1)          	 1		 2116.0
+ (0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1)          	 1		 2116.0
+ (0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1)          	 1		 2116.0
+ (1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1)          	 1		 2116.0
+ (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1)          	 1		 2116.0
+ (1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1)          	 1		 2209.0
+ (1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1)          	 1		 2209.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0)          	 1		 2304.0
+ (1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1)          	 1		 2304.0
+ (0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1)          	 1		 2401.0
+ (0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0)          	 1		 2401.0
+ (0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1)          	 1		 2401.0
+ (1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1)          	 1		 2401.0
+ (1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1)          	 1		 2401.0
+ (0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0)          	 1		 2500.0
+ (0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0)          	 1		 2500.0
+ (1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1)          	 1		 2500.0
+ (0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1)          	 1		 2601.0
+ (0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)          	 1		 2601.0
+ (1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1)          	 1		 2601.0
+ (1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1)          	 1		 2601.0
+ (1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1)          	 1		 2704.0
+ (1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1)          	 1		 2704.0
+ (1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1)          	 1		 2704.0
+ (1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0)          	 1		 2704.0
+ (1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1)          	 2		 2704.0
+ (1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0)          	 1		 2809.0
+ (1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1)          	 1		 2916.0
+ (1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1)          	 1		 2916.0
+ (0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1)          	 1		 3136.0
+ (0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1)          	 1		 3136.0
+ (0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0)          	 1		 3136.0
+ (0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0)          	 1		 3136.0
+ (1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1)          	 1		 3136.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0)          	 1		 3249.0
+ (1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0)          	 1		 3249.0
+ (0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0)          	 1		 3364.0
+ (0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0)          	 1		 3364.0
+ (0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0)          	 1		 3600.0
+ (1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1)          	 1		 3600.0
+ (1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1)          	 1		 3600.0
+ (1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1)          	 1		 3600.0
+ (0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1)          	 1		 3721.0
+ (1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1)          	 1		 3721.0
+ (1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0)          	 1		 3721.0
+ (1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1)          	 1		 3721.0
+ (0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1)          	 1		 3844.0
+ (0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0)          	 1		 3844.0
+ (1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0)          	 1		 3844.0
+ (1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1)          	 1		 4096.0
+ (1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1)          	 1		 4096.0
+ (1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1)          	 1		 4096.0
+ (0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1)          	 1		 4489.0
+ (0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1)          	 1		 4624.0
+ (0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0)          	 1		 4624.0
+ (0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1)          	 1		 4624.0
+ (1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1)          	 1		 4624.0
+ (1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1)          	 1		 4624.0
+ (1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1)          	 1		 4624.0
+ (0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1)          	 1		 4900.0
+ (1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0)          	 1		 4900.0
+ (1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1)          	 1		 4900.0
+ (0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1)          	 1		 5041.0
+ (0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1)          	 1		 5184.0
+ (0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1)          	 1		 5184.0
+ (0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)          	 1		 5329.0
+ (0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0)          	 1		 5476.0
+ (1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1)          	 1		 5476.0
+ (1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1)          	 1		 5476.0
+ (0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1)          	 1		 5929.0
+ (0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1)          	 1		 6241.0
+ (0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1)          	 1		 6561.0
+ (1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1)          	 1		 6724.0
+ (1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1)          	 1		 8100.0
+ (1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0)          	 1		 8281.0
+
+
+----------------------------------------------------------------------
+
+Block addition:
+
+Running 200 times with:
+ {'a3': 4, 'a4': 1, 'a9': 4, 'a10': 1, 'a21': 17, 'a20': 17, 'a16': 4, 'a17': 1, 'b3b20': -16, 'b4b20': -8, 'b9b20': -16, 'b10b20': -8, 'b20b21': -8, 'b3b16': -8, 'b4b16': -4, 'b9b16': -8, 'b10b16': -4, 'b16b21': -4, 'b3b17': -4, 'b4b17': -2, 'b9b17': -4, 'b10b17': -2, 'b17b21': -2, 'b16b20': 16, 'b17b20': 8, 'b16b17': 4, 'b3b4': 4, 'b3b9': 8, 'b4b9': 4, 'b3b10': 4, 'b4b10': 2, 'b9b10': 4, 'b3b21': 4, 'b4b21': 2, 'b9b21': 4, 'b10b21': 2, 'a1': 4, 'a2': 1, 'a7': 4, 'a8': 1, 'a13': 16, 'a14': 4, 'a15': 1, 'b1b13': -16, 'b2b13': -8, 'b7b13': -16, 'b8b13': -8, 'b13b20': -8, 'b1b14': -8, 'b2b14': -4, 'b7b14': -8, 'b8b14': -4, 'b14b20': -4, 'b1b15': -4, 'b2b15': -2, 'b7b15': -4, 'b8b15': -2, 'b15b20': -2, 'b13b14': 16, 'b13b15': 8, 'b14b15': 4, 'b1b2': 4, 'b1b7': 8, 'b2b7': 4, 'b1b8': 4, 'b2b8': 2, 'b7b8': 4, 'b1b20': 4, 'b2b20': 2, 'b7b20': 4, 'b8b20': 2, 'a5': 4, 'a6': 1, 'a11': 4, 'a12': 1, 'a18': 4, 'a19': 1, 'b5b21': -16, 'b6b21': -8, 'b11b21': -16, 'b12b21': -8, 'b5b18': -8, 'b6b18': -4, 'b11b18': -8, 'b12b18': -4, 'b5b19': -4, 'b6b19': -2, 'b11b19': -4, 'b12b19': -2, 'b18b21': 16, 'b19b21': 8, 'b18b19': 4, 'b5b6': 4, 'b5b11': 8, 'b6b11': 4, 'b5b12': 4, 'b6b12': 2, 'b11b12': 4}
+ -----------------------------------------------------------------------------------------
+   4 
+   4   1 
+   0   0    4 
+   0   0    4   1 
+   0   0    0   0    4 
+   0   0    0   0    4   1 
+   8   4    0   0    0   0    4 
+   4   2    0   0    0   0    4   1 
+   0   0    8   4    0   0    0   0    4 
+   0   0    4   2    0   0    0   0    4   1 
+   0   0    0   0    8   4    0   0    0   0    4 
+   0   0    0   0    4   2    0   0    0   0    4   1 
+  -16  -8   0   0    0   0   -16  -8   0   0    0   0   16
+  -8   -4   0   0    0   0   -8   -4   0   0    0   0   16  4 
+  -4   -2   0   0    0   0   -4   -2   0   0    0   0   8   4   1 
+   0   0   -8   -4   0   0    0   0   -8   -4   0   0   0   0   0   4 
+   0   0   -4   -2   0   0    0   0   -4   -2   0   0   0   0   0   4   1 
+   0   0    0   0   -8   -4   0   0    0   0   -8   -4  0   0   0   0   0   4 
+   0   0    0   0   -4   -2   0   0    0   0   -4   -2  0   0   0   0   0   4   1
+   4   2   -16  -8   0   0    4   2   -16  -8   0   0   -8  -4  -2  16  8   0   0  17
+   0   0    4   2   -16  -8   0   0    4   2   -16  -8  0   0   0   -4  -2  16  8  -8  17
+ -----------------------------------------------------------------------------------------
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 76.19% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 52.38% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 57.14% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 66.67% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 71.43% of chains broken.
+WARNING (/Users/thomaslux/Git/qaml/qubo.py): 61.90% of chains broken.
+ Bits                                                                   	Occurrence	Energy
+ (1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0)        	 1		 4.0
+ (1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0)        	 1		 10.0
+ (1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0)        	 1		 10.0
+ (0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0)        	 1		 14.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0)        	 1		 14.0
+ (1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0)        	 1		 14.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0)        	 1		 17.0
+ (0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0)        	 1		 19.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1)        	 1		 19.0
+ (1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0)        	 1		 19.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 20.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0)        	 1		 20.0
+ (0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1)        	 1		 21.0
+ (0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0)        	 1		 21.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1)        	 1		 21.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0)        	 1		 21.0
+ (0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0)        	 1		 21.0
+ (1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1)        	 1		 21.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0)        	 1		 22.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0)        	 1		 22.0
+ (1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0)        	 1		 24.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 25.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1)        	 2		 25.0
+ (1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1)        	 1		 25.0
+ (0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1)        	 1		 26.0
+ (0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0)        	 4		 26.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 6		 26.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)        	 1		 26.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1)        	 3		 26.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1)        	 1		 26.0
+ (1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1)        	 1		 26.0
+ (1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0)        	 1		 26.0
+ (0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0)        	 2		 29.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0)        	 1		 29.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0)        	 4		 29.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 12		 29.0
+ (1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0)        	 1		 29.0
+ (1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1)        	 1		 29.0
+ (1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1)        	 1		 29.0
+ (1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1)        	 1		 29.0
+ (0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0)        	 1		 30.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1)        	 1		 32.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0)        	 1		 33.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1)        	 3		 33.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1)        	 1		 33.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1)        	 1		 33.0
+ (1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0)        	 2		 33.0
+ (0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0)        	 1		 34.0
+ (0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0)        	 3		 34.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0)        	 4		 34.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 4		 34.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1)        	 7		 34.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1)        	 1		 34.0
+ (0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 35.0
+ (0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0)        	 2		 35.0
+ (0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0)        	 2		 35.0
+ (0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 6		 35.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0)        	 3		 35.0
+ (1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)        	 1		 35.0
+ (1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1)        	 1		 35.0
+ (1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1)        	 1		 35.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1)        	 3		 36.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0)        	 1		 36.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1)        	 1		 36.0
+ (1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0)        	 1		 36.0
+ (0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 38.0
+ (0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 38.0
+ (0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0)        	 1		 38.0
+ (0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0)        	 2		 38.0
+ (0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 3		 38.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0)        	 1		 38.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0)        	 5		 38.0
+ (0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 38.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0)        	 1		 38.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0)        	 1		 41.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0)        	 1		 41.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 41.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)        	 1		 41.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 3		 41.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1)        	 9		 41.0
+ (1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0)        	 1		 41.0
+ (1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0)        	 1		 41.0
+ (1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1)        	 1		 41.0
+ (0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1)        	 2		 42.0
+ (0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1)        	 1		 42.0
+ (0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 43.0
+ (0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 43.0
+ (0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0)        	 1		 43.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0)        	 1		 43.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1)        	 8		 43.0
+ (1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1)        	 3		 43.0
+ (1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1)        	 1		 43.0
+ (1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1)        	 3		 43.0
+ (0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1)        	 2		 45.0
+ (0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1)        	 4		 45.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0)        	 1		 45.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1)        	 1		 45.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)        	 1		 45.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1)        	 1		 45.0
+ (0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1)        	 1		 50.0
+ (0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 50.0
+ (0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1)        	 2		 50.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0)        	 1		 50.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0)        	 1		 50.0
+ (0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 50.0
+ (1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1)        	 2		 50.0
+ (1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1)        	 1		 50.0
+ (0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0)        	 1		 59.0
+ (0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0)        	 1		 59.0
+ (0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0)        	 1		 59.0
+ (0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0)        	 1		 59.0
+

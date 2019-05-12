@@ -123,7 +123,7 @@ if __name__ == "__main__":
     if TEST_MULTI_INT_ADD_TABLE:
         multi_int_add_table(n_bits=1, n_ints=2)
 
-    FIND_INT_FULL_ADD_QUBO = True
+    FIND_INT_FULL_ADD_QUBO = False
     if FIND_INT_FULL_ADD_QUBO:
         # Find the solution QUBO and print it out.
         from solve import find_qubo, find_int_qubo
@@ -191,14 +191,14 @@ if __name__ == "__main__":
         for row in need_to_grow: print("",row)
 
 
-    TEST_FIND_MULT_QUBO_FROM_TT = False
+    TEST_FIND_MULT_QUBO_FROM_TT = True
     if TEST_FIND_MULT_QUBO_FROM_TT:
         # Find the solution QUBO and print it out.
         from solve import find_qubo, find_int_qubo
         from qubo import run_qubo, QUBO
         # Find the truth table for a specific arithmatic operation.
         b = 2
-        tt = uint_mult_table(n_bits=b, carry=False)
+        tt = uint_mult_table(n_bits=b, full=True)
         print()
         for row in tt: print("",row)
         print()
@@ -235,12 +235,12 @@ if __name__ == "__main__":
                     print(row)
 
         qubo = QUBO()
-        # Set values manually to make pretty QUBOs.
-        if b == 2:
-            qubo = QUBO(a2=0, a4=0, a6=12,
-                        b24=4, b26=-8, b46=-8,
-                        a5=9, a7=15,
-            )
+        # # Set values manually to make pretty QUBOs.
+        # if b == 2:
+        #     qubo = QUBO(a2=0, a4=0, a6=12,
+        #                 b24=4, b26=-8, b46=-8,
+        #                 a5=9, a7=15,
+        #     )
 
         gap = 0.1
         print()

@@ -65,3 +65,32 @@ WARNING (/Users/thomaslux/Git/qaml/qubo.py): 42.86% of chains broken.
  (1, 1, 0, 0, 1, 1, 0)        	 1		 9.0
  (0, 0, 1, 1, 1, 1, 1)        	 2		 16.0
 
+
+======================================================================
+
+Fri May 10 17:40:26 2019
+
+Dense addition:
+
+Running 200 times with:
+ {'a1': 4, 'a2': 1, 'a3': 4, 'a4': 1, 'a5': 16, 'a6': 4, 'a7': 1, 'b1b5': -16, 'b2b5': -8, 'b3b5': -16, 'b4b5': -8, 'b1b6': -8, 'b2b6': -4, 'b3b6': -8, 'b4b6': -4, 'b1b7': -4, 'b2b7': -2, 'b3b7': -4, 'b4b7': -2, 'b5b6': 16, 'b5b7': 8, 'b6b7': 4, 'b1b2': 4, 'b1b3': 8, 'b2b3': 4, 'b1b4': 4, 'b2b4': 2, 'b3b4': 4}
+ ----------------------------
+   4 
+   4   1 
+   8   4    4 
+   4   2    4   1 
+  -16  -8  -16  -8  16
+  -8   -4  -8   -4  16  4
+  -4   -2  -4   -2  8   4  1
+ ----------------------------
+initialized
+max qubit fill 2; num maxfull qubits=1
+embedding trial 1
+embedding found.
+max chain length 9; num max chains=1
+reducing chain lengths
+max chain length 8; num max chains=1
+max chain length 6; num max chains=1
+max chain length 4; num max chains=2
+max chain length 3; num max chains=5
+{0: [854, 862], 1: [859, 988, 987], 2: [860, 852, 848], 3: [856, 863], 4: [986, 858, 989], 5: [853, 861, 851], 6: [985, 857]}

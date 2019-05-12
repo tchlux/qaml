@@ -294,11 +294,21 @@ if __name__ == "__main__":
         uint_mult_two =   {'b1b2': 1, 'a1': 0, 'a2': 0, 'a3': 2, 'b3b4': -1, 'b1b4': -2, 'b2b4': -2, 'a4': 3, 'b2b3': 0, 'b1b3': 0}
         uint_mult_three = {}
         print("2-bit unsigned integer multiplication:")
-        print(QUBO(uint_mult_two))
-        print()
-        sol = run_qubo(**QUBO(uint_mult_two), display=False)
+        sol = run_qubo(**QUBO(uint_mult_two), display=True)
         from truth import int_mult_table
-        print(sol == int_mult_table(n_bits=2, signed=True))
+        print("Passed:", sol == int_mult_table(n_bits=1, signed=False, full=True))
+        print()
+        print("Finding 2-bit multiplication QUBO")
+        from solve import find_qubo, find_int_qubo
+        truth_table = int_mult_table(n_bits=2, signed=False, full=True)
+        q = find_qubo(truth_table, gap=.01, random=False)
+        sol = run_qubo(**q)
+        # q = find_int_qubo(int_mult_table(n_bits=2, signed=False, full=True))
+        print("Passed:", sol == truth_table)
+        int_q = find_int_qubo(truth_table, display=False)
+        print("Integer solution:")
+        print(int_q)
+
 
 
     DEMONSTRATE_INT_ADD = False
@@ -330,7 +340,7 @@ if __name__ == "__main__":
             print(b, sol == out)
 
 
-    DEMONSTRATE_INT_HALF_ADD = True
+    DEMONSTRATE_INT_HALF_ADD = False
     if DEMONSTRATE_INT_HALF_ADD:
         int_add_one =  {'a1': 1, 'a2': 1, 'a3': 4, 'b1b3': -4, 'b3b4': 4, 'b2b3': -4, 'b1b2': 2, 'a4': 1, 'b1b4': -2, 'b2b4': -2}
         int_add_two =  {'a1': 4, 'a3': 4, 'b4b5': -8, 'b2b5': -8, 'b5b7': 8, 'b3b4': 4, 'b3b7': -4, 'b2b3': 4, 'b1b5': -16, 'b5b6': 16, 'b1b3': 8, 'b6b7': 4, 'b2b6': -4, 'b4b6': -4, 'a5': 16, 'b3b6': -8, 'a6': 4, 'b1b4': 4, 'b1b7': -4, 'b1b2': 4, 'b1b6': -8, 'b3b5': -16, 'b2b4': 2, 'b4b7': -2, 'b2b7': -2, 'a2': 1, 'a4': 1, 'a7': 1}

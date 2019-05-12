@@ -1,16 +1,19 @@
 # Set and print the experimental configuration information.
-simulated = True
+simulated = False
 num_bits = 2
 block_size = 2
 num_samples = 200
+print_to_file = False
 
-# Set the "print" location to be a file.
-import os, sys, time
-results_folder = "Results"
-stdout_name = f"{'sim' if simulated else 'real'}_{num_bits}-bit_{block_size}-block_{num_samples}-samples.txt"
-stderr_name = f"errors_{'sim' if simulated else 'real'}_{num_bits}-bit_{block_size}-block_{num_samples}-samples.txt"
-sys.stdout = open(os.path.join(results_folder, stdout_name), 'a')
-sys.stderr = open(os.path.join(results_folder, stderr_name), 'a')
+import time
+if print_to_file:
+    # Set the "print" location to be a file.
+    import os, sys
+    results_folder = "Addition_Results"
+    stdout_name = f"{'sim' if simulated else 'real'}_{num_bits}-bit_{block_size}-block_{num_samples}-samples.txt"
+    stderr_name = f"errors_{'sim' if simulated else 'real'}_{num_bits}-bit_{block_size}-block_{num_samples}-samples.txt"
+    sys.stdout = open(os.path.join(results_folder, stdout_name), 'a')
+    sys.stderr = open(os.path.join(results_folder, stderr_name), 'a')
 
 # Print out a description of the experimental setup.
 print()

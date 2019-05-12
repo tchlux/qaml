@@ -40,6 +40,26 @@ def number_to_bits(number, num_bits=None):
         if bits[i]: number -= value
     return tuple(bits)
 
+# Given a QUBO dictionary { (i,j):weight ... }, convert it to an Ising
+# triple: ( { i:weight ... }, { (i,j):weight ... }, energy_offset )
+def qubo_to_ising(Q):
+    h = {}
+    J = {}
+    offset = 0
+    linear_offset = 0
+    quadratic_offset = 0
+    for (u, v), bias in Q.items():
+        if u == v:
+            h[u] = h.get(u, 0) + bias / 2
+            linear_offset += bias
+        else:
+            if (bias != 0): J[(u, v)] = bias / 4
+            h[u] = h.get(u, 0) + bias / 4
+            h[v] = h.get(v, 0) + bias / 4
+            quadratic_offset += bias
+    offset += linear_offset / 2 + quadratic_offset / 4
+    return h, J, offset
+
 # This is a simple brute force quantum annealer base class, designed
 # to be subclassed by more advanced techniques.
 class ExhaustiveSearch():
@@ -67,7 +87,7 @@ class ExhaustiveSearch():
 
 # A wrapper for the crappy provided solver by QBSolv, this defines a
 # more readable interface for QBSolv, the built-in simulator.
-class QBSolveAnnealer(ExhaustiveSearch):
+class QBSolve(ExhaustiveSearch):
     # Do the pecuiliar steps necessary to generate samples from QBSolv.
     def samples(self, num_samples=20):
         from dwave_qbsolv import QBSolv
@@ -84,19 +104,61 @@ class QBSolveAnnealer(ExhaustiveSearch):
 # hardware. The results are returned.
 class QuantumAnnealer(ExhaustiveSearch):
     # Do the pecuiliar steps necessary to generate samples from QBSolv.
-    def samples(self, num_samples=20):
+    def samples(self, num_samples=20, use_ising=True, embedding_attempts=5):
         from dwave.system.samplers import DWaveSampler
-        from dwave.system.composites import EmbeddingComposite
+        from dwave.system.composites import FixedEmbeddingComposite
+        from minorminer import find_embedding
         # Construct a sampler over a real quantum annealer.
         from setup import token
         sampler = DWaveSampler(token=token)
-        # Use an automatic embedding over the machine.
-        response = EmbeddingComposite(sampler).sample_qubo(
-            self.coeficients, num_reads=num_samples)
+        # Construct an automatic embedding over the machine architecture.
+        _, edgelist, adjacency = sampler.structure
+        # Attempt to embed multiple times (with seeds for
+        # repeatability), and take the best embedding found.
+        best_embedding = None
+        smallest_max_len = float('inf')
+        for i in range(embedding_attempts):
+            embedding = find_embedding(self.coeficients, edgelist, random_seed=i)
+            # Count the number of chains of each length.
+            lens = list(map(len, embedding.values()))
+            if max(lens) < smallest_max_len:
+                smallest_max_len = max(lens)
+                best_embedding = embedding
+        # Use the best embedding found.
+        embedding = best_embedding
+        lens = list(map(len, embedding.values()))
+        print()
+        print("Max chain length of", max(lens))
+        print("Chain length distribution:")
+        for i in range(1,max(lens)+1):
+            if i not in lens: continue
+            count = lens.count(i)
+            print("", i, "chain --", "#"*count)
+        print()
+        print("Using embedding:")
+        for i in sorted(embedding):
+            print("", i, embedding[i])
+        print()
+        exit()
+        if use_ising:
+            ising = qubo_to_ising(self.coeficients)
+            ising, offset = ising[:-1], ising[-1]
+            print("Converting QUBO to Ising model with offset",offset,":")
+            print("", ising)
+            print()
+            response = FixedEmbeddingComposite(sampler, embedding).sample_ising(
+                *ising, num_reads=num_samples)
+        else:
+            response = FixedEmbeddingComposite(sampler, embedding).sample_qubo(
+                self.coeficients, num_reads=num_samples)
         for out in response.data():
             # Get the output from the data.
             bits = tuple(out.sample[b] for b in sorted(out.sample))
             energy = out.energy
+            # If we are using an Ising intermediate form, 
+            if use_ising:
+                bits = tuple((b + 2) // 2 for b in bits)
+                energy += offset
             count = out.num_occurrences
             # Check to see what the percentage of chains that are broken in this solution.
             break_frac = 100*out.chain_break_fraction
@@ -266,7 +328,7 @@ def make_qubo(display=False, **coefs):
 #   build_q_system -- A callable object that is provided a full QUBO
 #                     and has a "samples" function to generate samples
 #                     from the quantum annealing platform. Examples:
-#                      ExhaustiveSearch, QBSolveAnnealer, QuantumAnnealer
+#                      ExhaustiveSearch, QBSolve, QuantumAnnealer
 #   min_only       -- True if only the states with minimum observed
 #                     energy should be reported. False to show all states.
 #   display        -- True if outputs should be printed to user as table.

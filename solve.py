@@ -282,12 +282,10 @@ def get_constraints(table):
     return eq_min, gt_min, min_energy
 
 
-
 # Given a truth table that is solvable without the addition of any
 # ancilla bits, identify an integer-only set of coefficients.
 def find_int_qubo(truth_table, qubo=QUBO(), display=False,
                   max_coef=1000, max_seed=2, gap=0.0, round=round):
-    from utilities import primes_up_to, cycle_coefs
     from qubo import run_qubo
     from exceptions import UnsolvableSystem
     # Make sure the provided QUBO is not movified in place.
