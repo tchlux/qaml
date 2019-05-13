@@ -109,8 +109,8 @@ class QBSolve(ExhaustiveSearch):
 #                             on the hardware.
 #    embedding_attempts    -- (integer) The number of embedding attempts
 #                             used to find QUBO embedding.
-#    chain_strength [None] -- (float) The strength of chains, calculated
-#                             to be 1/4 max Ising magnitude by default.
+#    chain_strength [None] -- (float) The relative strength of chains,
+#                             is 1/4 max Ising magnitude by default.
 #    verbose [True]        -- (bool) True shows descriptive printouts.
 #    fix_chains [False]    -- (bool) True uses manual chain fixing,
 #                             WARNING: outputs are less varied when True.
@@ -120,7 +120,7 @@ class QBSolve(ExhaustiveSearch):
 class QuantumAnnealer(ExhaustiveSearch):
     # Do the pecuiliar steps necessary to generate samples from QBSolv.
     def samples(self, num_samples=20, embedding_attempts=5, 
-                chain_strength=None, verbose=True, fix_chains=False):
+                chain_strength=(1/4), verbose=True, fix_chains=False):
         from dwave.system.samplers import DWaveSampler
         from minorminer import find_embedding
         # Construct a sampler over a real quantum annealer.
@@ -157,16 +157,15 @@ class QuantumAnnealer(ExhaustiveSearch):
             print()
         # Automatically set the chain strength based on the most
         # negative Ising weight in this model.
-        if (type(chain_strength) == type(None)):
-            ising = qubo_to_ising(self.coeficients)
-            max_weight = max(max(ising[0].values()), max(ising[1].values()))
-            min_weight = min(min(ising[0].values()), min(ising[1].values()))
-            chain_strength = max(abs(min_weight), max_weight)
-            if verbose:
-                print(f"Max Ising weight:     {max_weight: .1f}")
-                print(f"Min Ising weight:     {min_weight: .1f}")
-                print(f"Using chain strength: {chain_strength: .1f}")
-                print()
+        ising = qubo_to_ising(self.coeficients)
+        max_weight = max(max(ising[0].values()), max(ising[1].values()))
+        min_weight = min(min(ising[0].values()), min(ising[1].values()))
+        chain_strength *= max(abs(min_weight), max_weight)
+        if verbose:
+            print(f"Max Ising weight:     {max_weight: .1f}")
+            print(f"Min Ising weight:     {min_weight: .1f}")
+            print(f"Using chain strength: {chain_strength: .1f}")
+            print()
 
         if fix_chains:
             # Pick the method for fixing broken chains.
@@ -337,14 +336,20 @@ class QUBO(dict):
         # Keep track of the column widths.
         col_widths = [0] * bits
         rows = []
+        min_val = float('inf')
+        max_val = -float('inf')
         for i in range(bits):
             row = []
             for j in range(0,i):
                 v = self.get(f'b{j+1}b{i+1}', 0)
+                min_val = min(v, min_val)
+                max_val = max(v, max_val)
                 if (v != 0) and log: v = int(round(math.log(abs(v),2))) * (-1 if v < 0 else 1)
                 if (type(v) == int): row.append( str(v) )
                 else:                row.append( f"{v: .2f}" )
             v = self.get(f'a{i+1}', 0)
+            min_val = min(v, min_val)
+            max_val = max(v, max_val)
             if (v != 0) and log: v = int(round(math.log(v,2))) * (-1 if v < 0 else 1)
             if (type(v) == int): row.append( str(v) )
             else:                row.append( f"{v: .2f}" )
@@ -356,7 +361,7 @@ class QUBO(dict):
             rows[i] = "  " + "  ".join([f"{v:^{width}s}" for (v,width) in zip(rows[i], col_widths)])
 
         max_width = max(map(len, rows))
-        return ' ' + super().__str__() + '\n ' + '-'*max_width + "\n" + "\n".join(rows) + '\n ' + '-'*max_width
+        return f' QUBO with {bits} bits in range [{min_val}, {max_val}].\n   ' + super().__str__() + '\n ' + '-'*max_width + "\n" + "\n".join(rows) + '\n ' + '-'*max_width
 # --------------------------------------------------------------------
         
 

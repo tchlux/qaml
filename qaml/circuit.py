@@ -95,8 +95,6 @@ class Number:
             for coef in new_num.bits: new_num.bits[coef] *= num
         # Perform the multiplication between the qubits in the QUBO.
         elif (type(num) == type(self)):
-            print("self: ",self)
-            print("num:  ",num)
             # Multiply the values that are shared between the two.
             shared_terms = num.one_locals.intersection(self.one_locals)
             for coef in shared_terms: new_num.bits[coef] *= num.bits[coef]
@@ -124,14 +122,12 @@ class Number:
                 new_num.bits[coef] = new_num.bits.get(coef,1) * self.constant
             # Multiply the constants together.
             new_num.constant = self.constant * num.constant
-            print("new_num: ",new_num)
         # Return the new number.
         return new_num
 
     # Generate the squared value energy function QUBO for this number.
     def squared(self):
         qubo = QUBO()
-        print(self)
         # Square all the one-local terms (including constant interactions).
         for coef in self.one_locals:
             qubo[coef] = self.bits[coef]**2 + self.bits[coef]*2*self.constant

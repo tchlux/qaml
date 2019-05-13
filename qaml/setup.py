@@ -3,7 +3,7 @@
 import os
 
 token_file_name = ".dwave-token"
-token_file = os.path.join(os.expanduser("~"), token_file_name)
+token_file = os.path.join(os.path.expanduser("~"), token_file_name)
 
 if not os.path.exists(token_file):
     class UnregisteredAccount(Exception): pass
