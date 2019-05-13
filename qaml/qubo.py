@@ -110,7 +110,7 @@ class QBSolve(ExhaustiveSearch):
 #    embedding_attempts    -- (integer) The number of embedding attempts
 #                             used to find QUBO embedding.
 #    chain_strength [None] -- (float) The relative strength of chains,
-#                             is 1/4 max Ising magnitude by default.
+#                             is 1/2 max Ising magnitude by default.
 #    verbose [True]        -- (bool) True shows descriptive printouts.
 #    fix_chains [False]    -- (bool) True uses manual chain fixing,
 #                             WARNING: outputs are less varied when True.
@@ -120,7 +120,7 @@ class QBSolve(ExhaustiveSearch):
 class QuantumAnnealer(ExhaustiveSearch):
     # Do the pecuiliar steps necessary to generate samples from QBSolv.
     def samples(self, num_samples=20, embedding_attempts=5, 
-                chain_strength=(1/4), verbose=True, fix_chains=False):
+                chain_strength=(1/2), verbose=True, fix_chains=False):
         from dwave.system.samplers import DWaveSampler
         from minorminer import find_embedding
         # Construct a sampler over a real quantum annealer.

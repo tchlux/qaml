@@ -1,8 +1,8 @@
 
 # Set and print the experimental configuration information.
 simulated = False
-num_samples = lambda num_bits: 200 * num_bits
-print_to_file = True
+num_samples = lambda num_bits: 400 * num_bits
+print_to_file = not simulated
 
 import time
 if print_to_file:
@@ -34,7 +34,7 @@ def run_experiment(qubo, samples, simulate=simulated):
 from qaml import Circuit
 from qaml.solve_truth_table import primes_up_to
 
-for bits in range(2, 7+1):
+for bits in range(2, 5+1):
     options = primes_up_to(2**bits)
     num1, num2 = options[-2:]
     print()
@@ -44,7 +44,7 @@ for bits in range(2, 7+1):
     a = circuit.Number(bits=bits, exponent=0, signed=False)
     b = circuit.Number(bits=bits, exponent=0, signed=False)
     circuit.add( a*b - (num1*num2) )
-    qubo = circuit.assemble() #and_rescale=1)
+    qubo = circuit.assemble()
     # Run the experiment.
     run_experiment(qubo, num_samples(bits))
-    
+

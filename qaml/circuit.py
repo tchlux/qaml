@@ -1,4 +1,4 @@
-from qaml.qubo import QUBO
+from qaml.qubo import QUBO, qubo_to_ising, make_qubo
 from itertools import combinations, product
 
 # Create a "Number" that is fixed point, by default a standard integer.
@@ -165,9 +165,19 @@ class Circuit:
         self.equations.append( number )
 
     # Generate the squared value energy function QUBO for this number.
-    def assemble(self, and_rescale=None):
-        if (type(and_rescale) == type(None)):
-            and_rescale = 2**self.largest_exponent
+    def assemble(self, and_rescale=1/2, verbose=True):
+        # Compute the qubo without the and-gate rescale.
+        q = QUBO()
+        for n in self.equations:
+            q += n.squared()
+        # Compute the Ising and find it's maximum magnitude weight.
+        ising = qubo_to_ising(make_qubo(**q))
+        max_weight = max(max(ising[0].values()), max(ising[1].values()))
+        min_weight = min(min(ising[0].values()), min(ising[1].values()))
+        # Set the rescale to the max Ising weight.
+        and_rescale *= max(abs(min_weight), abs(max_weight))
+        if verbose: print(f"Using and gate scale {and_rescale:.2f}.")
+
         # Generate a qubo for the squared value function.
         # This is where the computation of the AND gates happens.
         q = QUBO()
