@@ -33,12 +33,13 @@
   This will produce a QUBO whose energy landscape is the summed
   squared value of all equations provided.
 
-    > import qaml
-    > circ = qaml.Circuit()
-    > a = circ.Number(bits=4, exponent=-1, signed=False)
-    > b = circ.Number(bits=4, exponent=-1, signed=False)
-    > circ.add( a + b - 6 )
-    > circ.add( a - 2 )
-    > qubo = circ.assemble()
-    > qaml.run_qubo(qubo, min_only=False, display=True)
-
+'''python
+import qaml
+circ = qaml.Circuit()
+a = circ.Number(bits=4, exponent=-1, signed=False)
+b = circ.Number(bits=4, exponent=-1, signed=False)
+circ.add( a + b - 6 )
+circ.add( a - 2 )
+qubo = circ.assemble()
+qaml.run_qubo(qubo, min_only=False, display=True)
+'''
