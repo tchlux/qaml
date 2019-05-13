@@ -25,28 +25,27 @@ print()
 # Define a convenience wrapper for calling "run_qubo" when collecting
 # experimental data for addition and multiplication.
 def run_experiment(qubo, simulate=simulated):
-    from qubo import run_qubo, QuantumAnnealer, ExhaustiveSearch
+    from qaml.qubo import run_qubo, QuantumAnnealer, ExhaustiveSearch
     # Pick the quantum system sampler based on "simulate".
     if simulate: system = ExhaustiveSearch
     else:        system = QuantumAnnealer
     # Run the experiment.
     run_qubo(**qubo, system=system, min_only=False, num_samples=num_samples)
 
-# Construct a half add QUBO
-from integer import int_half_add
-qubo = int_half_add(*list(range(1,3*num_bits + 2)))
-print("Dense addition:")
-print()
-run_experiment(qubo)
+# # Construct a half add QUBO
+# qubo = int_half_add(*list(range(1,3*num_bits + 2)))
+# print("Dense addition:")
+# print()
+# run_experiment(qubo)
 
-if num_bits > 2:
-    print()
-    print('-'*70)
-    print()
-    # Construct a modular addition circuit.
-    from math import ceil
-    from integer import int_add_modular
-    qubo = int_add_modular(num_bits, block_size, *list(range(1, 1 + 3*num_bits + ceil(num_bits/block_size))))
-    print("Block addition:")
-    print()
-    run_experiment(qubo)
+# if num_bits > 2:
+#     print()
+#     print('-'*70)
+#     print()
+#     # Construct a modular addition circuit.
+#     from math import ceil
+#     from integer import int_add_modular
+#     qubo = int_add_modular(num_bits, block_size, *list(range(1, 1 + 3*num_bits + ceil(num_bits/block_size))))
+#     print("Block addition:")
+#     print()
+#     run_experiment(qubo)

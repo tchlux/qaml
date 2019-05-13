@@ -1,6 +1,6 @@
 # Python 3 functions for converting a truth table into a QUBO.
 # Use the function 'find_qubo'.
-from qubo import QUBO
+from qaml.qubo import QUBO
 
 # Find the optimal QUBO for the given truth table. Steadily add ancilla bits,
 # trying every combination of ancilla bits, until a solution is found.
@@ -12,9 +12,9 @@ from qubo import QUBO
 #         ancilla bits are appended until it can.
 def find_qubo(truth_table, max_attempts=float('inf'), random=True,
               ancilla=True, qubo=QUBO(), gap=0.0, verbose=False):
-    from rand import random_range
-    from binary import int_to_binary
-    from exceptions import UnsolvableSystem
+    from qaml.rand import random_range
+    from qaml.binary import int_to_binary
+    from qaml.exceptions import UnsolvableSystem
     # Get the number of bits in this problem.
     num_bits = len(truth_table[0])
     # Generate equality and inequality constraints from that truth table.
@@ -71,7 +71,7 @@ def find_qubo(truth_table, max_attempts=float('inf'), random=True,
 # Generate a QUBO from a truth table by solving a linear programming problem.
 def solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo=QUBO(),
                gap=0.0, verbose=False):
-    from exceptions import UnsolvableSystem
+    from qaml.exceptions import UnsolvableSystem
     from scipy.optimize import linprog
     # Capture the standard output and error of linprog.
     # Allocate input arrays.
@@ -185,7 +185,7 @@ def solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo=QUBO(),
 # Given a coefficient in mathematical terms "a1", "b2b3", convert it
 # to an index in an array stored as [a1, a2, ... , b1b2, b1b3, ...].
 def coef_to_index(coef, num_bits):
-    from exceptions import UsageError
+    from qaml.exceptions import UsageError
     if coef[0] == "a":
         return int(coef[1:]) - 1
     elif coef[0] == "b":
@@ -286,8 +286,8 @@ def get_constraints(table):
 # ancilla bits, identify an integer-only set of coefficients.
 def find_int_qubo(truth_table, qubo=QUBO(), display=False,
                   max_coef=1000, max_seed=2, gap=0.0, round=round):
-    from qubo import run_qubo
-    from exceptions import UnsolvableSystem
+    from qaml.qubo import run_qubo
+    from qaml.exceptions import UnsolvableSystem
     # Make sure the provided QUBO is not movified in place.
     qubo = qubo.copy()
     # Find the initial set of coefficients that solves this truth

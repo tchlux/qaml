@@ -1,5 +1,5 @@
 # Generate truth tables for different operations.
-from binary import int_to_binary
+from qaml.binary import int_to_binary
 
 # Define a function that rounds to the nearest power of two.
 def round_pow_2(v):
@@ -126,8 +126,8 @@ if __name__ == "__main__":
     FIND_INT_FULL_ADD_QUBO = False
     if FIND_INT_FULL_ADD_QUBO:
         # Find the solution QUBO and print it out.
-        from solve import find_qubo, find_int_qubo
-        from qubo import run_qubo, QUBO
+        from qaml.solve import find_qubo, find_int_qubo
+        from qaml.qubo import run_qubo, QUBO
         # Find the truth table for a specific arithmatic operation.
         b = 1
         tt = int_full_add_table(n_bits=b)
@@ -153,7 +153,6 @@ if __name__ == "__main__":
             for i,row in enumerate(tt): print("", row)
             # Find the integer form of the QUBO next.
             import math
-            from utilities import round_pow_2
             q = find_int_qubo(tt, gap=gap, display=False, qubo=qubo, round=round_pow_2)
             # Check to make sure the outputs are correct.
             out = run_qubo(**q, display=False)

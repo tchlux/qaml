@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "experiments.py", line 40, in <module>
+    run_experiment(qubo)
+  File "experiments.py", line 33, in run_experiment
+    run_qubo(**qubo, system=system, min_only=False, num_samples=num_samples)
+  File "/Users/thomaslux/Git/qaml/qubo.py", line 422, in run_qubo
+    for (bits, energy) in system.samples(num_samples):
+  File "/Users/thomaslux/Git/qaml/qubo.py", line 181, in samples
+    sampler, embedding, chain_strength=chain_strength)
+TypeError: __init__() got an unexpected keyword argument 'chain_strength'

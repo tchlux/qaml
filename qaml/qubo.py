@@ -1,6 +1,6 @@
 import os
-from rand import random_range
-from exceptions import UsageError, AmbiguousTerm
+from qaml.rand import random_range
+from qaml.exceptions import UsageError, AmbiguousTerm
 
 # Return a boolean "is_numeric"
 def is_numeric(obj):
@@ -124,7 +124,7 @@ class QuantumAnnealer(ExhaustiveSearch):
         from dwave.system.samplers import DWaveSampler
         from minorminer import find_embedding
         # Construct a sampler over a real quantum annealer.
-        from setup import token
+        from qaml.setup import token
         sampler = DWaveSampler(token=token)
         # Construct an automatic embedding over the machine architecture.
         _, edgelist, adjacency = sampler.structure

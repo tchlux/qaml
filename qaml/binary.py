@@ -1,4 +1,4 @@
-
+import math
 
 # Convert a binary list into an integer, the inverse of "int_to_binary".
 def binary_to_int(bits, signed=True):
@@ -14,7 +14,6 @@ def binary_to_int(bits, signed=True):
 
 # Compute the number of bits required to represent an integer.
 def num_bits(i):
-    import math
     if   (i ==  0): needed_bits = 1
     elif (i == -1): needed_bits = 2
     elif (i  >  0): needed_bits = 1 + int(math.log(abs(i),2))
@@ -24,7 +23,6 @@ def num_bits(i):
 # Given a nonnegative integer, generate the big-endian binary
 # representation of that number with the fewest bits possible.
 def int_to_binary(i, bits=None, signed=True, wrap=False):
-    import math
     # Store some information about the number (with fewest bits possible).
     negative = (i < 0)
     # Compute the necessary number of bits to store this number.

@@ -1,0 +1,4 @@
+python3
+Quantum Annealing
+Least Squares
+D-Wave

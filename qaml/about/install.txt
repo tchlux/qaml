@@ -1,0 +1,2 @@
+    $ pip install git+https://github.com/tchlux/qaml.git
+%    $ pip install https://github.com/tchlux/template/archive/0.0.0.zip

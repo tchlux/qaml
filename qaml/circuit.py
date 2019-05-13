@@ -1,6 +1,5 @@
-from qubo import QUBO
+from qaml.qubo import QUBO
 from itertools import combinations, product
-
 
 # Create a "Number" that is fixed point, by default a standard integer.
 # This number supports operations with other number objects and Python
@@ -130,7 +129,6 @@ class Number:
         return new_num
 
     # Generate the squared value energy function QUBO for this number.
-    @property
     def squared(self):
         qubo = QUBO()
         print(self)
@@ -178,37 +176,9 @@ class Circuit:
         # This is where the computation of the AND gates happens.
         q = QUBO()
         for n in self.equations:
-            q += n.squared
+            q += n.squared()
         for gate in self.and_gates:
             q += gate * and_rescale
         return q
-        
 
-circ = Circuit()
-a = circ.Number(3)
-b = circ.Number(2)
-
-circ.add( a*b - 21 )
-circ.add( a + b - 10 )
-q = circ.assemble()
-
-from qubo import run_qubo
-run_qubo(**q, min_only=False)
-
-
-exit()
-
-
-
-# a = Number(bits=2, exponent=0, signed=False)
-# b = Number(bits=3, exponent=-1, signed=False)
-# c = Number(bits=2, exponent=0)
-# d = Number(bits=2, exponent=0)
-# 
-# exp = a
-# exp += b
-# exp *= c
-# exp -= d
-# 
-#  --->  exp = [ (a + b)*c - d ]^2
 

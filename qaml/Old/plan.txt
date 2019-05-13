@@ -1,0 +1,25 @@
+Experimental Results
+
+# Setup
+
+- Make pinning use $2^n$ as the weight for whatever number of bits
+- Make chain strength set to $2^n$ as well
+- Embed QUBO before sending, so we can see what it looks like
+
+
+# Addition and Multiplication
+
+- 2-bit up to 10-bit numbers
+- linearly increase number of samples as $100 n$
+- try all pinned inputs for 2 and 3 bit addition, check for rate of success by input
+- Pick random biprimes and factor for multiplication
+- Write circuit for solving a number squared
+
+# Least Squares Demo
+
+  $$\begin{align}
+  xy &= \alpha \\
+  x^2 + y^2 &= \beta \\
+  ax + by &= \gamma
+  \end{align}$$
+

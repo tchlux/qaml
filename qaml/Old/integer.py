@@ -296,7 +296,7 @@ if __name__ == "__main__":
         uint_mult_three = {}
         print("2-bit unsigned integer multiplication:")
         sol = run_qubo(**QUBO(uint_mult_two), display=True)
-        from truth import int_mult_table
+        from truth_tables import int_mult_table
         print("Passed:", sol == int_mult_table(n_bits=1, signed=False, full=True))
         print()
         print("Finding 2-bit multiplication QUBO")
@@ -333,7 +333,7 @@ if __name__ == "__main__":
 
         # Verify the correctness of the generated integer adders.
         print("Verifying QUBO correctness..")
-        from truth import int_add_table
+        from truth_tables import int_add_table
         for b in range(1,6):
             q = int_add(*list(range(1,b*3+1)))
             sol = run_qubo(**q, display=False)
@@ -362,7 +362,7 @@ if __name__ == "__main__":
 
         # Verify the correctness of the generated integer adders.
         print("Verifying QUBO correctness..")
-        from truth import int_add_table
+        from truth_tables import int_add_table
         for b in range(1,6):
             q = int_half_add(*list(range(1,b*3+1+1)))
             sol = run_qubo(**q, display=False)
@@ -386,7 +386,7 @@ if __name__ == "__main__":
 
         # Verify the correctness of the generated integer adders.
         print("Verifying QUBO correctness..")
-        from truth import int_full_add_table
+        from truth_tables import int_full_add_table
         for b in range(1,6):
             q = int_full_add(*list(range(1,b*3+2+1)))
             sol = run_qubo(**q, display=False)
@@ -410,7 +410,7 @@ if __name__ == "__main__":
         q = int_add_modular(n, b, *list(range(1, 3*n + ceil(n/b) + 1)))
         sol = [i[:3*n+1] for i in run_qubo(**q, display=False)]
         print("Verifying QUBO correctness..")
-        from truth import int_add_table
+        from truth_tables import int_add_table
         print(sol == int_add_table(n_bits=n, signed=False))
         
     
@@ -422,5 +422,5 @@ if __name__ == "__main__":
         q = multi_int_add(m, b, *list(range(1, m*b+m+b)))
         sol = run_qubo(**q, min_only=True)
         print("Verifying QUBO correctness..")
-        from truth import multi_int_add_table
+        from truth_tables import multi_int_add_table
         print(sol == multi_int_add_table(n_bits=b, n_ints=m))
