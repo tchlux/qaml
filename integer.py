@@ -25,6 +25,7 @@ def uint_min(*bit_indices):
     return QUBO({f"a{b}" : 2**(len(bit_indices)-i-1)
                  for i,b in enumerate(bit_indices)})
 
+
 # Perform the operation 'a + b + i = c' where 'a' and 'b' are (b)-bit
 # integers, 'i' is a 0 or 1 carry-in bit, and 'c' is a (b+1)-bit
 # integer. Exactly (3*b + 2) indices must be provided to this routine,
@@ -238,7 +239,7 @@ def multi_int_add(m, b, *bit_indices):
 # the first b bits contain x, bits b+1 through 2b contain y, bits
 # 2b+1 through 4b contain p, and the final b^2 bits are ancillary
 # bits containing the values for all combinations of x_i y_j.
-def int_full_mult(*bit_indices):
+def uint_full_mult(*bit_indices):
     import math
     # Get number of bits.
     b = int((2*int(math.sqrt(4+len(bit_indices)))-4)/2)
@@ -340,7 +341,7 @@ if __name__ == "__main__":
             print(b, sol == out)
 
 
-    DEMONSTRATE_INT_HALF_ADD = False
+    DEMONSTRATE_INT_HALF_ADD = True
     if DEMONSTRATE_INT_HALF_ADD:
         int_add_one =  {'a1': 1, 'a2': 1, 'a3': 4, 'b1b3': -4, 'b3b4': 4, 'b2b3': -4, 'b1b2': 2, 'a4': 1, 'b1b4': -2, 'b2b4': -2}
         int_add_two =  {'a1': 4, 'a3': 4, 'b4b5': -8, 'b2b5': -8, 'b5b7': 8, 'b3b4': 4, 'b3b7': -4, 'b2b3': 4, 'b1b5': -16, 'b5b6': 16, 'b1b3': 8, 'b6b7': 4, 'b2b6': -4, 'b4b6': -4, 'a5': 16, 'b3b6': -8, 'a6': 4, 'b1b4': 4, 'b1b7': -4, 'b1b2': 4, 'b1b6': -8, 'b3b5': -16, 'b2b4': 2, 'b4b7': -2, 'b2b7': -2, 'a2': 1, 'a4': 1, 'a7': 1}
@@ -394,7 +395,7 @@ if __name__ == "__main__":
     DEMONSTRATE_INT_MULT = False
     if DEMONSTRATE_INT_MULT:
         b = 2
-        q = int_full_mult(*list(range(1, b*4+b*b + 1)))
+        q = uint_full_mult(*list(range(1, b*4+b*b + 1)))
         print("-"*70)
         print(f"{b}-bit unsigned integer multiplication:")
         sol = run_qubo(**q, min_only=True)

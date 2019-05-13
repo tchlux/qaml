@@ -1,8 +1,8 @@
 # Set and print the experimental configuration information.
-simulated = False
-num_bits = 2
+simulated = True
+num_bits = 3
 block_size = 2
-num_samples = 200
+num_samples = 100 * num_bits
 print_to_file = False
 
 import time
@@ -30,12 +30,7 @@ def run_experiment(qubo, simulate=simulated):
     if simulate: system = ExhaustiveSearch
     else:        system = QuantumAnnealer
     # Run the experiment.
-    run_qubo(**qubo, build_q_system=system,
-             min_only=False, num_samples=num_samples)
-
-# TODO: Print out the bit pattern for broken chains.
-# TODO: Print out actual embedded QUBO.
-# TODO: Enable embedding values in the QUBO.
+    run_qubo(**qubo, system=system, min_only=False, num_samples=num_samples)
 
 # Construct a half add QUBO
 from integer import int_half_add
