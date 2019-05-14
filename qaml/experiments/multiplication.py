@@ -1,17 +1,26 @@
 
 # Set and print the experimental configuration information.
-simulated = False
-num_samples = lambda num_bits: 400 * num_bits
+simulated = True
+sample_func = lambda num_bits: 400 * num_bits
 print_to_file = not simulated
+run_kwargs = dict(and_strength=1/2, chain_strength=1/2)
+
+# Setup the "system" for evaluating the QUBOs.
+from qaml import QuantumAnnealer, ExhaustiveSearch, QBSolve
+if simulated: system = ExhaustiveSearch
+else:         system = QuantumAnnealer
+
+# Remove the "chain_strength" argument for simulated results.
+if simulated: run_kwargs.pop("chain_strength")
 
 import time
 if print_to_file:
     # Set the "print" location to be a file.
     import os, sys
     stdout_name = f"{'sim' if simulated else 'real'}_{os.path.basename(__file__)[:-3]}_results.txt"
-    stderr_name = f"{'sim' if simulated else 'real'}_{os.path.basename(__file__)[:-3]}_errors.txt"
+    # stderr_name = f"{'sim' if simulated else 'real'}_{os.path.basename(__file__)[:-3]}_errors.txt"
     sys.stdout = open(stdout_name, 'a')
-    sys.stderr = open(stderr_name, 'a')
+    # sys.stderr = open(stderr_name, 'a')
 
 # Print out a description of the experimental setup.
 print()
@@ -20,31 +29,25 @@ print()
 print(time.ctime())
 print()
 
-# Define a convenience wrapper for calling "run_qubo" when collecting
-# experimental data for addition and multiplication.
-def run_experiment(qubo, samples, simulate=simulated):
-    from qaml import run_qubo, QuantumAnnealer, ExhaustiveSearch
-    # Pick the quantum system sampler based on "simulate".
-    if simulate: system = ExhaustiveSearch
-    else:        system = QuantumAnnealer
-    # Run the experiment.
-    run_qubo(**qubo, system=system, min_only=False, num_samples=samples)
-
-
 from qaml import Circuit
 from qaml.solve_truth_table import primes_up_to
 
-for bits in range(2, 5+1):
+for bits in range(2, 7+1):
+    # Pick the prime numbers to construct a biprime.
     options = primes_up_to(2**bits)
     num1, num2 = options[-2:]
+    # Display a header.
     print()
+    print('-'*70)
     print("bits: ",bits, flush=True)
     print(f"{num1} x {num2} = {num1 * num2}", flush=True)
+    # Construct the circuit.
     circuit = Circuit()
     a = circuit.Number(bits=bits, exponent=0, signed=False)
     b = circuit.Number(bits=bits, exponent=0, signed=False)
     circuit.add( a*b - (num1*num2) )
-    qubo = circuit.assemble()
     # Run the experiment.
-    run_experiment(qubo, num_samples(bits))
+    circuit.run(min_only=False, num_samples=sample_func(bits),
+                system=system, **run_kwargs)
+    print(flush=True)
 

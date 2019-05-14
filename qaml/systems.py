@@ -126,9 +126,14 @@ class QuantumAnnealer(System):
             embedding = find_embedding(self.coefficients, edgelist, random_seed=i)
             # Count the number of chains of each length.
             lens = list(map(len, embedding.values()))
-            if max(lens) < smallest_max_len:
+            # Check to see if this is the best embedding yet.
+            if (len(lens) > 0) and (max(lens) < smallest_max_len):
                 smallest_max_len = max(lens)
                 best_embedding = embedding
+        # Verify that there were embeddings discovered.
+        if (type(best_embedding) == type(None)):
+            from qaml.exceptions import UnsolvableSystem
+            raise(UnsolvableSystem("No physical embeddings could be discovered for the provided QUBO."))
         # Use the best embedding found.
         embedding = best_embedding
         lens = list(map(len, embedding.values()))

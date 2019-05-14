@@ -1,7 +1,17 @@
 
 # Set and print the experimental configuration information.
 simulated = False
+sample_func = lambda num_bits: 400 * num_bits
 print_to_file = not simulated
+run_kwargs = dict(and_strength=1/2, chain_strength=1/2)
+
+# Setup the "system" for evaluating the QUBOs.
+from qaml import QuantumAnnealer, ExhaustiveSearch, QBSolve
+if simulated: system = ExhaustiveSearch
+else:         system = QuantumAnnealer
+
+# Remove the "chain_strength" argument for simulated results.
+if simulated: run_kwargs.pop("chain_strength")
 
 import time
 if print_to_file:
@@ -19,29 +29,20 @@ print()
 print(time.ctime())
 print()
 
-# Define a convenience wrapper for calling "run_qubo" when collecting
-# experimental data for addition and multiplication.
-def run_experiment(qubo, samples, simulate=simulated):
-    from qaml import run_qubo, QuantumAnnealer, ExhaustiveSearch, QBSolve
-    # Pick the quantum system sampler based on "simulate".
-    if simulate: system = QBSolve
-    else:        system = QuantumAnnealer
-    # Run the experiment.
-    run_qubo(**qubo, system=system, min_only=False, num_samples=samples)
-
-
 from qaml import Circuit
 
-# for bits in range(2, 5+1):
-bits = 4
-print("bits: ",bits)
-circuit = Circuit()
-a = circuit.Number(bits=bits, exponent=-bits, signed=False)
-b = circuit.Number(bits=bits, exponent=-bits, signed=False)
-circuit.add( a*b - 1 )
-circuit.add( a**2 + b**2 - 1 )
-circuit.add( a - b )
-qubo = circuit.assemble(and_rescale=5)
-# Run the experiment.
-run_experiment(qubo, 400*bits)
-
+# Display a header.
+for bits in range(6, 7+1):
+    print('-'*70)
+    print("bits: ",bits)
+    # Construct the circuit.
+    circuit = Circuit()
+    a = circuit.Number(bits=bits, exponent=-bits, signed=False)
+    b = circuit.Number(bits=bits, exponent=-bits, signed=False)
+    circuit.add( a*b - 1 )
+    circuit.add( a**2 + b**2 - 1 )
+    circuit.add( a - b )
+    # Run the experiment.
+    circuit.run(min_only=False, num_samples=sample_func(bits),
+                system=system, **run_kwargs)
+    print(flush=True)
