@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "multiplication.py", line 48, in <module>
+    qubo = circuit.assemble() #and_rescale=1)
+  File "/Users/thomaslux/Git/qaml/qaml/circuit.py", line 175, in assemble
+    ising = qubo_to_ising(q)
+  File "/Users/thomaslux/Git/qaml/qaml/qubo.py", line 53, in qubo_to_ising
+    for (u, v), bias in Q.items():
+ValueError: too many values to unpack (expected 2)

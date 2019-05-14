@@ -22,9 +22,9 @@ print()
 # Define a convenience wrapper for calling "run_qubo" when collecting
 # experimental data for addition and multiplication.
 def run_experiment(qubo, samples, simulate=simulated):
-    from qaml import run_qubo, QuantumAnnealer, ExhaustiveSearch
+    from qaml import run_qubo, QuantumAnnealer, ExhaustiveSearch, QBSolve
     # Pick the quantum system sampler based on "simulate".
-    if simulate: system = ExhaustiveSearch
+    if simulate: system = QBSolve
     else:        system = QuantumAnnealer
     # Run the experiment.
     run_qubo(**qubo, system=system, min_only=False, num_samples=samples)
@@ -32,9 +32,8 @@ def run_experiment(qubo, samples, simulate=simulated):
 
 from qaml import Circuit
 
-# for bits in range(2, 7+1):
-
-bits = 5
+# for bits in range(2, 5+1):
+bits = 4
 print("bits: ",bits)
 circuit = Circuit()
 a = circuit.Number(bits=bits, exponent=-bits, signed=False)
@@ -42,7 +41,7 @@ b = circuit.Number(bits=bits, exponent=-bits, signed=False)
 circuit.add( a*b - 1 )
 circuit.add( a**2 + b**2 - 1 )
 circuit.add( a - b )
-qubo = circuit.assemble() #and_rescale=1)
+qubo = circuit.assemble(and_rescale=5)
 # Run the experiment.
-run_experiment(qubo, 400 * bits)
+run_experiment(qubo, 400*bits)
 
