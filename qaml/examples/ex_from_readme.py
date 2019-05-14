@@ -15,6 +15,7 @@ circ.add( a - 2 )
 circ.run( min_only=False, display=True )
 #         ^^ Show all results, not just minimum solutions.
 
+#                         SAMPLE OUTPUT
 # ____________________________________________________________________
 # 
 #  QUBO with 8 bits in range [-32, 96].

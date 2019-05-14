@@ -15,23 +15,27 @@
 ### Python
 
   This module makes the construction of least-squares energy
-  landscapes for a quantum annealing framework easily
-  accessible. See `examples` for demonstrations of how to setup and
-  solve fixed-point least squares problems.
+  landscapes for a quantum annealing framework easily accessible. See
+  `qaml/examples` for demonstrations of how to setup and solve
+  fixed-point least squares problems.
 
-  In order to construct arbitrary least squares circuits, this
-  module provides a `qaml.Circuit` object that allows the
-  allocations of numbers via `Circuit.Number` objects. The number
-  objects can be added, subtracted, multiplied, and exponentiated in
-  standard Python syntax.
+  In order to construct arbitrary least squares circuits, this module
+  provides a `qaml.Circuit` object that allows the allocations of
+  numbers via the function `Circuit.Number`. The `Number` objects can
+  be added, subtracted, multiplied, and exponentiated in standard
+  Python syntax.
 
-  After manipulating (a sequence of) Number(s) into an equation, use
+  After manipulating (a sequence of) `Number`(s) into an equation, use
   `Circuit.add( <Number> )`. Multiple equations can be added to the
-  same circuit. Once ready to minimize, construct the full QUBO with
-  `Circuit.assemble()`.
+  same circuit. Once ready to minimize, construct and run the circuit
+  with `Circuit.run()`.
 
-  This will produce a QUBO whose energy landscape is the summed
-  squared value of all equations provided.
+  This will produce a QUBO whose energy function is the summed squared
+  value of all equations provided. That squared-value QUBO will be
+  executed on the selected quantum annealing system (could be a
+  simulator like `QBSolve` or real D-Wave hardware). After execution,
+  the results will be post-processed for logical consistency and
+  presented in a human-readable format.
 
 ```python
 import qaml
@@ -50,6 +54,7 @@ circ.add( a - 2 )
 circ.run( min_only=False, display=True )
 #         ^^ Show all results, not just minimum solutions.
 
+#                         SAMPLE OUTPUT
 # ____________________________________________________________________
 # 
 #  QUBO with 8 bits in range [-32, 96].
@@ -70,7 +75,6 @@ circ.run( min_only=False, display=True )
 #   2.5	  3.0	    0.5	
 #   2.0	  3.0	    1.0	
 #   3.0	  3.0	    1.0	
-#    .     .         .
 #    .     .         .
 #    .     .         .
 ```
