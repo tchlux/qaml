@@ -191,7 +191,7 @@ class Circuit:
         and_strength *= max(abs(min_weight), abs(max_weight))
 
         if (len(self.and_gates) > 0) and verbose:
-            print(f"\nUsing and gate scale {and_strength:.2f}.")
+            print(f"\nUsing and strength {and_strength:.2f}.")
 
         # Generate a qubo for the squared value function.
         # This is where the computation of the AND gates happens.
