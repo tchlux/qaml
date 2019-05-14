@@ -41,7 +41,7 @@
 import qaml
 
 # Construct a circuit with two signed 4-bit fixed precision numbers.
-#   a  =  (  a0 * 2^[-1]  +  a1 * 2^[0]  +  a2 * 2^[1]  -  a3 * 2^[2]
+#   a = (  a0 * 2^[-1]  +  a1 * 2^[0]  +  a2 * 2^[1]  -  a3 * 2^[2]  )
 circ = qaml.Circuit()
 a = circ.Number(bits=4, exponent=-1, signed=True)
 b = circ.Number(bits=4, exponent=-1, signed=True)
