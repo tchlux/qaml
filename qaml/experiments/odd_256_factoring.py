@@ -1,9 +1,16 @@
 
 # Set and print the experimental configuration information.
-simulated = True
+simulated = False
 sample_func = lambda num_bits: 400 * num_bits
 print_to_file = not simulated
-run_kwargs = dict(and_strength=1/2, chain_strength=1/2)
+run_kwargs = dict(and_strength=1/100, chain_strength=1/2)
+
+# Using and strength 621002752  (1/4)        2173509632
+#                    248401100  (1/10)       2359810457
+#                     24840110  (1/100)      
+#                      2484011  (1/1000)     2482769002
+#                       248401  (1/10000)
+#                        24840  (1/100000)
 
 # Setup the "system" for evaluating the QUBOs.
 from qaml import QuantumAnnealer, ExhaustiveSearch, QBSolve
@@ -30,24 +37,23 @@ print(time.ctime())
 print()
 
 from qaml import Circuit
-from qaml.solve_truth_table import primes_up_to
 
-for bits in range(2, 7+1):
-    # Pick the prime numbers to construct a biprime.
-    options = primes_up_to(2**bits)
-    num1, num2 = options[-2:]
-    # Display a header.
-    print()
-    print('-'*70)
-    print("bits: ",bits, flush=True)
-    print(f"{num1} x {num2} = {num1 * num2}", flush=True)
-    # Construct the circuit.
-    circuit = Circuit()
-    a = circuit.Number(bits=bits, exponent=0, signed=False)
-    b = circuit.Number(bits=bits, exponent=0, signed=False)
-    circuit.add( a*b - (num1*num2) )
-    # Run the experiment.
-    circuit.run(min_only=False, num_samples=sample_func(bits),
-                system=system, **run_kwargs)
-    print(flush=True)
+bits = 7
+num1 = 491 # = 257 + 234
+num2 = 509 # = 257 + 252
+# Display a header.
+print()
+print('-'*70)
+print("bits: ",bits, flush=True)
+print(f"{num1} x {num2} = {num1 * num2}", flush=True)
+# Construct the circuit.
+circuit = Circuit()
+p = circuit.Number(bits=bits, exponent=1, signed=False)
+q = circuit.Number(bits=bits, exponent=1, signed=False)
+circuit.add( (p + 257)*(q + 257) - (num1*num2) )
+# Run the experiment.
+circuit.run(min_only=False, num_samples=sample_func(bits),
+            system=system, **run_kwargs)
+print(flush=True)
+
 

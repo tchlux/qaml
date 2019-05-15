@@ -1,6 +1,6 @@
 
 # Set and print the experimental configuration information.
-simulated = False
+simulated = True
 sample_func = lambda num_bits: 400 * num_bits
 print_to_file = not simulated
 run_kwargs = dict(and_strength=1/4, chain_strength=1/2)
@@ -30,19 +30,24 @@ print(time.ctime())
 print()
 
 from qaml import Circuit
+from qaml.solve_truth_table import primes_up_to
 
-# Display a header.
-for bits in range(2, 6+1):
+for bits in range(2, 8+1):
+    # Pick the prime numbers to construct a biprime.
+    options = primes_up_to(2**bits)
+    num1, num2 = options[-2:]
+    # Display a header.
+    print()
     print('-'*70)
-    print("bits: ",bits)
+    print("bits: ",bits, flush=True)
+    print(f"{num1} x {num2} = {num1 * num2}", flush=True)
     # Construct the circuit.
     circuit = Circuit()
-    a = circuit.Number(bits=bits, exponent=-bits, signed=False)
-    b = circuit.Number(bits=bits, exponent=-bits, signed=False)
-    circuit.add( a*b - 1 )
-    circuit.add( a**2 + b**2 - 1 )
-    circuit.add( a - b )
+    a = circuit.Number(bits=bits, exponent=0, signed=False)
+    b = circuit.Number(bits=bits, exponent=0, signed=False)
+    circuit.add( a*b - (num1*num2) )
     # Run the experiment.
     circuit.run(min_only=False, num_samples=sample_func(bits),
                 system=system, **run_kwargs)
     print(flush=True)
+
