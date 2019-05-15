@@ -22,8 +22,12 @@ def find_qubo(truth_table, max_attempts=float('inf'), random=True,
     # Reduce the set of constraints as much as possible.
     eq_min, gt_min = reduce_constraints(eq_min, gt_min)
     # Try to find a solution with no ancilla bits.
-    q, ierr = solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo,
-                         gap=gap, verbose=verbose)
+    try:
+        q, ierr = solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo,
+                             gap=gap, verbose=verbose)
+    except UnsolvableSystem as exc:
+        if (not ancilla): raise(exc)
+        else:             ierr = 1
     if (ierr == 0):     return q
     elif (not ancilla): raise(UnsolvableSystem(f"Could not find a solution, error code {ierr}."))
     # No solution was found. Get meta data about table.
@@ -90,7 +94,7 @@ def solve_qubo(num_bits, eq_min, gt_min, min_energy, qubo=QUBO(),
         print('-'*70)
         print("Equality constraints:")
 
-    # Cycle through an construct the equality constraints.
+    # Cycle through and construct the equality constraints.
     for terms in eq_min:
         # Initialize the energy to the minimum value and all bits to 0.
         energy = min_energy
@@ -294,7 +298,7 @@ def find_int_qubo(truth_table, qubo=QUBO(), display=False,
     # table. Deliberately do not catch any errors!
     q = find_qubo(truth_table, ancilla=False, qubo=qubo, gap=gap)
     # Verify the solution by running through an exhaustive simulator.
-    sol = run_qubo(**q, display=False)
+    sol = run_qubo(q, display=False)
     if (sol != truth_table):
         out_str = "\n".join(map(lambda pair: str(pair[0]) + "  " + str(pair[1]), zip(truth_table,sol)))
         raise(UnsolvableSystem(f"The computed QUBO does not produce expected output.\n\n{out_str}"))
@@ -348,13 +352,13 @@ def find_int_qubo(truth_table, qubo=QUBO(), display=False,
         # Check to see if this change works, if it does, then keep it.
         new_q = q.copy()
         new_q.update(qubo)
-        sol = run_qubo(**new_q, display=False)
+        sol = run_qubo(new_q, display=False)
         if (sol == truth_table): continue
         # Otherwise, try and solve the system again with robust code.
         try:
             q = find_qubo(truth_table, ancilla=False, qubo=qubo, gap=gap)
             # Verify the solution by running through an exhaustive simulator.
-            sol = run_qubo(**q, display=False)
+            sol = run_qubo(q, display=False)
             if (sol != truth_table):
                 out_str = "\n".join(map(lambda pair: str(pair[0]) + "  " + str(pair[1]), zip(truth_table,sol)))
                 raise(UnsolvableSystem(f"The computed QUBO does not produce expected output.\n\n{out_str}"))
@@ -371,7 +375,7 @@ def find_int_qubo(truth_table, qubo=QUBO(), display=False,
             # Find the new qubo values associated with these doubled constants.
             q = find_qubo(truth_table, ancilla=False, qubo=qubo, gap=gap)
             # Verify the solution by running through an exhaustive simulator.
-            sol = run_qubo(**q, display=False)
+            sol = run_qubo(q, display=False)
             if (sol != truth_table):
                 out_str = "\n".join(map(lambda pair: str(pair[0]) + "  " + str(pair[1]), zip(truth_table,sol)))
                 raise(UnsolvableSystem(f"The doubled QUBO that previously succeeded failed.\n\n{out_str}"))
@@ -396,3 +400,9 @@ def primes_up_to(num):
         return True
     # Search for generating all primes up to a number.
     return [1] + [i for i in range(2,num) if is_prime(i)]
+
+# Define a function that rounds to the nearest power of two.
+def round_pow_2(v):
+    import math
+    return (v/min(1e-10,abs(v))) * 2**round(math.log(max(1,abs(v)),2))
+
