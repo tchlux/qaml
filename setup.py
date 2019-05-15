@@ -19,9 +19,10 @@ def read(f_name, empty_lines=False):
             text.append(line)
     return text
 
-# Go to the "about" directory in the package directory
+# Go to the "about" directory in the package directory.
+package_about = ""
+package_name = read("package_name.txt")[0]
 package_about = os.path.join(os.path.dirname(os.path.abspath(__file__)),package_name,"about")
-package_name = read(package_about, "package_name.txt")
 
 if __name__ == "__main__":
     #      Read in the package description files     
