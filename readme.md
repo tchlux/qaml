@@ -1,4 +1,6 @@
+<center>
 ![Quantum Annealing Math Library logo](./qaml-dark.svg)
+</center>
 
 # Quantum Annealing Math Library
 
