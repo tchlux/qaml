@@ -1,9 +1,11 @@
-|             |                |
-|-------------|----------------|
-|**TITLE:**   | Quantum Annealing Math Library     |
-|**PURPOSE:** | A general fixed point least squares solver using a Quantum annealer.      |
-|**CORRESPONDING AUTHOR:**  | Thomas C.H. Lux  |
-|**EMAIL:**   | tchlux@vt.edu |
+![Quantum Annealing Math Library logo](./qaml-dark.svg)
+<img src="./qaml-dark.svg" width=200>
+
+# Quantum Annealing Math Library
+
+  A general least squares solver for programming Quantum annealers.
+
+  **Corresponding author:** Thomas C.H. Lux (tchlux@vt.edu)
 
 
 ## INSTALLATION:

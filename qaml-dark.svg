@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="22.852mm" width="23.242mm" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 82.351893 80.970304">
+ <metadata id="metadata7">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g id="layer1" transform="translate(-.20171 -976.24)">
+  <flowRoot id="flowRoot3352" style="word-spacing:0px;letter-spacing:0px" font-weight="500" xml:space="preserve" font-size="40px" line-height="125%" font-family="&apos;Apple Chancery&apos;" fill="#000000"><flowRegion id="flowRegion3354"><rect id="rect3356" y="346.65" width="325.71" x="191.43" height="228.57"/></flowRegion><flowPara id="flowPara3358"/></flowRoot>
+  <text id="text3360" style="word-spacing:0px;letter-spacing:0px" font-weight="500" xml:space="preserve" font-size="40px" line-height="125%" y="212.3622" x="148.57143" font-family="&apos;Apple Chancery&apos;" fill="#000000"><tspan id="tspan3362" x="148.57143" y="212.3622"/></text>
+  <g id="g4319" transform="translate(-281.08 581.87)">
+   <g id="g4336" transform="translate(0 2.8571)">
+    <g id="g4474" stroke-linejoin="round" stroke-opacity=".051282" fill-opacity=".55769" fill-rule="evenodd" stroke="#000" stroke-linecap="round" fill="#003469">
+     <path id="path4486" d="m322.35 422.98 39.085-12.63v57.665l-39.085 2.6913z" points="361.43233,410.35246 361.43233,468.01769 322.34753,470.70897 322.34753,422.98232 "/>
+     <path id="path4476" d="m283.78 411.35v56.879l38.568 2.4784v-47.727z" points="283.77972,468.23052 322.34753,470.70897 322.34753,422.98232 283.77972,411.35124 "/>
+     <path id="path4478" d="m283.78 411.35 38.548-18.685 39.105 17.686-39.085 12.63z" points="322.32776,392.66662 361.43233,410.35246 322.34753,422.98232 283.77972,411.35124 "/>
+     <path id="path4484" d="m283.78 468.23 38.548-3.9815 39.105 3.7686-39.085 2.6913z" points="322.32776,464.24905 361.43233,468.01769 322.34753,470.70897 283.77972,468.23052 "/>
+     <path id="path4482" d="m322.33 392.67v71.582l39.105 3.7686v-57.665z" points="322.32776,464.24905 361.43233,468.01769 361.43233,410.35246 322.32776,392.66662 "/>
+     <path id="path4480" d="m283.78 411.35 38.548-18.685v71.582l-38.548 3.9815z" points="322.32776,392.66662 322.32776,464.24905 283.77972,468.23052 283.77972,411.35124 "/>
+    </g>
+    <g id="g4421" transform="translate(-4.6326e-8 -2)" fill="#cbd6dd">
+     <text id="text3336" style="word-spacing:0px;letter-spacing:0px" transform="scale(1.1578 .86372)" xml:space="preserve" line-height="125%" font-size="27.27px" y="500.49155" x="251.80077" font-family="&apos;Gill Sans&apos;"><tspan id="tspan3338" y="500.49155" x="251.80077">q</tspan></text>
+     <text id="text3340" style="word-spacing:0px;letter-spacing:0px" transform="scale(.97420 1.0265)" xml:space="preserve" line-height="342.00000763%" font-size="30.303px" y="421.2482" x="321.05701" font-family="&apos;Gill Sans&apos;"><tspan id="tspan3342" y="421.2482" x="321.05701">A</tspan></text>
+     <text id="text3344" style="word-spacing:0px;letter-spacing:0px" font-weight="500" font-size="40px" line-height="125%" y="463.07651" x="306.60712" font-family="&apos;Apple Chancery&apos;" xml:space="preserve"><tspan id="tspan3346" font-weight="normal" font-size="40px" line-height="125%" y="463.07651" x="306.60712" font-family="&apos;Gill Sans&apos;" fill="#cbd6dd">M</tspan></text>
+     <text id="text3348" style="word-spacing:0px;letter-spacing:0px" transform="scale(1.0532 .94945)" xml:space="preserve" line-height="125%" font-size="20.707px" y="470.67105" x="320.86578" font-family="&apos;Gill Sans&apos;"><tspan id="tspan3350" y="470.67105" x="320.86578">L</tspan></text>
+    </g>
+    <g stroke="#000" fill="none">
+     <path id="path4488" stroke-linejoin="round" d="m322.35 392.85v71.607" stroke-opacity=".16471" stroke-linecap="round" stroke-width="0.959"/>
+     <path id="path4566" stroke-linejoin="round" d="m323.24 464.27 36.977 3.4052" stroke-opacity=".16471" stroke-linecap="round" stroke-width=".98777px"/>
+     <path id="path4568" d="m322.17 464.27-38.216 3.7475" stroke-opacity=".16471" stroke-width="1.0092px"/>
+     <path id="path4570" d="m283.96 468.02 38.393 2.6786 38.929-2.6786 0.35714-57.679-39.464-17.857-38.571 18.75z" stroke-opacity=".74033" stroke-width="0.5"/>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>
