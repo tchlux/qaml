@@ -1,4 +1,4 @@
-<img src="./qaml-dark.svg" style='margin-left: 200px;'>
+<p style='padding-left: 200px;'> <img src="./qaml-dark.svg"> </p>
 
 # Quantum Annealing Math Library
 
