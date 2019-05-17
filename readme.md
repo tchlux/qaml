@@ -2,7 +2,7 @@
 
 # Quantum Annealing Math Library
 
-  A general least squares solver for programming Quantum annealers.
+  A package for programming general least squares problems on Quantum annealers.
 
 ## INSTALLATION:
 
