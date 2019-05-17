@@ -4,9 +4,6 @@
 
   A general least squares solver for programming Quantum annealers.
 
-  **Corresponding author:** Thomas C.H. Lux (tchlux@vt.edu)
-
-
 ## INSTALLATION:
 
     $ pip install git+https://github.com/tchlux/qaml.git
