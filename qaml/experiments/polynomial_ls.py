@@ -1,9 +1,9 @@
 
 # Set and print the experimental configuration information.
 simulated = False
-sample_func = lambda num_bits: 400 * num_bits
+sample_func = lambda num_bits: 500 * num_bits
 print_to_file = not simulated
-run_kwargs = dict(and_strength=1/4, chain_strength=1/2)
+run_kwargs = dict(and_strength=1/8, chain_strength=1)
 
 # Setup the "system" for evaluating the QUBOs.
 from qaml import QuantumAnnealer, ExhaustiveSearch, QBSolve
@@ -32,7 +32,7 @@ print()
 from qaml import Circuit
 
 # Display a header.
-for bits in range(2, 6+1):
+for bits in range(7, 7+1):
     print('-'*70)
     print("bits: ",bits)
     # Construct the circuit.

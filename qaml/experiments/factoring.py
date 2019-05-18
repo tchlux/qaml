@@ -1,9 +1,9 @@
 
 # Set and print the experimental configuration information.
-simulated = True
-sample_func = lambda num_bits: 400 * num_bits
+simulated = False
+sample_func = lambda num_bits: 500 * num_bits
 print_to_file = not simulated
-run_kwargs = dict(and_strength=1/4, chain_strength=1/2)
+run_kwargs = dict(and_strength=1/8, chain_strength=1)
 
 # Setup the "system" for evaluating the QUBOs.
 from qaml import QuantumAnnealer, ExhaustiveSearch, QBSolve
@@ -30,7 +30,7 @@ print(time.ctime())
 print()
 
 from qaml import Circuit
-from qaml.solve_truth_table import primes_up_to
+from qaml.discover.solve_truth_table import primes_up_to
 
 for bits in range(2, 8+1):
     # Pick the prime numbers to construct a biprime.

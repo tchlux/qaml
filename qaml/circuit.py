@@ -11,8 +11,8 @@ class Number:
         self.bit_indices = bit_indices
         self.exponent    = exponent
         self.signed      = signed
-        self.bits        = QUBO()
         self.constant    = constant
+        self.bits        = QUBO()
         # Initialize the number coefficients itself.
         bits = len(bit_indices)
         for i in range(bits - int(signed)):
@@ -157,7 +157,7 @@ class Circuit:
     def allocate(self, bits):
         if len(self.bits) == 0: self.bits += list(range(bits))
         else: self.bits += list(range(self.bits[-1]+1, self.bits[-1]+1+bits))
-        return self.bits[-bits:]
+        return self.bits[len(self.bits)-bits:]
 
     # Generate a 'Number' object with memory allocated in this circuit.
     def Number(self, bits, exponent=0, signed=False):
@@ -178,18 +178,13 @@ class Circuit:
 
     # Generate the squared value energy function QUBO for this number.
     def assemble(self, and_strength, verbose=True):
-        from qaml.qubo import make_dwave_qubo, qubo_to_ising
+        from qaml.qubo import qubo_ising_rescale_factor
         # Compute the qubo without the and-gate rescale.
         q = QUBO()
         for n in self.equations:
             q += n.squared()
-        # Compute the Ising and find it's maximum magnitude weight.
-        ising = qubo_to_ising(make_dwave_qubo(**q))
-        max_weight = max(max(ising[0].values()), max(ising[1].values()))
-        min_weight = min(min(ising[0].values()), min(ising[1].values()))
         # Set the rescale to the max Ising weight.
-        and_strength *= max(abs(min_weight), abs(max_weight))
-
+        and_strength *= qubo_ising_rescale_factor(q)
         if (len(self.and_gates) > 0) and verbose:
             print(f"\nUsing and strength {and_strength:.2f}.")
 

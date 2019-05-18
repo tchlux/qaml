@@ -110,11 +110,12 @@ class QuantumAnnealer(System):
     # Do the pecuiliar steps necessary to generate samples from QBSolv.
     def samples(self, num_samples=20, embedding_attempts=5, 
                 chain_strength=(1/2), verbose=True, fix_chains=False):
+        # Import required local modules.
+        from qaml.qubo import qubo_ising_rescale_factor
+        from qaml.setup import token
+        # Construct a sampler over a real quantum annealer.
         from dwave.system.samplers import DWaveSampler
         from minorminer import find_embedding
-        # Construct a sampler over a real quantum annealer.
-        from qaml.qubo import qubo_to_ising
-        from qaml.setup import token
         sampler = DWaveSampler(token=token)
         # Construct an automatic embedding over the machine architecture.
         _, edgelist, adjacency = sampler.structure
@@ -122,8 +123,12 @@ class QuantumAnnealer(System):
         # repeatability), and take the best embedding found.
         best_embedding = None
         smallest_max_len = float('inf')
+        # Construct a QUBO with no 0-valued coefficients in it.
+        qubo_no_zeros = {c:self.coefficients[c] for c in self.coefficients
+                         if (self.coefficients[c] != 0)}
+        # Cycle embedding attempts.
         for i in range(embedding_attempts):
-            embedding = find_embedding(self.coefficients, edgelist, random_seed=i)
+            embedding = find_embedding(qubo_no_zeros, edgelist, random_seed=i)
             # Count the number of chains of each length.
             lens = list(map(len, embedding.values()))
             # Check to see if this is the best embedding yet.
@@ -150,18 +155,14 @@ class QuantumAnnealer(System):
             for i in sorted(embedding):
                 print("", i, embedding[i])
             print()
-        # Automatically set the chain strength based on the most
-        # negative Ising weight in this model.
-        ising = qubo_to_ising(self.coefficients)
-        max_weight = max(max(ising[0].values()), max(ising[1].values()))
-        min_weight = min(min(ising[0].values()), min(ising[1].values()))
-        chain_strength *= max(abs(min_weight), max_weight)
+        # Automatically set the chain strength based on the rescale
+        # factor that will be applied to the Ising model.
+        rescale_factor = qubo_ising_rescale_factor(self.coefficients)
+        chain_strength *= rescale_factor
         if verbose:
-            print(f"Max Ising weight:     {max_weight: .1f}")
-            print(f"Min Ising weight:     {min_weight: .1f}")
-            print(f"Using chain strength: {chain_strength: .1f}")
+            print(f"Ising rescale factor: {rescale_factor}")
+            print(f"Using chain strength: {chain_strength}")
             print()
-
         if fix_chains:
             # Pick the method for fixing broken chains.
             from dwave.embedding.chain_breaks import \
@@ -171,7 +172,7 @@ class QuantumAnnealer(System):
             from dimod import BinaryQuadraticModel as BQM
             from dwave.embedding import embed_bqm, unembed_sampleset
             # Generate a BQM from the QUBO.
-            q = BQM.from_qubo(self.coefficients)
+            q = BQM.from_qubo(qubo_no_zeros)
             # Embed the BQM onto the target structure.
             embedded_q = embed_bqm(q, embedding, adjacency, chain_strength=chain_strength)
             # Collect the sample output.
@@ -185,7 +186,7 @@ class QuantumAnnealer(System):
             system_composite = FixedEmbeddingComposite(
                 sampler, embedding)
             response = system_composite.sample_qubo(
-                self.coefficients, num_reads=num_samples, chain_strength=chain_strength)
+                qubo_no_zeros, num_reads=num_samples, chain_strength=chain_strength)
         # Cycle through the results and yield them to the caller.
         for out in response.data():
             # Get the output from the data.

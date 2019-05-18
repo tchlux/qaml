@@ -118,6 +118,23 @@ def make_dwave_qubo(display=False, **coefs):
     # Return the full set of linear and quadratic coeficients.
     return output_coefs
 
+# Given a QUBO object, get the rescale factor that will be used to fit
+# the corresponding Ising model onto the physical hardware.  Assume
+# that hardware allows "h" in range [-2,2] and "J" in range [-1,1].
+def qubo_ising_rescale_factor(qubo):
+    # If appropriate, convert QUBO into D-Wave format.
+    if (type(qubo) == QUBO): qubo = make_dwave_qubo(**qubo)
+    # Get the corresponding Ising model.
+    h, J, _ = qubo_to_ising(qubo)
+    # Get the max positive weight, divide 'h' values by 2 because
+    # they are allowed a greater range on the hardware..
+    rescale_factor = -float('inf')
+    for coef in h: rescale_factor = max(abs(h[coef])/2, rescale_factor)
+    for coef in J: rescale_factor = max(abs(J[coef]),   rescale_factor)
+    # If no weight was assigned, or it is 0, then reset to 1.
+    if (rescale_factor in {-float('inf'), 0}): max_weight = 1
+    return rescale_factor
+
 # Given a QUBO dictionary { (i,j):weight ... }, convert it to an Ising
 # triple: ( { i:weight ... }, { (i,j):weight ... }, energy_offset )
 def qubo_to_ising(Q):
