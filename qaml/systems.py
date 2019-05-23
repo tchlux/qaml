@@ -169,12 +169,15 @@ class QuantumAnnealer(System):
                 majority_vote, weighted_random, MinimizeEnergy
             method = majority_vote
             # Submit the job via an embedded BinaryQuadraticModel.
+            import dimod
             from dimod import BinaryQuadraticModel as BQM
             from dwave.embedding import embed_bqm, unembed_sampleset
             # Generate a BQM from the QUBO.
             q = BQM.from_qubo(qubo_no_zeros)
             # Embed the BQM onto the target structure.
-            embedded_q = embed_bqm(q, embedding, adjacency, chain_strength=chain_strength)
+            embedded_q = embed_bqm(q, embedding, adjacency,
+                                   chain_strength=chain_strength,
+                                   smear_vartype=dimod.SPIN)
             # Collect the sample output.
             response = unembed_sampleset(
                 sampler.sample(embedded_q, num_reads=num_samples),

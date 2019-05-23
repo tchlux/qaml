@@ -1,6 +1,6 @@
 
 # Set and print the experimental configuration information.
-simulated = False
+simulated = True
 sample_func = lambda num_bits: 500 * num_bits
 print_to_file = not simulated
 run_kwargs = dict(and_strength=1/8, chain_strength=1)
@@ -50,4 +50,3 @@ for bits in range(2, 8+1):
     circuit.run(min_only=False, num_samples=sample_func(bits),
                 system=system, **run_kwargs)
     print(flush=True)
-

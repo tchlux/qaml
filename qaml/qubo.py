@@ -138,6 +138,9 @@ def qubo_ising_rescale_factor(qubo):
 # Given a QUBO dictionary { (i,j):weight ... }, convert it to an Ising
 # triple: ( { i:weight ... }, { (i,j):weight ... }, energy_offset )
 def qubo_to_ising(Q):
+    # If appropriate, convert QUBO into D-Wave format.
+    if (type(Q) == QUBO): Q = make_dwave_qubo(**Q)
+    # Create storage for outputs.
     h = {}
     J = {}
     offset = 0
@@ -252,6 +255,11 @@ class QUBO(dict):
         else: return QUBO({c:self[c]*num for c in self})
     # Define right hand multiply to be the same.
     def __rmul__(self, num): return self * num
+
+    # Define 'divide' for ints and floats.
+    def __truediv__(self, num):
+        if (type(num) not in {int, float}): raise(TypeError(f"QUBO only supports division by {int} and {float}."))
+        else: return QUBO({c:self[c]/num for c in self})
 
     # Retrieve an item from this QUBO.
     def __getitem__(self, key, *args, **kwargs):
