@@ -76,3 +76,10 @@ circ.run( min_only=False, display=True )
 #    .     .         .
 #    .     .         .
 ```
+
+## Additional Information
+
+This code is associated with a research paper that is currently
+under review by Springer [Quantum Information Processing](https://link.springer.com/journal/11128).
+
+Please create an *issue* for usage questions and bug reporting.
