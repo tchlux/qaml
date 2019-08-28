@@ -1,6 +1,6 @@
 <p align="center">
   <img src="./qaml-dark.svg">
-  <h1>Quantum Annealing Math Library</h1>
+  <h1 align="center">Quantum Annealing Math Library</h1>
 </p>
 
   A package for programming general least squares problems on Quantum annealers.
