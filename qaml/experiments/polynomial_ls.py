@@ -1,6 +1,6 @@
 
 # Set and print the experimental configuration information.
-simulated = False
+simulated = True
 sample_func = lambda n: 500 * n
 print_to_file = not simulated
 run_kwargs = dict(and_strength=1/8, chain_strength=1)

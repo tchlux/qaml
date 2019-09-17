@@ -1,9 +1,9 @@
 
 # Set and print the experimental configuration information.
-simulated = False
+simulated = True
 sample_func = lambda n: 500 * n
 print_to_file = not simulated
-run_kwargs = dict(and_strength=1/8, chain_strength=3/4)
+run_kwargs = dict(and_strength=1/8, chain_strength=1)
 
 # Setup the "system" for evaluating the QUBOs.
 from qaml import QuantumAnnealer, ExhaustiveSearch, QBSolve
@@ -61,7 +61,6 @@ for complexity in range(2, 8+1):
         for i in range(1,len(variables)):
             equation += multipliers[i] *  variables[i]
         circuit.add( equation )
-    if complexity not in {8}: continue
     # Run the experiment.
     circuit.run(min_only=False, num_samples=sample_func(complexity),
                 system=system, display=True, **run_kwargs)
