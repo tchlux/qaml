@@ -34,13 +34,13 @@ from qaml import Circuit
 
 import random
 # Seed the random number generator for consistency.
-random.seed(0)
 random_range = (-4, 4)
 random_divisor = 4
+signed = False
 number = dict(
     bits = 4,
     exponent = -3,
-    signed = True
+    signed = signed
 )
 
 # Display a header.
@@ -54,13 +54,16 @@ for complexity in range(2, 8+1):
     for i in range(complexity):
         variables.append( circuit.Number(**number) )
     # Create the linear equations over those variables.
+    random.seed(0)
     for eq in range(complexity):
         multipliers = [random.randint(*random_range) / random_divisor
                        for i in range(len(variables))]
-        equation = multipliers[0] * variables[0]
+        equation = multipliers[0] * (variables[0] - int(not signed))
         for i in range(1,len(variables)):
-            equation += multipliers[i] *  variables[i]
+            equation += multipliers[i] * (variables[i] - int(not signed))
         circuit.add( equation )
+    random.seed(0)
+    if complexity not in {8}: continue
     # Run the experiment.
     circuit.run(min_only=False, num_samples=sample_func(complexity),
                 system=system, display=True, **run_kwargs)

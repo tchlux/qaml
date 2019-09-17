@@ -59,6 +59,7 @@ class Number:
                 new_num.bits[coef] = new_num.bits.get(coef, 0) + num.bits[coef]
             # Update the one-local terms track for the new number.
             new_num.one_locals = new_num.one_locals.union(num.one_locals)
+            new_num.constant = self.constant + num.constant
         # Return the new number.
         return new_num
 
