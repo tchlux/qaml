@@ -3,7 +3,7 @@
 simulated = False
 sample_func = lambda n: 500 * n
 print_to_file = not simulated
-run_kwargs = dict(and_strength=1/8, chain_strength=1)
+run_kwargs = dict(and_strength=1/8, chain_strength=3/4)
 
 # Setup the "system" for evaluating the QUBOs.
 from qaml import QuantumAnnealer, ExhaustiveSearch, QBSolve
@@ -32,18 +32,39 @@ print()
 
 from qaml import Circuit
 
+import random
+# Seed the random number generator for consistency.
+random.seed(0)
+random_range = (-4, 4)
+random_divisor = 4
+number = dict(
+    bits = 4,
+    exponent = -3,
+    signed = True
+)
+
 # Display a header.
-for bits in range(6, 6+1):
+for complexity in range(2, 8+1):
     print('_'*70)
-    print("bits: ",bits)
+    print("complexity: ",complexity)
     # Construct the circuit.
     circuit = Circuit()
-    a = circuit.Number(bits=bits, exponent=-bits, signed=False)
-    b = circuit.Number(bits=bits, exponent=-bits, signed=False)
-    circuit.add( a*b - 1 )
-    circuit.add( a**2 + b**2 - 1 )
-    circuit.add( a - b )
+    # Create the variables.
+    variables = []
+    for i in range(complexity):
+        variables.append( circuit.Number(**number) )
+    # Create the linear equations over those variables.
+    for eq in range(complexity):
+        multipliers = [random.randint(*random_range) / random_divisor
+                       for i in range(len(variables))]
+        equation = multipliers[0] * variables[0]
+        for i in range(1,len(variables)):
+            equation += multipliers[i] *  variables[i]
+        circuit.add( equation )
+    if complexity not in {8}: continue
     # Run the experiment.
-    circuit.run(min_only=False, num_samples=sample_func(bits),
-                system=system, **run_kwargs)
+    circuit.run(min_only=False, num_samples=sample_func(complexity),
+                system=system, display=True, **run_kwargs)
     print(flush=True)
+
+    

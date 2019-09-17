@@ -38,11 +38,12 @@ def run_qubo(qubo, num_samples=None, system=ExhaustiveSearch,
     # Take samples by calling the simulator repeatedly, track results.
     system = system(qubo, constant=qubo.get('c',0))
     # If the number of samples is not provided, try enough for all combinations.
-    if num_samples == None: num_samples = 2 ** system.num_bits
+    if num_samples == None: num_samples = min(2 ** system.num_bits, 1000)
     if display: print(f"Running {num_samples} times with:\n{qubo}")
     # Execute the samples on the system.
     results = {}
     for sample in system.samples(num_samples, **system_kwargs):
+        # Get the bit pattern, pattern energy, and chain break fraction.
         bits, energy, cbf = sample
         if (type(cbf) != type(None)): cbf *= 100
         if rounded:       energy = round(energy, rounded)
@@ -84,7 +85,9 @@ def run_qubo(qubo, num_samples=None, system=ExhaustiveSearch,
         print()
     # Define a results class that contains the info about each result.
     class Results(list):
+        # Old {  (energy, bits, chain break fraction) : (occurrence)  }
         info = {tuple(key[1]) : (key[0],) + key[2:] + (results[key],) for key in results}
+        # New {  (bits) : (energy, chain break fraction, occurrence)  }
     # Convert results to only be the sorted set of bits.
     return Results(list(key[1]) for key in sorted(results))
 

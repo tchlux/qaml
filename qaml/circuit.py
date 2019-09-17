@@ -211,8 +211,8 @@ class Circuit:
         # Cycle all the Number objects in this circuit.
         for i in range(len(self.numbers)):
             num = self.numbers[i]
-            names.append( ([str(i)]+[name for name in user_locals
-                                     if user_locals[name] is num])[-1] )
+            names.append( ([f"Num {i}"]+[name for name in user_locals
+                                         if user_locals[name] is num])[-1] )
         return names
 
     # Given a string of bits that represents a state of this circuit,
@@ -231,7 +231,7 @@ class Circuit:
             # Compute the value of the number (encode it back into decimal).
             value = sum(bits[idx] * 2**(j+num.exponent) for j, idx
                         in enumerate(num.bit_indices[:num_len-num.signed]))
-            if num.signed: value -= bits[-1] * 2**(num_len-1+num.exponent)
+            if num.signed: value -= bits[num.bit_indices[-1]] * 2**(num_len-1+num.exponent)
             value += num.constant
             # Record the (name, value, and percentage of failed and gates).
             values.append( value )
@@ -277,10 +277,13 @@ class Circuit:
         system = System(qubo, constant=qubo.get('c',0))
         if display: print("\n"+str(qubo)+"\n")
         results = run_qubo(qubo, min_only=False, display=False, **run_qubo_kwargs)
+        # Get the total number of samples that were drawn from the system.
+        total_samples = sum(r[-1] for r in results.info.values())
         # Capture all the outputs for each number.
         outputs = {}
         info_names = []
         for bits in results:
+            # Get the (energy, chain break fraction, occurrence)[1:] for the bit pattern.
             bits_info = results.info[tuple(bits)][1:]
             # Implicitly correct and gates, count failures, get numeric values.
             values, and_fails = self.decode( bits )
@@ -306,7 +309,7 @@ class Circuit:
         # Get the names of the Number objects (for tracking / displaying).
         num_names = self._num_names()
         # Print out all of the outputs.
-        printout = [num_names + info_names + ["Energy"]]
+        printout = [num_names + info_names + ["Occurrence", "Energy"]]
         for key in sorted(outputs):
             energy, values = key[0], key[1:]
             solutions.append(values)
@@ -314,9 +317,11 @@ class Circuit:
             info = [sum(row[i] for row in outputs[key]) / len(outputs[key])
                     for i in range(len(info_names))]
             info = [f"{val: 5.1f}%" for val in info]
-            printout += [list(map(str, values)) + info + [str(energy)]]
+            printout += [ list(map(str, values)) + info +
+                          [str(len(outputs[key]))] + [str(energy)] ]
         # If "display", then convert the printout into a table.
         if display:
+            print(f"System collected {total_samples} samples.\n")
             spacer = "\t"
             # First, shift all values so they have a leading space.
             for row in printout[1:]:

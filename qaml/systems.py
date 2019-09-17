@@ -163,6 +163,18 @@ class QuantumAnnealer(System):
             print(f"Ising rescale factor: {rescale_factor}")
             print(f"Using chain strength: {chain_strength}")
             print()
+
+
+        # # Get the output from the data.
+        # output = Sample()
+        # output.bits = [0] * self.num_bits
+        # output.energy = 0
+        # output.chain_break_fraction = 0
+        # output.occurrence = 1
+        # # Yield the output.
+        # return output
+
+
         if fix_chains:
             # Pick the method for fixing broken chains.
             from dwave.embedding.chain_breaks import \
