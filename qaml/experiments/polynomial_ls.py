@@ -33,7 +33,7 @@ print()
 from qaml import Circuit
 
 # Display a header.
-for bits in range(6, 6+1):
+for bits in range(2, 7+1):
     print('_'*70)
     print("bits: ",bits)
     # Construct the circuit.
