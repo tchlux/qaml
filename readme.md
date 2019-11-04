@@ -80,7 +80,11 @@ circ.run( min_only=False, display=True )
 
 ## Additional Information
 
-This code is associated with a research paper that is currently
-under review by Springer [Quantum Information Processing](https://link.springer.com/journal/11128).
+This code is associated with a research paper.
+To cite, please use
+
+Chang, T. H., Lux, T. C. H. & Tipirneni, S. S. Quantum Inf Process (2019) 18: 374.
+
+Available from [Springer, Quantum Information Processing](https://doi.org/10.1007/s11128-019-2489-x)
 
 Please create an *issue* for usage questions and bug reporting.
